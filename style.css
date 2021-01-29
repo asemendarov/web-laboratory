@@ -1,0 +1,48 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: block;
+  background-color: chocolate;
+}
+
+main {
+  display: flex;
+  flex: 1 0 auto;
+  background-color: rgb(185, 163, 107);
+}
+
+footer {
+  display: block;
+  background-color: darkkhaki;
+}
+
+.outer {
+  display: flex;
+  width: 460px;
+  height: 789px;
+  margin: auto;
+}
+
+.inner {
+  margin: auto;
+  text-align: center;
+}
+
+/* debug */
+main * {
+  border: 1px solid teal;
+  padding: 2px;
+}
