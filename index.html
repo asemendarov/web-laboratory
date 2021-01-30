@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://necolas.github.io/normalize.css/8.0.1/normalize.css"
-    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet" />
+    <!-- CSS link -->
+    <!-- <link rel="preload" rel="stylesheet" href="reset.css" /> -->
+    <link rel="preload" rel="stylesheet" href="normalize.css" />
     <link rel="stylesheet" href="style.css" />
     <title>Project 1</title>
   </head>
@@ -15,10 +16,49 @@
       <div>123</div>
     </header>
     <main>
-      <div class="outer">
-        <div class="inner">qqwe</div>
+      <div class="wmodal">
+        <h1>Регистрация</h1>
+        <p>Уже есть аккаунт? <a href="#">Войти</a></p>
+        <form action="#" method="POST">
+          <div class="text">
+            <label for="name">Имя</label>
+            <input type="text" name="name" placeholder="Введите Ваше имя" required />
+            <span id="nameErrMsg" class="error">Validation error message</span>
+          </div>
+
+          <div class="email">
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="Введите ваш email" required />
+            <span id="emailErrMsg" class="error">Validation error message</span>
+          </div>
+
+          <div class="tel">
+            <label for="tel">Номер телефона</label>
+            <input type="tel" name="tel" placeholder="Введите номер телефона" required />
+            <span id="telErrMsg" class="error">Validation error message</span>
+          </div>
+
+          <div class="lang">
+            <label for="lang">Язык</label>
+            <input name="lang" list="lang" placeholder="Язык" required />
+            <datalist id="lang">
+              <option value="Русский"></option>
+              <option value="Английский"></option>
+              <option value="Китайский"></option>
+              <option value="Испанский"></option>
+            </datalist>
+            <span id="langErrMsg" class="error">Validation error message</span>
+          </div>
+
+          <div class="agreement">
+            <label for="agreement"> <input type="checkbox" name="agreement" required /> Принимаю <a href="*">условия</a> использования </label>
+          </div>
+
+          <div class="registration">
+            <input type="submit" name="registration" value="Зарегистрироваться" />
+          </div>
+        </form>
       </div>
-      <!-- <div>123</div> -->
     </main>
     <footer>
       <div>123</div>
