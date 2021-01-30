@@ -24,19 +24,19 @@
         <form action="#" method="POST">
           <div class="text">
             <label for="name">Имя</label>
-            <input type="text" name="name" placeholder="Введите Ваше имя" required />
+            <input type="text" name="name" placeholder="Введите Ваше имя" pattern="^([a-zA-Zа-яА-Я']+[-\s]?)+" required />
             <span id="nameErrMsg" class="error">Validation error message</span>
           </div>
 
           <div class="email">
             <label for="email">Email</label>
-            <input type="email" name="email" placeholder="Введите ваш email" required />
+            <input type="email" name="email" placeholder="Введите ваш email" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required />
             <span id="emailErrMsg" class="error">Validation error message</span>
           </div>
 
           <div class="tel">
             <label for="tel">Номер телефона</label>
-            <input type="tel" name="tel" placeholder="Введите номер телефона" required />
+            <input type="tel" name="tel" placeholder="Введите номер телефона" pattern="[7-8]{1}[0-9]{10}" required />
             <span id="telErrMsg" class="error">Validation error message</span>
           </div>
 

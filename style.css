@@ -81,13 +81,13 @@ label {
 
 span[class="error"] {
   display: block;
+  visibility: hidden;
   margin: 8px 0;
 
   font-size: 14px;
   line-height: 18px;
 
   color: #ff7171;
-  visibility: hidden;
 }
 
 input {
@@ -133,6 +133,14 @@ input[name="registration"] {
 
 input[name="registration"]:disabled {
   background: #dbe2ea;
+}
+
+input:valid:not(:placeholder-shown) + span[class="error"] {
+  visibility: hidden;
+}
+
+input:invalid:not(:placeholder-shown) + span[class="error"] {
+  visibility: visible;
 }
 
 /* debug */
