@@ -7,4 +7,4 @@
    - в поле "email" можно отправить только email.
    - в поле "номер телефона" можно ввести только 11 цифр, круглые скобки, дефис и знак плюс.
 
-![Редактор векторной графики (Figma) с макетом](https://github.com/asemendarov/web-laboratory/blob/main/task/project.svg)
+![Редактор векторной графики (Figma) с макетом](https://raw.githubusercontent.com/asemendarov/web-laboratory/3ad2e2fcc64ddcd90a1f571aefb5a44c1e8a34e5/task/project1.svg)
