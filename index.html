@@ -3,67 +3,81 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <!-- Fonts link -->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet" />
+
     <!-- CSS link -->
     <!-- <link rel="preload" rel="stylesheet" href="reset.css" /> -->
-    <link rel="preload" rel="stylesheet" href="normalize.css" />
+    <link rel="stylesheet" href="normalize.css" />
     <!-- <link rel="stylesheet" href="style.css" /> -->
     <link rel="stylesheet" href="style.fixed.css" />
+
     <title>Project 1</title>
   </head>
   <body>
     <header>
-      <div>123</div>
+      <div></div>
     </header>
-    <main>
+    <main id="main">
       <div class="wmodal">
         <h1>Регистрация</h1>
         <p>Уже есть аккаунт? <a href="#">Войти</a></p>
-        <form action="#" method="POST">
+        <form action="#" method="POST" @submit="checkForm">
           <div class="text">
             <label for="name">Имя</label>
-            <input type="text" name="name" placeholder="Введите Ваше имя" pattern="^([a-zA-Zа-яА-Я']+[-\s]?)+" required />
-            <span id="nameErrMsg" class="error">Validation error message</span>
+            <input type="text" name="name" placeholder="Введите Ваше имя" v-model:value="nameValue" pattern="^([a-zA-Zа-яА-Я']+[-\s]?)+$" required />
+            <span id="nameErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
           </div>
 
           <div class="email">
             <label for="email">Email</label>
-            <input type="email" name="email" placeholder="Введите ваш email" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required />
-            <span id="emailErrMsg" class="error">Validation error message</span>
+            <input type="email" name="email" placeholder="Введите ваш email" v-model:value="emailValue" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required />
+            <span id="emailErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
           </div>
 
+          <!-- (([+]?7)?|8) -->
+          <!-- [\s]? -->
+          <!-- ([(][\s]?[0-9]{3}[\s]?[)]|[0-9]{3})  -->
+          <!-- [\s]? -->
+          <!-- [0-9]{3}[-]?[0-9]{2}[-]?[0-9]{2} -->
           <div class="tel">
             <label for="tel">Номер телефона</label>
-            <input type="tel" name="tel" placeholder="Введите номер телефона" pattern="[7-8]{1}[0-9]{10}" required />
-            <span id="telErrMsg" class="error">Validation error message</span>
+            <input
+              type="tel"
+              name="tel"
+              placeholder="Введите номер телефона"
+              v-model:value="telValue"
+              pattern="^(([+]?7)?|8)[\s]?([(][\s]?[0-9]{3}[\s]?[)]|[0-9]{3})[\s]?[0-9]{3}[-]?[0-9]{2}[-]?[0-9]{2}$"
+              required
+            />
+            <span id="telErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
           </div>
 
           <div class="lang">
             <label for="lang">Язык</label>
-            <input name="lang" list="lang" placeholder="Язык" required />
+            <input name="lang" list="lang" placeholder="Язык" v-model:value="langValue" required />
             <datalist id="lang">
-              <option value="Русский"></option>
-              <option value="Английский"></option>
-              <option value="Китайский"></option>
-              <option value="Испанский"></option>
+              <option v-for="lang in langList" :key="lang" :value="lang"></option>
             </datalist>
-            <span id="langErrMsg" class="error">Validation error message</span>
+            <span id="langErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
           </div>
 
           <div class="agreement">
-            <label for="agreement"> <input type="checkbox" name="agreement" required /> Принимаю <a href="*">условия</a> использования </label>
+            <label for="agreement"> <input type="checkbox" name="agreement" v-model:checked="agreChecked" required /> Принимаю <a href="*">условия</a> использования </label>
           </div>
 
-          <div class="registration">
-            <input type="submit" name="registration" value="Зарегистрироваться" />
-          </div>
+          <div class="registration"><input type="submit" name="registration" value="Зарегистрироваться" :disabled="regDisabled" /></div>
         </form>
       </div>
     </main>
     <footer>
-      <div>123</div>
+      <div></div>
     </footer>
+
+    <!-- JavaScript src -->
+    <script defer src="vue.js"></script>
+    <script defer src="index.js"></script>
   </body>
 </html>
