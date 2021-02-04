@@ -1,91 +1,131 @@
 <template>
   <div id="traffic-light">
-    <router-link id="red" to="/red" :style="redStyle">Перейти к red</router-link>
-    <router-link id="yellow" to="/yellow" :style="yellowStyle">Перейти к yellow</router-link>
-    <router-link id="green" to="/green" :style="greenStyle">Перейти к greeen</router-link>
+    <router-link id="red" to="/red" :class="{ 'red-color': classColor.red }">Перейти к red</router-link>
+    <router-link id="yellow" to="/yellow" :class="{ 'yellow-color': classColor.yellow }">Перейти к yellow</router-link>
+    <router-link id="green" to="/green" :class="{ 'green-color': classColor.green }">Перейти к greeen</router-link>
+    <span id="base-timer-label" class="base-timer__label" v-text="spanText"></span>
   </div>
 </template>
 
 <script>
 export default {
+  props: [],
   name: 'TrafficLight',
   data () {
     return {
-      defaultColor: { 'background-color': 'white' },
-      redStyle: this.defaultColor,
-      yellowStyle: this.defaultColor,
-      greenStyle: this.defaultColor
+      classColor: {
+        red: false,
+        yellow: false,
+        green: false
+      },
+      idInterval: null,
+      spanText: '...'
     }
   },
 
   watch: {
     $route (to, from) {
       // console.log(to)
-      if (to.name === 'Red') {
-        this.turnOnRed()
-        console.log('Меняю цыет на Red')
-      } else if (to.name === 'Yellow') {
-        this.turnOnYellow()
-        console.log('Меняю цыет на Yellow')
-      } else if (to.name === 'Green') {
-        this.turnOnGreen()
-        console.log('Меняю цыет на Green')
-      } else {
-        this.turnOnRed()
-      }
+      this.updateCollor(to.path)
     }
   },
 
   created () {
-    console.log(this.$route)
-
-    this.turnOnRed()
-
-    setInterval(() => {
-      if (this.$route.name === 'Red') {
-        this.$router.push('/yellow')
-      } else if (this.$route.name === 'Yellow') {
-        this.$router.push('/green')
-      } else if (this.$route.name === 'Green') {
-        this.$router.push('/red')
-      } else {
-        this.$router.push('/red')
-      }
-    }, 5000)
+    // console.log(this.$route)
+    this.updateCollor()
   },
 
   methods: {
-    resetColor () {
-      this.redStyle = this.defaultColor
-      this.yellowStyle = this.defaultColor
-      this.greenStyle = this.defaultColor
+    updateCollor (path) {
+      if (!path) {
+        path = this.$route.path
+      }
+
+      if (path === '/red') {
+        this.turnOnRed()
+        console.log('Меняю цыет на Red')
+      } else if (path === '/yellow') {
+        this.turnOnYellow()
+        console.log('Меняю цыет на Yellow')
+      } else if (path === '/green') {
+        this.turnOnGreen()
+        console.log('Меняю цыет на Green')
+      } else {
+        // this.turnOnRed()
+      }
+    },
+    setCollor (red, yellow, green) {
+      this.classColor.red = !!red
+      this.classColor.yellow = !!yellow
+      this.classColor.green = !!green
     },
     turnOnRed () {
-      this.resetColor()
-      this.redStyle = { 'background-color': 'red' }
+      this.setCollor(true)
+      this.startTimer(2000)
     },
     turnOnYellow () {
-      this.resetColor()
-      this.yellowStyle = { 'background-color': 'yellow' }
+      this.setCollor(null, true)
+      this.startTimer(2000)
     },
     turnOnGreen () {
-      this.resetColor()
-      this.greenStyle = { 'background-color': 'green' }
+      this.setCollor(null, null, true)
+      this.startTimer(2000)
+    },
+    changeTraffcLight () {
+      if (this.$route.path === '/red') {
+        this.$router.push('/yellow')
+      } else if (this.$route.path === '/yellow') {
+        this.$router.push('/green')
+      } else if (this.$route.path === '/green') {
+        this.$router.push('/red')
+      } else {
+        // this.$router.push('/red')
+      }
+    },
+
+    startTimer (ms, step = 50) {
+      if (this.idInterval) {
+        clearInterval(this.idInterval)
+      }
+
+      const currentTime = new Date()
+
+      new Promise((resolve, reject) => {
+        this.idInterval = setInterval(() => {
+          let time = ms - (new Date() - currentTime)
+
+          if (time <= 0) {
+            clearInterval(this.idInterval)
+            resolve()
+          }
+
+          this.spanText = this.formatTimeLeft(time)
+        }, step)
+      }).then(() => this.changeTraffcLight())
+    },
+
+    formatTimeLeft (ms) {
+      const time = new Date(ms)
+      return `${time.getSeconds()}:${time.getMilliseconds()}`
     }
   }
 }
 </script>
 
 <style scoped>
-/* #red {
+.red-color {
   background-color: red;
 }
 
-#yellow {
+.yellow-color {
   background-color: yellow;
 }
 
-#green {
+.green-color {
   background-color: green;
-} */
+}
+
+span {
+  display: block;
+}
 </style>

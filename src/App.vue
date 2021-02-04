@@ -1,7 +1,7 @@
 <template>
   <div id='app'>
     <h1>Светофор</h1>
-    <traffic-light></traffic-light>
+    <router-view></router-view>
   </div>
 </template>
 

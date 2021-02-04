@@ -8,11 +8,6 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'Default',
-      component: TrafficLight
-    },
-    {
       path: '/red',
       name: 'Red',
       component: TrafficLight
@@ -26,6 +21,11 @@ export default new Router({
       path: '/green',
       name: 'Green',
       component: TrafficLight
+    },
+    {
+      path: '*',
+      redirect: '/red',
+      name: 'Default'
     }
   ]
 })
