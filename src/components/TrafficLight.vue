@@ -3,7 +3,7 @@
     <router-link id="red" to="/red" :class="{ 'red-color': classColor.red }">Перейти к red</router-link>
     <router-link id="yellow" to="/yellow" :class="{ 'yellow-color': classColor.yellow }">Перейти к yellow</router-link>
     <router-link id="green" to="/green" :class="{ 'green-color': classColor.green }">Перейти к greeen</router-link>
-    <span id="base-timer-label" class="base-timer__label" v-text="spanText"></span>
+    <span v-text="spanText"></span>
   </div>
 </template>
 
@@ -18,6 +18,19 @@ export default {
         yellow: false,
         green: false
       },
+      delayColor: {
+        red: 10000,
+        yellow: 3000,
+        green: 15000,
+        default: 2000,
+
+        getDelay (path = this.$route.path) {
+          if (path === '/red') return this.red
+          else if (path === '/yellow') return this.yellow
+          else if (path === '/green') return this.green
+          else return this.default
+        }
+      },
       idInterval: null,
       spanText: '...'
     }
@@ -25,52 +38,44 @@ export default {
 
   watch: {
     $route (to, from) {
-      // console.log(to)
-      this.updateCollor(to.path)
+      this.startTrafficLight(to.path)
     }
   },
 
   created () {
-    // console.log(this.$route)
-    this.updateCollor()
+    this.startTrafficLight()
   },
 
   methods: {
-    updateCollor (path) {
-      if (!path) {
-        path = this.$route.path
+    async startTrafficLight (path = this.$route.path) {
+      this.updateCollor(path)
+
+      const ms = this.delayColor.getDelay(path)
+      this.startTimer(ms, 50).then(() => this.changeTraffcLight())
+    },
+
+    async startTimer (ms, step = 50) {
+      if (this.idInterval) {
+        clearInterval(this.idInterval)
       }
 
-      if (path === '/red') {
-        this.turnOnRed()
-        console.log('Меняю цыет на Red')
-      } else if (path === '/yellow') {
-        this.turnOnYellow()
-        console.log('Меняю цыет на Yellow')
-      } else if (path === '/green') {
-        this.turnOnGreen()
-        console.log('Меняю цыет на Green')
-      } else {
-        // this.turnOnRed()
-      }
+      const currentTime = new Date()
+
+      return new Promise((resolve, reject) => {
+        this.idInterval = setInterval(() => {
+          let time = ms - (new Date() - currentTime)
+
+          if (time <= 0) {
+            console.log(this.idInterval)
+            clearInterval(this.idInterval)
+            resolve()
+          }
+
+          this.spanText = this.formatTime(time)
+        }, step)
+      })
     },
-    setCollor (red, yellow, green) {
-      this.classColor.red = !!red
-      this.classColor.yellow = !!yellow
-      this.classColor.green = !!green
-    },
-    turnOnRed () {
-      this.setCollor(true)
-      this.startTimer(2000)
-    },
-    turnOnYellow () {
-      this.setCollor(null, true)
-      this.startTimer(2000)
-    },
-    turnOnGreen () {
-      this.setCollor(null, null, true)
-      this.startTimer(2000)
-    },
+
     changeTraffcLight () {
       if (this.$route.path === '/red') {
         this.$router.push('/yellow')
@@ -79,34 +84,19 @@ export default {
       } else if (this.$route.path === '/green') {
         this.$router.push('/red')
       } else {
-        // this.$router.push('/red')
+        this.$router.push('/red')
       }
     },
 
-    startTimer (ms, step = 50) {
-      if (this.idInterval) {
-        clearInterval(this.idInterval)
-      }
-
-      const currentTime = new Date()
-
-      new Promise((resolve, reject) => {
-        this.idInterval = setInterval(() => {
-          let time = ms - (new Date() - currentTime)
-
-          if (time <= 0) {
-            clearInterval(this.idInterval)
-            resolve()
-          }
-
-          this.spanText = this.formatTimeLeft(time)
-        }, step)
-      }).then(() => this.changeTraffcLight())
-    },
-
-    formatTimeLeft (ms) {
+    formatTime (ms) {
       const time = new Date(ms)
       return `${time.getSeconds()}:${time.getMilliseconds()}`
+    },
+
+    updateCollor (path = this.$route.path) {
+      this.classColor.red = path === '/red'
+      this.classColor.yellow = path === '/yellow'
+      this.classColor.green = path === '/green'
     }
   }
 }
