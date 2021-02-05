@@ -13,7 +13,7 @@ new Vue({
   components: { App },
   template: '<App/>',
 
-  created () {
+  created() {
     console.clear()
   }
 })
