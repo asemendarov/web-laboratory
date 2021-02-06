@@ -11,9 +11,5 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>',
-
-  created() {
-    console.clear()
-  }
+  template: '<App/>'
 })
