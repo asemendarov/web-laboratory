@@ -25,6 +25,8 @@ export default {
   name: 'TrafficLight',
   data() {
     return {
+      UUIDv4: new Map(), // debug param
+
       classColor: {
         _red: false,
         _yellow: false,
@@ -61,7 +63,7 @@ export default {
         _green: 15000,
         _default: 2000,
 
-        getDelay(path = this.$route.path) {
+        getDelay(path) {
           if (path === '/red') return this._red
           else if (path === '/yellow') return this._yellow
           else if (path === '/green') return this._green
@@ -73,18 +75,46 @@ export default {
       spanText: '...',
 
       beginFlicker: 3000,
-      stretchFlicker: 500
+      stretchFlicker: 500,
+
+      endTimeOperation: null
     }
+  },
+
+  created() {
+    let keys = Object.keys(sessionStorage)
+    for (let key of keys) {
+      console.log(`${key}: ${sessionStorage.getItem(key)}ms`)
+    }
+  },
+
+  mounted() {
+    this.endTimeOperation = sessionStorage.endTimeOperation
+    this.startTrafficLight()
   },
 
   watch: {
     $route(to, from) {
       this.startTrafficLight(to.path)
-    }
-  },
+    },
 
-  created() {
-    this.startTrafficLight()
+    endTimeOperation(newTime) {
+      sessionStorage.endTimeOperation = newTime
+    },
+
+    // debug watch
+    idInterval(newId, oldId) {
+      if (oldId && this.UUIDv4.has(oldId)) {
+        this.UUIDv4.delete(oldId)
+      }
+
+      this.UUIDv4.set(newId, this.uuidv4())
+      console.log(
+        `UUIDv4:\t${this.UUIDv4.get(newId)}\tsize: ${
+          this.UUIDv4.size
+        }\tnew: ${newId}, old: ${oldId}`
+      )
+    }
   },
 
   methods: {
@@ -92,28 +122,33 @@ export default {
       this.updateCollor(path)
 
       const ms = this.delayColor.getDelay(path)
-      this.startTimer(ms, 50).then(() => this.changeTraffcLight())
+      this.startTimer(ms, 100).then(() => this.changeTraffcLight())
     },
 
     async startTimer(ms, step = 50) {
       if (this.idInterval) {
         clearInterval(this.idInterval)
+        this.endTimeOperation = null
       }
 
       const currentTime = new Date()
 
+      if (this.endTimeOperation) {
+        ms = this.endTimeOperation
+      }
+
       return new Promise((resolve, reject) => {
         this.idInterval = setInterval(() => {
-          let time = ms - (new Date() - currentTime)
+          this.endTimeOperation = ms - (new Date() - currentTime)
 
-          this.calcFlicker(time)
+          this.calcFlicker(this.endTimeOperation)
 
-          if (time <= 0) {
+          if (this.endTimeOperation <= 0) {
             clearInterval(this.idInterval)
             resolve()
           }
 
-          this.spanText = this.formatTime(time)
+          this.spanText = this.formatTime(this.endTimeOperation)
         }, step)
       })
     },
@@ -141,8 +176,9 @@ export default {
     },
 
     formatTime(ms) {
-      const time = new Date(ms)
-      return `${time.getSeconds()}:${time.getMilliseconds()}`
+      if (ms <= 0) return '0:000'
+
+      return `${~~(ms / 1000)}:${ms % 1000}`
     },
 
     updateCollor(path = this.$route.path) {
@@ -151,6 +187,15 @@ export default {
         path === '/yellow',
         path === '/green'
       )
+    },
+
+    // debug function
+    uuidv4() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+        const r = (Math.random() * 16) | 0
+        const v = c === 'x' ? r : (r & 0x3) | 0x8
+        return v.toString(16)
+      })
     }
   }
 }
