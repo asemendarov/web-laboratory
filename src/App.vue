@@ -1,6 +1,5 @@
 <template>
-  <div id='app'>
-    <h1>Светофор</h1>
+  <div id="app">
     <router-view></router-view>
   </div>
 </template>
@@ -15,24 +14,38 @@ export default {
 </script>
 
 <style>
-#app * {
+* {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 
-  margin: 10px auto;
-  padding: 10px;
-
-  text-align: center;
-  border: 1px solid black;
-  border-radius: 10px;
-
-  width: 400px;
-  max-width: 400px;
+  margin: 0;
+  padding: 0;
 }
 
-a {
-  display: block;
-  text-decoration: none;
-  color: black;
+html,
+body {
+  height: 100%;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
+#app {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+
+  background-color: #222222;
+  color: #eeeeee;
+}
 </style>

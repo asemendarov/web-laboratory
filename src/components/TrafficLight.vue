@@ -1,21 +1,10 @@
 <template>
   <div id="traffic-light">
-    <router-link id="red" to="/red" :class="{ 'red-color': classColor.red }"
-      >Перейти к red</router-link
-    >
-    <router-link
-      id="yellow"
-      to="/yellow"
-      :class="{ 'yellow-color': classColor.yellow }"
-      >Перейти к yellow</router-link
-    >
-    <router-link
-      id="green"
-      to="/green"
-      :class="{ 'green-color': classColor.green }"
-      >Перейти к greeen</router-link
-    >
+    <h1>Светофор</h1>
     <span v-text="spanText"></span>
+    <router-link id="red" to="/red" :class="classColor.red" />
+    <router-link id="yellow" to="/yellow" :class="classColor.yellow" />
+    <router-link id="green" to="/green" :class="classColor.green" />
   </div>
 </template>
 
@@ -33,13 +22,13 @@ export default {
         _green: false,
 
         get red() {
-          return this._red
+          return { 'red-color': true, opacity: !this._red }
         },
         get yellow() {
-          return this._yellow
+          return { 'yellow-color': true, opacity: !this._yellow }
         },
         get green() {
-          return this._green
+          return { 'green-color': true, opacity: !this._green }
         },
 
         change(red = false, yellow = false, green = false) {
@@ -182,11 +171,7 @@ export default {
     },
 
     updateCollor(path = this.$route.path) {
-      this.classColor.change(
-        path === '/red',
-        path === '/yellow',
-        path === '/green'
-      )
+      this.classColor.change(path === '/red', path === '/yellow', path === '/green')
     },
 
     // debug function
@@ -202,16 +187,54 @@ export default {
 </script>
 
 <style scoped>
+#traffic-light {
+  margin: auto;
+  padding: 20px;
+
+  width: 250px;
+  max-width: 250px;
+
+  border: 2px solid #eeeeee;
+  border-radius: 30px;
+}
+
+#traffic-light > h1 {
+  text-align: center;
+}
+
+#traffic-light > span {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+a {
+  display: block;
+
+  margin: 10px 0;
+  padding: 50% 0;
+  width: 100%;
+  height: 0;
+
+  background-color: #eeeeee;
+  border: 2px solid #eeeeee;
+  border-radius: 50%;
+}
+
 .red-color {
-  background-color: red;
+  background-color: rgb(255, 0, 0);
 }
 
 .yellow-color {
-  background-color: yellow;
+  background-color: rgb(255, 255, 0);
 }
 
 .green-color {
-  background-color: green;
+  background-color: rgb(0, 128, 0);
+}
+
+.opacity {
+  opacity: 0.2;
+  -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=20)';
 }
 
 span {
