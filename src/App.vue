@@ -22,15 +22,16 @@ export default {
 h1,
 h2,
 h3 {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 :root {
-  font-size: 12px;
+  /* font-size: 12px; */
 }
 
+html,
 body {
   height: 100%;
 

@@ -4,7 +4,7 @@
       "id": 5,
       "parent_id": null,
       "technical_acceptance_id": 11,
-      "name": "11",
+      "name": "Папка 1",
       "created_at": "2021-02-02 17:49:05",
       "updated_at": "2021-02-02 17:49:05",
       "under_folder": [
@@ -12,7 +12,7 @@
           "id": 6,
           "parent_id": 5,
           "technical_acceptance_id": 11,
-          "name": "excel",
+          "name": "Папка 2",
           "created_at": "2021-02-02 17:49:05",
           "updated_at": "2021-02-02 17:49:05",
           "files": [
@@ -20,8 +20,38 @@
               "id": 1,
               "folder_id": 6,
               "tag_id": null,
-              "name": "\u0418\u043c\u043f\u043e\u0440\u0442_ 15.01\u00a0\u044f 3.xlsx",
-              "store_name": "uYidnvrEkJ5tsjlCGpXU7qcjCdNiUX.xlsx",
+              "name": "file_example_XLS_10.xls",
+              "url": "https://file-examples-com.github.io/uploads/2017/02/file_example_XLS_10.xls",
+              "created_at": "2021-02-02 17:49:05",
+              "updated_at": "2021-02-02 17:49:05"
+            }
+          ]
+        }
+      ],
+      "files": []
+    },
+    {
+      "id": 7,
+      "parent_id": null,
+      "technical_acceptance_id": 11,
+      "name": "Папка 3",
+      "created_at": "2021-02-02 17:49:05",
+      "updated_at": "2021-02-02 17:49:05",
+      "under_folder": [
+        {
+          "id": 8,
+          "parent_id": 7,
+          "technical_acceptance_id": 11,
+          "name": "Папка 4",
+          "created_at": "2021-02-02 17:49:05",
+          "updated_at": "2021-02-02 17:49:05",
+          "files": [
+            {
+              "id": 2,
+              "folder_id": 6,
+              "tag_id": null,
+              "name": "file-sample_150kB.pdf",
+              "url": "https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf",
               "created_at": "2021-02-02 17:49:05",
               "updated_at": "2021-02-02 17:49:05"
             }

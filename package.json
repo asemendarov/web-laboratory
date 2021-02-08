@@ -11,7 +11,10 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "vue-json-excel": "^0.3.0",
+    "vue-pdf": "^4.2.0",
+    "xlsx": "^0.16.9"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
