@@ -43,7 +43,7 @@ body {
   flex: 1 0 auto;
   display: flex;
 
-  background-color: #222;
-  color: #eee;
+  /* background-color: #222; */
+  /* color: #eee; */
 }
 </style>
