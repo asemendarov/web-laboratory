@@ -24,40 +24,37 @@
       </ul>
     </div>
     <div class="view-container">
-      <component :is="FileComponent" v-bind="FileComponent.props"></component>
+      <component :is="FileComponent" v-bind="PropsComponent"></component>
     </div>
   </div>
 </template>
 
 <script>
-import jsonData from '../json/data.json'
+// Import vue-*
+import Pdf from 'vue-pdf'
+import VueTable from '@lossendae/vue-table'
+
+// Import *
+import jsonData from '@/json/data.json'
+import XLSX from 'xlsx'
 
 export default {
   props: [],
-  components: {},
+  components: { Pdf, VueTable },
   name: 'JsonReader',
   data() {
     return {
-      data: [],
+      data: jsonData.data,
       folders: new Map(),
       files: new Map(),
 
-      FileComponent: () => {
-        this.FileComponent.props = {}
-        return null
-      }
+      FileComponent: null,
+      PropsComponent: null
     }
   },
 
   created() {
-    console.clear()
-
-    this.data = jsonData.data
-
     this.parseStructure(this.data)
-
-    console.log('folders: ', this.folders)
-    console.log('files:', this.files)
   },
 
   methods: {
@@ -89,16 +86,68 @@ export default {
       })
     },
 
-    showFile(path) {
-      if (/^.*\.(pdf|PDF)$/.test(path)) {
-        this.FileComponent = () => import('vue-pdf')
-        this.FileComponent.props = { src: path }
+    showFile(url) {
+      if (/^.*\.(pdf|PDF)$/.test(url)) {
+        this.FileComponent = 'pdf'
+        this.PropsComponent = { src: url }
       }
 
-      if (/^.*\.(xlsx|xls|xlsm)$/.test(path)) {
-        this.FileComponent = () => import('vue-json-excel')
-        this.FileComponent.props = { src: path }
+      if (/^.*\.(xlsx|xls|xlsm)$/.test(url)) {
+        this.fetchXLS(url)
+          .then((json) => {
+            this.FileComponent = 'vue-table'
+            this.PropsComponent = {
+              columns: Object.keys(json[0]).map((value) => {
+                return { name: value }
+              }),
+              rows: json
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       }
+    },
+
+    fetchXLS(url) {
+      return this.downloadArrayBuffer(url)
+        .then((data) => {
+          return this.xlsRead(data)
+        })
+        .then((workbook) => {
+          return this.xlsToJSON(workbook)
+        })
+    },
+
+    downloadArrayBuffer(url) {
+      return fetch(url)
+        .then((responce) => {
+          return responce.arrayBuffer()
+        })
+        .then((arraybuffer) => {
+          return new Uint8Array(arraybuffer)
+        })
+    },
+
+    xlsRead(data) {
+      let arr = []
+      data.forEach((el) => {
+        arr.push(String.fromCharCode(el))
+      })
+
+      let bstr = arr.join('')
+
+      /* Call XLSX */
+      return XLSX.read(bstr, { type: 'binary' })
+    },
+
+    xlsToJSON(workbook) {
+      /* DO SOMETHING WITH workbook HERE */
+      let firstSheetName = workbook.SheetNames[0]
+      let worksheet = workbook.Sheets[firstSheetName]
+      let html = XLSX.utils.sheet_to_json(worksheet, { raw: true })
+
+      return html
     },
 
     titleFormat(data) {
@@ -126,20 +175,20 @@ export default {
   min-width: 120px;
   max-width: 300px;
 
-  background-color: #444;
+  /* background-color: #444; */
 }
 
 .file-container {
   min-width: 120px;
   max-width: 300px;
 
-  background-color: #666;
+  /* background-color: #666; */
 }
 
 .view-container {
   flex: 1 0 auto;
 
-  background-color: #888;
+  /* background-color: #888; */
 }
 
 h1 {
@@ -159,5 +208,9 @@ li:hover {
   background-color: chocolate;
   color: black;
   font-weight: bold;
+}
+
+table {
+  width: 100%;
 }
 </style>
