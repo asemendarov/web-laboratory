@@ -27,10 +27,6 @@ h3 {
   padding: 0;
 }
 
-:root {
-  /* font-size: 12px; */
-}
-
 html,
 body {
   height: 100%;
@@ -42,8 +38,5 @@ body {
 #app {
   flex: 1 0 auto;
   display: flex;
-
-  /* background-color: #222; */
-  /* color: #eee; */
 }
 </style>

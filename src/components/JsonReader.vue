@@ -1,27 +1,45 @@
 <template>
   <div id="JsonReader">
     <div class="folder-container">
-      <h1>Папка</h1>
-      <ul v-if="folders.size">
-        <li
+      <div class="folder-head">
+        <h1>Папка</h1>
+        <hr />
+      </div>
+      <div class="folder-body" v-if="folders.size">
+        <div
+          class="folder-body-content"
           v-for="folder in folders"
           :key="folder[0]"
           :title="titleFormat(folder[1])"
-          v-text="folder[1].name"
-        ></li>
-      </ul>
+        >
+          <span
+            class="folder-name"
+            v-text="nameFormat(folder[1].name)"
+            @click="showFolder(file[1].id)"
+            >Name Folder</span
+          >
+          <b-icon-arrow-right class="folder-name-icon"></b-icon-arrow-right>
+        </div>
+      </div>
     </div>
     <div class="file-container">
-      <h1>Файл</h1>
-      <ul v-if="files.size">
-        <li
+      <div class="file-head">
+        <h1>Файл</h1>
+        <hr />
+      </div>
+      <div class="file-body" v-if="files.size">
+        <div
+          class="file-body-content"
           v-for="file in files"
           :key="file[0]"
           :title="titleFormat(file[1])"
-          v-text="file[1].name"
-          @click="showFile(file[1].url)"
-        ></li>
-      </ul>
+        >
+          <span class="file-name" v-text="nameFormat(file[1].name)" @click="showFile(file[1].url)"
+            >Name File</span
+          >
+          <b-icon-arrow-right class="file-name-icon"></b-icon-arrow-right>
+        </div>
+      </div>
     </div>
     <div class="view-container">
       <component :is="FileComponent" v-bind="PropsComponent"></component>
@@ -33,6 +51,7 @@
 // Import vue-*
 import Pdf from 'vue-pdf'
 import VueTable from '@lossendae/vue-table'
+import { BIconArrowRight } from 'bootstrap-vue'
 
 // Import *
 import jsonData from '@/json/data.json'
@@ -40,7 +59,7 @@ import XLSX from 'xlsx'
 
 export default {
   props: [],
-  components: { Pdf, VueTable },
+  components: { Pdf, VueTable, BIconArrowRight },
   name: 'JsonReader',
   data() {
     return {
@@ -85,6 +104,8 @@ export default {
         this.files.set(el.id, el)
       })
     },
+
+    showFolder(idFolder) {},
 
     showFile(url) {
       if (/^.*\.(pdf|PDF)$/.test(url)) {
@@ -151,10 +172,19 @@ export default {
     },
 
     titleFormat(data) {
-      return `
-      Создан: ${data.created_at ? data.created_at : '-'}
-      Обнавлен: ${data.updated_at ? data.updated_at : '-'}
-      `
+      return `${
+        '\r' // ------------------
+      }Fullname: «${data.name}»${
+        '\n' // ------------------
+      }Created: ${data.created_at ? data.created_at : '-'}${
+        '\n' // ------------------
+      }Updated: ${data.updated_at ? data.updated_at : '-'}`
+    },
+
+    nameFormat(name) {
+      if (name.length < 15) return name
+
+      return `...${name.slice(-15)}`
     }
   }
 }
@@ -167,50 +197,87 @@ export default {
   display: flex;
 }
 
-#JsonReader > div {
-  border: 1px solid black;
-}
-
-.folder-container {
-  min-width: 120px;
-  max-width: 300px;
-
-  /* background-color: #444; */
-}
-
+.folder-container,
 .file-container {
-  min-width: 120px;
-  max-width: 300px;
+  width: 200px;
+  border: 1px solid #0b5aa2;
+  border-top: 10px solid #0b5aa2;
+  background: #fffffe;
+}
 
-  /* background-color: #666; */
+.folder-container h1,
+.file-container h1 {
+  padding: 5px;
+  margin: 10px;
+  color: #0b5aa2;
+}
+
+.folder-container hr,
+.file-container hr {
+  width: 40%;
+  margin: 0px 15px;
+  border: 1px solid #0b5aa2;
+  background-color: #0b5aa2;
+}
+
+.folder-body,
+.file-body {
+  margin: 10px;
+  display: grid;
+  grid-gap: 10px;
+}
+
+.folder-body-content,
+.file-body-content {
+  width: 100%;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 10fr 1fr;
+  grid-gap: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.folder-body-content:hover,
+.file-body-content:hover {
+  border-radius: 15px;
+  border: 1px solid #0b5aa2;
+}
+
+.folder-name-icon,
+.file-name-icon {
+  align-self: center;
+  font-size: 15px;
+  color: #0b5aa2;
+  font-weight: bold;
+  animation: icon 1.5s infinite forwards;
 }
 
 .view-container {
   flex: 1 0 auto;
-
-  /* background-color: #888; */
-}
-
-h1 {
-  padding: 10px;
-
-  text-align: center;
-  border-bottom: 1px dashed black;
-}
-
-li {
-  display: block;
-  padding: 15px;
-  cursor: pointer;
-}
-
-li:hover {
-  background-color: chocolate;
-  color: black;
-  font-weight: bold;
 }
 
 table {
+  border-collapse: collapse;
+  border: 1px solid #eee;
   width: 100%;
+  margin-bottom: 20px;
+}
+table >>> th {
+  font-weight: bold;
+  padding: 5px;
+  background: #efefef;
+  border: 1px solid #dddddd;
+}
+table >>> td {
+  padding: 5px 10px;
+  border: 1px solid #eee;
+  text-align: left;
+}
+table >>> tr:nth-child(odd) {
+  background: #fff;
+}
+table >>> tr:nth-child(even) {
+  background: #f7f7f7;
 }
 </style>
