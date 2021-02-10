@@ -11,32 +11,31 @@
           v-for="folder in folders"
           :key="folder[0]"
           :title="titleFormat(folder[1])"
+          @click="showFolder(folder[0])"
         >
-          <span
-            class="folder-name"
-            v-text="nameFormat(folder[1].name)"
-            @click="showFolder(file[1].id)"
-            >Name Folder</span
-          >
-          <b-icon-arrow-right class="folder-name-icon"></b-icon-arrow-right>
+          <span class="folder-name" v-text="nameFormat(folder[1].name)">Name Folder</span>
+          <b-icon-x-circle
+            v-if="idFocusFolder === folder[1].id"
+            class="folder-name-icon"
+          ></b-icon-x-circle>
+          <b-icon-arrow-right v-else class="folder-name-icon"></b-icon-arrow-right>
         </div>
       </div>
     </div>
-    <div class="file-container">
+    <div class="file-container" v-if="isActiveFolder">
       <div class="file-head">
         <h1>Файл</h1>
         <hr />
       </div>
-      <div class="file-body" v-if="files.size">
+      <div class="file-body">
         <div
           class="file-body-content"
           v-for="file in files"
           :key="file[0]"
           :title="titleFormat(file[1])"
+          @click="showFile(file[1].url)"
         >
-          <span class="file-name" v-text="nameFormat(file[1].name)" @click="showFile(file[1].url)"
-            >Name File</span
-          >
+          <span class="file-name" v-text="nameFormat(file[1].name)">Name File</span>
           <b-icon-arrow-right class="file-name-icon"></b-icon-arrow-right>
         </div>
       </div>
@@ -51,7 +50,7 @@
 // Import vue-*
 import Pdf from 'vue-pdf'
 import VueTable from '@lossendae/vue-table'
-import { BIconArrowRight } from 'bootstrap-vue'
+import { BIconArrowRight, BIconXCircle } from 'bootstrap-vue'
 
 // Import *
 import jsonData from '@/json/data.json'
@@ -59,13 +58,17 @@ import XLSX from 'xlsx'
 
 export default {
   props: [],
-  components: { Pdf, VueTable, BIconArrowRight },
+  components: { Pdf, VueTable, BIconArrowRight, BIconXCircle },
   name: 'JsonReader',
   data() {
     return {
       data: jsonData.data,
+
       folders: new Map(),
       files: new Map(),
+
+      isActiveFolder: false,
+      idFocusFolder: null,
 
       FileComponent: null,
       PropsComponent: null
@@ -90,10 +93,6 @@ export default {
         if (el.under_folder) {
           this.parseFolders(el.under_folder)
         }
-
-        if (el.files.length) {
-          this.parseFiles(el.files)
-        }
       })
     },
 
@@ -105,7 +104,31 @@ export default {
       })
     },
 
-    showFolder(idFolder) {},
+    showFolder(id) {
+      if (!this.folders.has(id)) return
+
+      this.updateFiles(this.folders.get(id))
+    },
+
+    updateFiles(folder) {
+      this.files.clear()
+
+      this.parseFiles(folder.files)
+
+      this.updateVisibilityFiles(folder.id)
+    },
+
+    // @return -- true (enabled) / false (disabled)
+    updateVisibilityFiles(idFolder) {
+      if (this.idFocusFolder === idFolder) {
+        this.isActiveFolder = !this.isActiveFolder
+        this.idFocusFolder = null
+      } else {
+        this.isActiveFolder = false
+        this.isActiveFolder = true
+        this.idFocusFolder = idFolder
+      }
+    },
 
     showFile(url) {
       if (/^.*\.(pdf|PDF)$/.test(url)) {
@@ -250,7 +273,11 @@ export default {
   font-size: 15px;
   color: #0b5aa2;
   font-weight: bold;
-  animation: icon 1.5s infinite forwards;
+}
+
+.folder-name-icon:hover,
+.file-name-icon:hover {
+  color: rgb(172, 60, 60);
 }
 
 .view-container {
@@ -266,18 +293,18 @@ table {
 table >>> th {
   font-weight: bold;
   padding: 5px;
-  background: #efefef;
-  border: 1px solid #dddddd;
+  background: #b4c9dd;
+  border: 1px solid #0b5aa2;
 }
 table >>> td {
   padding: 5px 10px;
-  border: 1px solid #eee;
+  border: 1px solid #537a9e;
   text-align: left;
 }
 table >>> tr:nth-child(odd) {
   background: #fff;
 }
 table >>> tr:nth-child(even) {
-  background: #f7f7f7;
+  background: #b4c9dd;
 }
 </style>
