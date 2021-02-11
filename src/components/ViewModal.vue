@@ -36,7 +36,7 @@
           name="tel"
           placeholder="Введите номер телефона"
           v-model="telValue"
-          pattern="^(([+]?7)?|8)[\s]?([(][\s]?[0-9]{3}[\s]?[)]|[0-9]{3})[\s]?[0-9]{3}[-]?[0-9]{2}[-]?[0-9]{2}$"
+          pattern="^[0-9-+\s()]+$"
           required
         />
         <span id="telErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
@@ -44,10 +44,9 @@
 
       <div class="lang">
         <label for="lang">Язык</label>
-        <input name="lang" list="lang" placeholder="Язык" v-model="langValue" required />
-        <datalist id="lang">
-          <option v-for="lang in langList" :key="lang" :value="lang"></option>
-        </datalist>
+        <select name="lang" list="lang" placeholder="Язык" v-model="langValue" required>
+          <option v-for="lang in langList" :key="lang" :value="lang">{{ lang }}</option>
+        </select>
         <span id="langErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
       </div>
 
@@ -56,6 +55,7 @@
           <input type="checkbox" name="agreement" v-model="agreChecked" required /> Принимаю
           <a href="*">условия</a> использования
         </label>
+        <span id="agreErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
       </div>
 
       <div class="registration">
@@ -120,22 +120,22 @@ export default {
 
   methods: {
     validationNameValue(nameValue) {
-      const nameRegExp = /^([a-zA-Zа-яА-Я']+[-\s]?)+$/
-      return (this.regDisabled = !nameRegExp.test(this.nameValue)) // переделать
+      // const nameRegExp = /^([a-zA-Zа-яА-Я']+[-\s]?)+$/
+      // return (this.regDisabled = !nameRegExp.test(this.nameValue)) // переделать
     },
     validationEmailValue(emailValue) {
-      const emailRegExp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      return (this.regDisabled = !emailRegExp.test(this.emailValue)) // переделать
+      // const emailRegExp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+      // return (this.regDisabled = !emailRegExp.test(this.emailValue)) // переделать
     },
     validationTelValue(telValue) {
-      const telRegExp = /^(([+]?7)?|8)[\s]?([(][\s]?[0-9]{3}[\s]?[)]|[0-9]{3})[\s]?[0-9]{3}[-]?[0-9]{2}[-]?[0-9]{2}$/
-      return (this.regDisabled = !telRegExp.test(this.telValue)) // переделать
+      // const telRegExp = /^[0-9-+\s()]+$/
+      // return (this.regDisabled = !telRegExp.test(this.telValue)) // переделать
     },
     validationLangValue(langValue) {
-      return (this.regDisabled = !this.langList.includes(langValue)) // переделать
+      // return (this.regDisabled = !this.langList.includes(langValue)) // переделать
     },
     validationAgreChecked(agreChecked) {
-      return (this.regDisabled = !this.agreChecked)
+      // return (this.regDisabled = !this.agreChecked)
     },
 
     checkForm(event) {
@@ -154,6 +154,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+/* --------------- Debug CSS ---------------*/
+.view-modal * {
+  /* border: 1px solid black; */
+}
+
+span {
+  visibility: hidden;
+}
+/* ------------------------------------------*/
+
 .view-modal {
   padding: 40px 30px;
   margin: auto;
@@ -189,6 +199,10 @@ label {
   margin-bottom: 7px;
 }
 
+label[for='agreement'] {
+  margin-bottom: 0;
+}
+
 a {
   text-decoration: none;
   color: #0880ae;
@@ -196,7 +210,7 @@ a {
 
 span[class='error'] {
   display: block;
-  visibility: hidden;
+
   margin: 8px 0;
 
   font-size: 14px;
@@ -205,7 +219,8 @@ span[class='error'] {
   color: #ff7171;
 }
 
-input {
+input,
+select {
   height: 52px;
   width: 100%;
 
@@ -220,12 +235,9 @@ input {
   padding: 16px;
 }
 
-input:focus {
+input:focus,
+select:focus {
   border: 2px solid #dbe2ea;
-}
-
-.agreement {
-  margin-bottom: 32px;
 }
 
 input[name='agreement'] {
@@ -249,7 +261,7 @@ input[name='registration'] {
   margin: 0;
 }
 
-input[name='registration']:disabled {
+/* input[name='registration']:disabled {
   background: #dbe2ea;
 }
 
@@ -259,10 +271,5 @@ input:valid:not(:placeholder-shown) + span[class='error'] {
 
 input:invalid:not(:placeholder-shown) + span[class='error'] {
   visibility: visible;
-}
-
-/* debug */
-main * {
-  /* border: 1px solid teal; */
-}
+} */
 </style>
