@@ -39,4 +39,4 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ## Промежуточный результат
 
-![v0 0 1 project-3](https://user-images.githubusercontent.com/31689842/107559501-3a08ab80-6bed-11eb-8634-fbbb4296554a.gif)
+![v0.0.1-Project-3](https://user-images.githubusercontent.com/31689842/107634756-1ab85f80-6c7b-11eb-9160-303fc93af3e3.gif)
