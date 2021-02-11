@@ -45,7 +45,7 @@
     </div>
 
     <div class="mini-info" @click="calcVisibilityInfo">Информация</div>
-    <div class="info-container" v-if="!isVisibilityInfo">
+    <div class="info-container" v-if="isVisibilityInfo">
       <div class="info-head">
         <h1>Информация</h1>
         <hr />
@@ -160,7 +160,6 @@ export default {
       }
     },
 
-    // удалить url <<--------------------------------------------------
     showFile(id) {
       const file = this.files.get(id)
       if (!file) return
