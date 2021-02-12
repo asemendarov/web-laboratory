@@ -3,11 +3,11 @@
     <h1>Регистрация</h1>
     <p>Уже есть аккаунт? <a href="#">Войти</a></p>
     <form action="#" method="POST" @submit="checkForm">
-      <input-text @change="validation" />
-      <input-email @change="validation" />
-      <input-tel @change="validation" />
-      <input-lang @change="validation" />
-      <input-agreement @change="validation" />
+      <input-text :value="valueName" @change="validation" />
+      <input-email :value="valueEmail" @change="validation" />
+      <input-tel :value="valueTel" @change="validation" />
+      <input-lang :value="valueLang" @change="validation" />
+      <input-agreement :checked="checkedAgreement" @change="validation" />
 
       <div class="registration">
         <input
@@ -33,18 +33,25 @@ export default {
   components: { InputText, InputEmail, InputTel, InputLang, InputAgreement },
   data() {
     return {
+      // options for debugging
       valueName: '',
       valueEmail: '',
       valueTel: '',
       valueLang: '',
       checkedAgreement: false,
 
-      isDisabledSubmit: true
+      isDisabledSubmit: false
     }
   },
 
   created() {
     // pass
+  },
+
+  mounted() {
+    if (this.isDisabledSubmit) {
+      this.validation()
+    }
   },
 
   watch: {
