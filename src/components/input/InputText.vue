@@ -10,22 +10,34 @@
       required
     />
     <div class="valid-container">
-      <span id="nameErrMsg" class="error" v-if="isInvalid" v-text="invalidMessage"></span>
+      <span
+        id="nameErrMsg"
+        class="error"
+        v-if="inputValue && isInvalid"
+        v-text="invalidMessage"
+      ></span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    value: String
+  },
   name: 'InputText',
   data() {
     return {
-      inputValue: 'qwe',
+      inputValue: this.value,
       isInvalid: false,
       invalidMessage: 'Поле "Имя" не может содержать цифры и символы кроме пробела и дефиса',
 
-      regex: /^([a-zA-Zа-яА-Я']+[-\s]?)+$/
+      regex: /^[a-zA-Zа-яА-Я-\s]+$/
     }
+  },
+  mounted() {
+    this.validation()
+    this.emitChange()
   },
   computed: {
     pattern() {

@@ -5,19 +5,29 @@
       <a href="*">условия</a> использования
     </label>
     <div class="valid-container">
-      <span id="agreErrMsg" class="error" v-if="isInvalid" v-text="invalidMessage"></span>
+      <span
+        id="agreErrMsg"
+        class="error"
+        v-if="stopper && isInvalid"
+        v-text="invalidMessage"
+      ></span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'InputText',
+  props: {
+    checked: Boolean
+  },
+  name: 'InputAgreement',
   data() {
     return {
-      inputChecked: true,
-      isInvalid: false,
-      invalidMessage: 'Необходимо принять пользовательское соглашение'
+      inputChecked: this.checked,
+      isInvalid: true,
+      invalidMessage: 'Необходимо принять пользовательское соглашение',
+
+      stopper: false // Отключает сообщение об ошибке валидации, но не ломает логику
     }
   },
   watch: {
@@ -25,6 +35,10 @@ export default {
       this.validation()
       this.emitChange()
     }
+  },
+  mounted() {
+    this.validation()
+    this.emitChange()
   },
   methods: {
     validation() {

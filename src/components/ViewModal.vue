@@ -33,7 +33,13 @@ export default {
   components: { InputText, InputEmail, InputTel, InputLang, InputAgreement },
   data() {
     return {
-      isDisabledSubmit: false
+      valueName: '',
+      valueEmail: '',
+      valueTel: '',
+      valueLang: '',
+      checkedAgreement: false,
+
+      isDisabledSubmit: true
     }
   },
 
@@ -61,6 +67,7 @@ export default {
         event.preventDefault()
       }
 
+      alert('Валидация прошла спешно')
       event.preventDefault() // remove for production
     }
   }
@@ -72,10 +79,6 @@ export default {
 /* --------------- Debug CSS ---------------*/
 .view-modal >>> * {
   /* border: 1px solid black; */
-}
-
-.view-modal >>> span {
-  visibility: visible;
 }
 /* ------------------------------------------*/
 

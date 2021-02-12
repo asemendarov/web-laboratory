@@ -6,22 +6,34 @@
       <option v-for="lang in langList" :key="lang" :value="lang">{{ lang }}</option>
     </datalist>
     <div class="valid-container">
-      <span id="langErrMsg" class="error" v-if="isInvalid" v-text="invalidMessage"></span>
+      <span
+        id="langErrMsg"
+        class="error"
+        v-if="inputValue && isInvalid"
+        v-text="invalidMessage"
+      ></span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    value: String
+  },
   name: 'InputLang',
   data() {
     return {
       langList: ['Русский', 'Английский', 'Китайский', 'Испанский'],
 
-      inputValue: 'Русский',
-      isInvalid: false,
+      inputValue: this.value,
+      isInvalid: true,
       invalidMessage: 'Язык необходимо выбрать из указанного списка'
     }
+  },
+  mounted() {
+    this.validation()
+    this.emitChange()
   },
   watch: {
     inputValue() {

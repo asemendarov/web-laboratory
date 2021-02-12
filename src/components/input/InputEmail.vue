@@ -10,22 +10,34 @@
       required
     />
     <div class="valid-container">
-      <span id="emailErrMsg" class="error" v-if="isInvalid" v-text="invalidMessage"></span>
+      <span
+        id="emailErrMsg"
+        class="error"
+        v-if="inputValue && isInvalid"
+        v-text="invalidMessage"
+      ></span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    value: String
+  },
   name: 'InputEmail',
   data() {
     return {
-      inputValue: 'q@q',
-      isInvalid: false,
+      inputValue: this.value,
+      isInvalid: true,
       invalidMessage: 'Поле "Email" должно содержать только Вашу электронную почту',
 
       regex: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
     }
+  },
+  mounted() {
+    this.validation()
+    this.emitChange()
   },
   computed: {
     pattern() {
