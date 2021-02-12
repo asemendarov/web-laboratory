@@ -9,7 +9,9 @@
       pattern="^([a-zA-Zа-яА-Я']+[-\s]?)+$"
       required
     />
-    <span id="nameErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
+    <div class="valid-container">
+      <span id="nameErrMsg" class="error" v-if="isInvalid" v-text="invalidMessage"></span>
+    </div>
   </div>
 </template>
 
@@ -19,11 +21,8 @@ export default {
   data() {
     return {
       nameValue: 'qwe',
-
-      errMsg: {
-        invalidDefault: 'Validation error message',
-        invalidName: 'Поле "Имя" не может содержать цифры и символы кроме пробела и дефиса'
-      }
+      isInvalid: false,
+      invalidMessage: 'Поле "Имя" не может содержать цифры и символы кроме пробела и дефиса'
     }
   },
   watch: {

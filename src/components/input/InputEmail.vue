@@ -9,7 +9,9 @@
       pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
       required
     />
-    <span id="emailErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
+    <div class="valid-container">
+      <span id="emailErrMsg" class="error" v-if="isInvalid" v-text="invalidMessage"></span>
+    </div>
   </div>
 </template>
 
@@ -19,11 +21,8 @@ export default {
   data() {
     return {
       emailValue: 'q@q',
-
-      errMsg: {
-        invalidDefault: 'Validation error message',
-        invalidEmail: 'Поле "Email" должно содержать только Вашу электронную почту'
-      }
+      isInvalid: false,
+      invalidMessage: 'Поле "Email" должно содержать только Вашу электронную почту'
     }
   },
   watch: {

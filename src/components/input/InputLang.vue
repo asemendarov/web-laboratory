@@ -4,7 +4,9 @@
     <select name="lang" list="lang" placeholder="Язык" v-model="langValue" required>
       <option v-for="lang in langList" :key="lang" :value="lang">{{ lang }}</option>
     </select>
-    <span id="langErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
+    <div class="valid-container">
+      <span id="langErrMsg" class="error" v-if="isInvalid" v-text="invalidMessage"></span>
+    </div>
   </div>
 </template>
 
@@ -14,13 +16,10 @@ export default {
   data() {
     return {
       langValue: 'Русский',
-
       langList: ['Русский', 'Английский', 'Китайский', 'Испанский'],
 
-      errMsg: {
-        invalidDefault: 'Validation error message',
-        invalidLang: 'Язык необходимо выбрать из указанного списка'
-      }
+      isInvalid: false,
+      invalidMessage: 'Язык необходимо выбрать из указанного списка'
     }
   },
   watch: {

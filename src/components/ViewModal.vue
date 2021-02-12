@@ -61,7 +61,7 @@ export default {
 }
 
 .view-modal >>> span {
-  visibility: hidden;
+  visibility: visible;
 }
 /* ------------------------------------------*/
 

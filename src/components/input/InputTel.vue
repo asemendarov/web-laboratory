@@ -9,7 +9,9 @@
       pattern="^[0-9-+\s()]+$"
       required
     />
-    <span id="telErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
+    <div class="valid-container">
+      <span id="telErrMsg" class="error" v-if="isInvalid" v-text="invalidMessage"></span>
+    </div>
   </div>
 </template>
 
@@ -19,12 +21,9 @@ export default {
   data() {
     return {
       telValue: '7 (999) 999-99-99',
-
-      errMsg: {
-        invalidDefault: 'Validation error message',
-        invalidTel:
-          'Поле "Номер телефона" может содержать только 11 цифр, круглые скобки, дефис и знак плюс. Например +7 (123) 456-78-91 или 89997771122'
-      }
+      isInvalid: false,
+      invalidMessage:
+        'Поле "Номер телефона" может содержать только 11 цифр, круглые скобки, дефис и знак плюс. Например +7 (123) 456-78-91 или 89997771122'
     }
   },
   watch: {

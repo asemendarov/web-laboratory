@@ -4,7 +4,9 @@
       <input type="checkbox" name="agreement" v-model="agreChecked" required /> Принимаю
       <a href="*">условия</a> использования
     </label>
-    <span id="agreErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
+    <div class="valid-container">
+      <span id="agreErrMsg" class="error" v-if="isInvalid" v-text="invalidMessage"></span>
+    </div>
   </div>
 </template>
 
@@ -14,11 +16,8 @@ export default {
   data() {
     return {
       agreChecked: true,
-
-      errMsg: {
-        invalidDefault: 'Validation error message',
-        invalidAgre: 'Необходимо принять пользовательское соглашение'
-      }
+      isInvalid: false,
+      invalidMessage: 'Необходимо принять пользовательское соглашение'
     }
   },
   watch: {
