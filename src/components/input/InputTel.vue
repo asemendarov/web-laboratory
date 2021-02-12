@@ -36,11 +36,15 @@ export default {
   watch: {
     inputValue() {
       this.validation()
+      this.emitChange()
     }
   },
   methods: {
     validation() {
       this.isInvalid = !this.regex.test(this.inputValue)
+    },
+    emitChange() {
+      this.$emit('change', this.$data)
     }
   }
 }

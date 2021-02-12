@@ -26,11 +26,15 @@ export default {
   watch: {
     inputValue() {
       this.validation()
+      this.emitChange()
     }
   },
   methods: {
     validation() {
       this.isInvalid = !this.langList.includes(this.inputValue)
+    },
+    emitChange() {
+      this.$emit('change', this.$data)
     }
   }
 }

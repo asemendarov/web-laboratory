@@ -3,11 +3,11 @@
     <h1>Регистрация</h1>
     <p>Уже есть аккаунт? <a href="#">Войти</a></p>
     <form action="#" method="POST" @submit="checkForm">
-      <input-text />
-      <input-email />
-      <input-tel />
-      <input-lang />
-      <input-agreement />
+      <input-text @change="validation" />
+      <input-email @change="validation" />
+      <input-tel @change="validation" />
+      <input-lang @change="validation" />
+      <input-agreement @change="validation" />
 
       <div class="registration">
         <input
@@ -46,8 +46,22 @@ export default {
   },
 
   methods: {
+    validation() {
+      if (this.$children.filter((vue) => vue.$data.isInvalid).length) {
+        this.isDisabledSubmit = true
+      } else {
+        this.isDisabledSubmit = false
+      }
+    },
+
     checkForm(event) {
-      event.preventDefault()
+      this.validation()
+
+      if (this.isDisabledSubmit) {
+        event.preventDefault()
+      }
+
+      event.preventDefault() // remove for production
     }
   }
 }

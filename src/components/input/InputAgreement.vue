@@ -23,11 +23,15 @@ export default {
   watch: {
     inputChecked() {
       this.validation()
+      this.emitChange()
     }
   },
   methods: {
     validation() {
       this.isInvalid = !this.inputChecked
+    },
+    emitChange() {
+      this.$emit('change', this.$data)
     }
   }
 }
