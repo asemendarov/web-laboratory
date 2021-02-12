@@ -13,7 +13,7 @@
       <span
         id="emailErrMsg"
         class="error"
-        v-if="inputValue && isInvalid"
+        v-if="checkValue && !blockErrMsg && inputValue && isInvalid"
         v-text="invalidMessage"
       ></span>
     </div>
@@ -23,13 +23,18 @@
 <script>
 export default {
   props: {
-    value: String
+    value: String,
+    blockErrMsg: Boolean,
+    checkValue: {
+      type: Boolean,
+      default: true
+    }
   },
   name: 'InputEmail',
   data() {
     return {
       inputValue: this.value,
-      isInvalid: true,
+      isInvalid: false,
       invalidMessage: 'Поле "Email" должно содержать только Вашу электронную почту',
 
       regex: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -41,7 +46,7 @@ export default {
   },
   computed: {
     pattern() {
-      return this.regex.toString().slice(1, -1)
+      return this.checkValue ? this.regex.toString().slice(1, -1) : ''
     }
   },
   watch: {
@@ -52,9 +57,13 @@ export default {
   },
   methods: {
     validation() {
+      if (!this.checkValue) return
+
       this.isInvalid = !this.regex.test(this.inputValue)
     },
     emitChange() {
+      if (!this.checkValue) return
+
       this.$emit('change', this.$data)
     }
   }

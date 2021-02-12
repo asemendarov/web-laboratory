@@ -9,7 +9,7 @@
       <span
         id="langErrMsg"
         class="error"
-        v-if="inputValue && isInvalid"
+        v-if="checkValue && !blockErrMsg && inputValue && isInvalid"
         v-text="invalidMessage"
       ></span>
     </div>
@@ -19,7 +19,12 @@
 <script>
 export default {
   props: {
-    value: String
+    value: String,
+    blockErrMsg: Boolean,
+    checkValue: {
+      type: Boolean,
+      default: true
+    }
   },
   name: 'InputLang',
   data() {
@@ -27,7 +32,7 @@ export default {
       langList: ['Русский', 'Английский', 'Китайский', 'Испанский'],
 
       inputValue: this.value,
-      isInvalid: true,
+      isInvalid: false,
       invalidMessage: 'Язык необходимо выбрать из указанного списка'
     }
   },
@@ -43,9 +48,13 @@ export default {
   },
   methods: {
     validation() {
+      if (!this.checkValue) return
+
       this.isInvalid = !this.langList.includes(this.inputValue)
     },
     emitChange() {
+      if (!this.checkValue) return
+
       this.$emit('change', this.$data)
     }
   }

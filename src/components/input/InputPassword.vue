@@ -1,17 +1,17 @@
 <template>
-  <div class="tel">
-    <label for="tel">Номер телефона</label>
+  <div class="password">
+    <label for="password">Пароль</label>
     <input
-      type="tel"
-      name="tel"
-      placeholder="Введите номер телефона"
+      type="password"
+      name="password"
+      placeholder="Введите Ваше имя"
       v-model="inputValue"
       :pattern="pattern"
       required
     />
     <div class="valid-container">
       <span
-        id="telErrMsg"
+        id="passwordErrMsg"
         class="error"
         v-if="checkValue && !blockErrMsg && inputValue && isInvalid"
         v-text="invalidMessage"
@@ -30,15 +30,14 @@ export default {
       default: true
     }
   },
-  name: 'InputTel',
+  name: 'InputText',
   data() {
     return {
       inputValue: this.value,
       isInvalid: false,
-      invalidMessage:
-        'Поле "Номер телефона" может содержать только 11 цифр, круглые скобки, дефис и знак плюс. Например +7 (123) 456-78-91 или 89997771122',
+      invalidMessage: `1. Цифра должна встречаться хотя бы один раз. 2. Cтрочная буква должна встречаться хотя бы один раз${'\n'}3. Заглавная буква должна встречаться хотя бы один раз${'\n'}4. Cпециальный символ должен встречаться хотя бы один раз${'\n'}5. Во всей строке не допускаются пробелы ${'\n'}6. Минимальное кол-во символов - 8`,
 
-      regex: /^[0-9-+\s()]+$/
+      regex: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$/
     }
   },
   mounted() {

@@ -8,7 +8,7 @@
       <span
         id="agreErrMsg"
         class="error"
-        v-if="stopper && isInvalid"
+        v-if="!blockErrMsg && isInvalid"
         v-text="invalidMessage"
       ></span>
     </div>
@@ -24,10 +24,10 @@ export default {
   data() {
     return {
       inputChecked: this.checked,
-      isInvalid: true,
+      isInvalid: false,
       invalidMessage: 'Необходимо принять пользовательское соглашение',
 
-      stopper: false // Отключает сообщение об ошибке валидации, но не ломает логику
+      blockErrMsg: true
     }
   },
   watch: {

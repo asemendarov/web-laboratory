@@ -1,10 +1,10 @@
 <template>
-  <div class="view-modal">
+  <div class="form-registration">
     <h1>Регистрация</h1>
-    <p>Уже есть аккаунт? <a href="#">Войти</a></p>
+    <p>Уже есть аккаунт? <router-link :to="{ name: 'FormAuthorization' }">Войти</router-link></p>
     <form action="#" method="POST" @submit="checkForm">
       <input-text :value="valueName" @change="validation" />
-      <input-email :value="valueEmail" @change="validation" />
+      <input-email v-model="valueEmail" @change="validation" />
       <input-tel :value="valueTel" @change="validation" />
       <input-lang :value="valueLang" @change="validation" />
       <input-agreement :checked="checkedAgreement" @change="validation" />
@@ -22,24 +22,25 @@
 </template>
 
 <script>
-import InputText from './input/InputText.vue'
-import InputEmail from './input/InputEmail.vue'
-import InputTel from './input/InputTel.vue'
-import InputLang from './input/InputLang.vue'
-import InputAgreement from './input/InputAgreement.vue'
+import InputText from '@/components/input/InputText'
+import InputEmail from '@/components/input/InputEmail'
+import InputTel from '@/components/input/InputTel'
+import InputLang from '@/components/input/InputLang'
+import InputAgreement from '@/components/input/InputAgreement'
 
 export default {
-  name: 'ViewModal',
+  props: {
+    valueName: String,
+    valueEmail: String,
+    valueTel: String,
+    valueLang: String,
+    checkedAgreement: Boolean
+  },
+  name: 'FormRegistration',
   components: { InputText, InputEmail, InputTel, InputLang, InputAgreement },
+
   data() {
     return {
-      // options for debugging
-      valueName: '',
-      valueEmail: '',
-      valueTel: '',
-      valueLang: '',
-      checkedAgreement: false,
-
       isDisabledSubmit: false
     }
   },
@@ -81,15 +82,14 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 /* --------------- Debug CSS ---------------*/
-.view-modal >>> * {
+.form-registration >>> * {
   /* border: 1px solid black; */
 }
 /* ------------------------------------------*/
 
-.view-modal {
+.form-registration {
   padding: 40px 30px;
   margin: auto;
 
@@ -104,14 +104,14 @@ export default {
   -webkit-box-shadow: 0px 12px 24px rgba(44, 39, 56, 0.02), 0px 32px 64px rgba(44, 39, 56, 0.04);
 }
 
-.view-modal > h1 {
+.form-registration > h1 {
   font-size: 34px;
   line-height: 44px;
 
   margin-bottom: 8px;
 }
 
-.view-modal > p {
+.form-registration > p {
   margin-bottom: 56px;
 
   line-height: 22px;
@@ -140,7 +140,7 @@ input[type='submit']:focus {
   border: 2px solid #dbe2ea;
 }
 
-input[name='registration']:disabled {
+input[type='submit']:disabled {
   background: #dbe2ea;
 }
 </style>
