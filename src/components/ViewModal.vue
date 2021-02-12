@@ -3,67 +3,18 @@
     <h1>Регистрация</h1>
     <p>Уже есть аккаунт? <a href="#">Войти</a></p>
     <form action="#" method="POST" @submit="checkForm">
-      <div class="text">
-        <label for="name">Имя</label>
-        <input
-          type="text"
-          name="name"
-          placeholder="Введите Ваше имя"
-          v-model="nameValue"
-          pattern="^([a-zA-Zа-яА-Я']+[-\s]?)+$"
-          required
-        />
-        <span id="nameErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
-      </div>
-
-      <div class="email">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          name="email"
-          placeholder="Введите ваш email"
-          v-model="emailValue"
-          pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
-          required
-        />
-        <span id="emailErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
-      </div>
-
-      <div class="tel">
-        <label for="tel">Номер телефона</label>
-        <input
-          type="tel"
-          name="tel"
-          placeholder="Введите номер телефона"
-          v-model="telValue"
-          pattern="^[0-9-+\s()]+$"
-          required
-        />
-        <span id="telErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
-      </div>
-
-      <div class="lang">
-        <label for="lang">Язык</label>
-        <select name="lang" list="lang" placeholder="Язык" v-model="langValue" required>
-          <option v-for="lang in langList" :key="lang" :value="lang">{{ lang }}</option>
-        </select>
-        <span id="langErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
-      </div>
-
-      <div class="agreement">
-        <label for="agreement">
-          <input type="checkbox" name="agreement" v-model="agreChecked" required /> Принимаю
-          <a href="*">условия</a> использования
-        </label>
-        <span id="agreErrMsg" class="error">{{ errMsg.invalidDefault }}</span>
-      </div>
+      <input-text />
+      <input-email />
+      <input-tel />
+      <input-lang />
+      <input-agreement />
 
       <div class="registration">
         <input
           type="submit"
           name="registration"
           value="Зарегистрироваться"
-          :disabled="regDisabled"
+          :disabled="isDisabledSubmit"
         />
       </div>
     </form>
@@ -71,28 +22,18 @@
 </template>
 
 <script>
+import InputText from './input/InputText.vue'
+import InputEmail from './input/InputEmail.vue'
+import InputTel from './input/InputTel.vue'
+import InputLang from './input/InputLang.vue'
+import InputAgreement from './input/InputAgreement.vue'
+
 export default {
   name: 'ViewModal',
+  components: { InputText, InputEmail, InputTel, InputLang, InputAgreement },
   data() {
     return {
-      nameValue: 'qwe',
-      emailValue: 'q@q',
-      telValue: '7 (999) 999-99-99',
-      langValue: 'Русский',
-      agreChecked: true,
-      regDisabled: false,
-
-      langList: ['Русский', 'Английский', 'Китайский', 'Испанский'],
-
-      errMsg: {
-        invalidDefault: 'Validation error message',
-        invalidName: 'Поле "Имя" не может содержать цифры и символы кроме пробела и дефиса',
-        invalidEmail: 'Поле "Email" должно содержать только Вашу электронную почту',
-        invalidTel:
-          'Поле "Номер телефона" может содержать только 11 цифр, круглые скобки, дефис и знак плюс. Например +7 (123) 456-78-91 или 89997771122',
-        invalidLang: '',
-        invalidAgre: ''
-      }
+      isDisabledSubmit: false
     }
   },
 
@@ -101,51 +42,11 @@ export default {
   },
 
   watch: {
-    nameValue(newName, oldName) {
-      this.validationNameValue(newName)
-    },
-    emailValue(newEmail, oldEmail) {
-      this.validationEmailValue(newEmail)
-    },
-    telValue(newTel, oldTel) {
-      this.validationTelValue(newTel)
-    },
-    langValue(newLang, oldLang) {
-      this.validationLangValue(newLang)
-    },
-    agreChecked(newAgre, oldAgre) {
-      this.validationAgreChecked(newAgre)
-    }
+    // pass
   },
 
   methods: {
-    validationNameValue(nameValue) {
-      // const nameRegExp = /^([a-zA-Zа-яА-Я']+[-\s]?)+$/
-      // return (this.regDisabled = !nameRegExp.test(this.nameValue)) // переделать
-    },
-    validationEmailValue(emailValue) {
-      // const emailRegExp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      // return (this.regDisabled = !emailRegExp.test(this.emailValue)) // переделать
-    },
-    validationTelValue(telValue) {
-      // const telRegExp = /^[0-9-+\s()]+$/
-      // return (this.regDisabled = !telRegExp.test(this.telValue)) // переделать
-    },
-    validationLangValue(langValue) {
-      // return (this.regDisabled = !this.langList.includes(langValue)) // переделать
-    },
-    validationAgreChecked(agreChecked) {
-      // return (this.regDisabled = !this.agreChecked)
-    },
-
     checkForm(event) {
-      // необходимо доделать реализацию
-      this.validationNameValue(this.nameValue)
-      this.validationEmailValue(this.emailValue)
-      this.validationTelValue(this.telValue)
-      this.validationLangValue(this.langValue)
-      this.validationAgreChecked(this.agreChecked)
-
       event.preventDefault()
     }
   }
@@ -155,11 +56,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 /* --------------- Debug CSS ---------------*/
-.view-modal * {
+.view-modal >>> * {
   /* border: 1px solid black; */
 }
 
-span {
+.view-modal >>> span {
   visibility: hidden;
 }
 /* ------------------------------------------*/
@@ -168,16 +69,15 @@ span {
   padding: 40px 30px;
   margin: auto;
 
-  min-height: 789px;
   width: 460px;
   max-width: 460px;
+  min-height: 789px;
 
-  background: #c4c4c4;
-  -webkit-box-shadow: 0px 12px 24px rgba(44, 39, 56, 0.02), 0px 32px 64px rgba(44, 39, 56, 0.04);
-  box-shadow: 0px 12px 24px rgba(44, 39, 56, 0.02), 0px 32px 64px rgba(44, 39, 56, 0.04);
   border-radius: 24px;
 
-  background-color: #ffffff;
+  background: #ffffff;
+  box-shadow: 0px 12px 24px rgba(44, 39, 56, 0.02), 0px 32px 64px rgba(44, 39, 56, 0.04);
+  -webkit-box-shadow: 0px 12px 24px rgba(44, 39, 56, 0.02), 0px 32px 64px rgba(44, 39, 56, 0.04);
 }
 
 .view-modal > h1 {
@@ -188,19 +88,9 @@ span {
 }
 
 .view-modal > p {
-  line-height: 22px;
-
   margin-bottom: 56px;
-}
 
-label {
-  display: block;
-
-  margin-bottom: 7px;
-}
-
-label[for='agreement'] {
-  margin-bottom: 0;
+  line-height: 22px;
 }
 
 a {
@@ -208,68 +98,25 @@ a {
   color: #0880ae;
 }
 
-span[class='error'] {
-  display: block;
+input[type='submit'] {
+  padding: 16px;
 
-  margin: 8px 0;
-
-  font-size: 14px;
-  line-height: 18px;
-
-  color: #ff7171;
-}
-
-input,
-select {
-  height: 52px;
+  height: 57px;
   width: 100%;
 
-  background: #ffffff;
   border: 1px solid #dbe2ea;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-box-shadow: 0px 4px 8px rgba(44, 39, 56, 0.04);
-  box-shadow: 0px 4px 8px rgba(44, 39, 56, 0.04);
   border-radius: 6px;
 
-  padding: 16px;
+  background: #0880ae;
+  box-shadow: 0px 2px 4px rgba(44, 39, 56, 0.08), 0px 4px 8px rgba(44, 39, 56, 0.08);
+  -webkit-box-shadow: 0px 2px 4px rgba(44, 39, 56, 0.08), 0px 4px 8px rgba(44, 39, 56, 0.08);
 }
 
-input:focus,
-select:focus {
+input[type='submit']:focus {
   border: 2px solid #dbe2ea;
 }
 
-input[name='agreement'] {
-  height: 24px;
-  width: 24px;
-
-  vertical-align: bottom;
-
-  margin: 0px;
-  padding: 0px;
-}
-
-input[name='registration'] {
-  height: 57px;
-
-  background: #0880ae;
-  -webkit-box-shadow: 0px 2px 4px rgba(44, 39, 56, 0.08), 0px 4px 8px rgba(44, 39, 56, 0.08);
-  box-shadow: 0px 2px 4px rgba(44, 39, 56, 0.08), 0px 4px 8px rgba(44, 39, 56, 0.08);
-  border-radius: 6px;
-
-  margin: 0;
-}
-
-/* input[name='registration']:disabled {
+input[name='registration']:disabled {
   background: #dbe2ea;
 }
-
-input:valid:not(:placeholder-shown) + span[class='error'] {
-  visibility: hidden;
-}
-
-input:invalid:not(:placeholder-shown) + span[class='error'] {
-  visibility: visible;
-} */
 </style>

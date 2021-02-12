@@ -14,25 +14,25 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap');
 
 * {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }
 
 html,
 body {
   height: 100%;
 
+  display: flex;
+  display: -ms-flexbox;
   display: -webkit-box;
 
-  display: -ms-flexbox;
-
-  display: flex;
+  flex-direction: column;
+  -ms-flex-direction: column;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
 
   font-family: 'IBM Plex Sans', sans-serif;
   font-style: normal;
@@ -42,14 +42,14 @@ body {
 }
 
 #app {
-  /* flex item */
-  -webkit-box-flex: 1;
-  -ms-flex: 1 0 auto;
   flex: 1 0 auto;
-  background-color: #222;
+  -ms-flex: 1 0 auto;
+  -webkit-box-flex: 1;
 
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
+  display: -ms-flexbox;
+  display: -webkit-box;
+
+  background-color: #222;
 }
 </style>
