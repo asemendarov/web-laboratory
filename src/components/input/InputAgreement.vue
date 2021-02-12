@@ -1,7 +1,7 @@
 <template>
   <div class="agreement">
     <label for="agreement">
-      <input type="checkbox" name="agreement" v-model="agreChecked" required /> Принимаю
+      <input type="checkbox" name="agreement" v-model="inputChecked" required /> Принимаю
       <a href="*">условия</a> использования
     </label>
     <div class="valid-container">
@@ -15,19 +15,19 @@ export default {
   name: 'InputText',
   data() {
     return {
-      agreChecked: true,
+      inputChecked: true,
       isInvalid: false,
       invalidMessage: 'Необходимо принять пользовательское соглашение'
     }
   },
   watch: {
-    agreChecked(newAgre, oldAgre) {
-      this.validationAgreChecked(newAgre)
+    inputChecked() {
+      this.validation()
     }
   },
   methods: {
-    validationAgreChecked(agreChecked) {
-      // return (this.regDisabled = !this.agreChecked)
+    validation() {
+      this.isInvalid = !this.inputChecked
     }
   }
 }

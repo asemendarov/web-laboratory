@@ -5,8 +5,8 @@
       type="text"
       name="name"
       placeholder="Введите Ваше имя"
-      v-model="nameValue"
-      pattern="^([a-zA-Zа-яА-Я']+[-\s]?)+$"
+      v-model="inputValue"
+      :pattern="pattern"
       required
     />
     <div class="valid-container">
@@ -20,20 +20,26 @@ export default {
   name: 'InputText',
   data() {
     return {
-      nameValue: 'qwe',
+      inputValue: 'qwe',
       isInvalid: false,
-      invalidMessage: 'Поле "Имя" не может содержать цифры и символы кроме пробела и дефиса'
+      invalidMessage: 'Поле "Имя" не может содержать цифры и символы кроме пробела и дефиса',
+
+      regex: /^([a-zA-Zа-яА-Я']+[-\s]?)+$/
+    }
+  },
+  computed: {
+    pattern() {
+      return this.regex.toString().slice(1, -1)
     }
   },
   watch: {
-    nameValue(newName, oldName) {
-      this.validationNameValue(newName)
+    inputValue() {
+      this.validation()
     }
   },
   methods: {
-    validationNameValue(nameValue) {
-      // const nameRegExp = /^([a-zA-Zа-яА-Я']+[-\s]?)+$/
-      // return (this.regDisabled = !nameRegExp.test(this.nameValue)) // переделать
+    validation() {
+      this.isInvalid = !this.regex.test(this.inputValue)
     }
   }
 }

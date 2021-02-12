@@ -5,8 +5,8 @@
       type="email"
       name="email"
       placeholder="Введите ваш email"
-      v-model="emailValue"
-      pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+      v-model="inputValue"
+      :pattern="pattern"
       required
     />
     <div class="valid-container">
@@ -20,20 +20,26 @@ export default {
   name: 'InputEmail',
   data() {
     return {
-      emailValue: 'q@q',
+      inputValue: 'q@q',
       isInvalid: false,
-      invalidMessage: 'Поле "Email" должно содержать только Вашу электронную почту'
+      invalidMessage: 'Поле "Email" должно содержать только Вашу электронную почту',
+
+      regex: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+    }
+  },
+  computed: {
+    pattern() {
+      return this.regex.toString().slice(1, -1)
     }
   },
   watch: {
-    emailValue(newEmail, oldEmail) {
-      this.validationEmailValue(newEmail)
+    inputValue() {
+      this.validation()
     }
   },
   methods: {
-    validationEmailValue(emailValue) {
-      // const emailRegExp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      // return (this.regDisabled = !emailRegExp.test(this.emailValue)) // переделать
+    validation() {
+      this.isInvalid = !this.regex.test(this.inputValue)
     }
   }
 }

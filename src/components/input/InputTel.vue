@@ -5,8 +5,8 @@
       type="tel"
       name="tel"
       placeholder="Введите номер телефона"
-      v-model="telValue"
-      pattern="^[0-9-+\s()]+$"
+      v-model="inputValue"
+      :pattern="pattern"
       required
     />
     <div class="valid-container">
@@ -20,21 +20,27 @@ export default {
   name: 'InputTel',
   data() {
     return {
-      telValue: '7 (999) 999-99-99',
+      inputValue: '7 (999) 999-99-99',
       isInvalid: false,
       invalidMessage:
-        'Поле "Номер телефона" может содержать только 11 цифр, круглые скобки, дефис и знак плюс. Например +7 (123) 456-78-91 или 89997771122'
+        'Поле "Номер телефона" может содержать только 11 цифр, круглые скобки, дефис и знак плюс. Например +7 (123) 456-78-91 или 89997771122',
+
+      regex: /^[0-9-+\s()]+$/
+    }
+  },
+  computed: {
+    pattern() {
+      return this.regex.toString().slice(1, -1)
     }
   },
   watch: {
-    telValue(newTel, oldTel) {
-      this.validationTelValue(newTel)
+    inputValue() {
+      this.validation()
     }
   },
   methods: {
-    validationTelValue(telValue) {
-      // const telRegExp = /^[0-9-+\s()]+$/
-      // return (this.regDisabled = !telRegExp.test(this.telValue)) // переделать
+    validation() {
+      this.isInvalid = !this.regex.test(this.inputValue)
     }
   }
 }

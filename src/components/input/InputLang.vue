@@ -1,9 +1,10 @@
 <template>
   <div class="lang">
     <label for="lang">Язык</label>
-    <select name="lang" list="lang" placeholder="Язык" v-model="langValue" required>
+    <input name="lang" list="lang" placeholder="Язык" v-model="inputValue" required />
+    <datalist id="lang">
       <option v-for="lang in langList" :key="lang" :value="lang">{{ lang }}</option>
-    </select>
+    </datalist>
     <div class="valid-container">
       <span id="langErrMsg" class="error" v-if="isInvalid" v-text="invalidMessage"></span>
     </div>
@@ -15,21 +16,21 @@ export default {
   name: 'InputLang',
   data() {
     return {
-      langValue: 'Русский',
       langList: ['Русский', 'Английский', 'Китайский', 'Испанский'],
 
+      inputValue: 'Русский',
       isInvalid: false,
       invalidMessage: 'Язык необходимо выбрать из указанного списка'
     }
   },
   watch: {
-    langValue(newLang, oldLang) {
-      this.validationLangValue(newLang)
+    inputValue() {
+      this.validation()
     }
   },
   methods: {
-    validationLangValue(langValue) {
-      // return (this.regDisabled = !this.langList.includes(langValue)) // переделать
+    validation() {
+      this.isInvalid = !this.langList.includes(this.inputValue)
     }
   }
 }
