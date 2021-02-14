@@ -1,10 +1,13 @@
 <template>
-  <div id="traffic-light">
+  <div class="traffic-light">
     <h1>Светофор</h1>
     <span v-text="spanText"></span>
-    <signal-lens name="red" color="red" default />
-    <signal-lens name="yellow" color="yellow" />
-    <signal-lens name="green" color="green" />
+    <signal-lens
+      v-for="(options, key) in optionsList"
+      :key="key"
+      v-bind="options"
+      @redirect="handlerRedirect"
+    />
   </div>
 </template>
 
@@ -16,13 +19,37 @@ export default {
   name: 'TrafficLight',
   data() {
     return {
+      optionsList: [
+        {
+          name: 'red',
+          whom: 'yellow',
+          color: 'red',
+          default: 'default'
+        },
+        {
+          name: 'yellow',
+          whom: 'green',
+          color: 'yellow'
+        },
+        {
+          name: 'green',
+          whom: 'red',
+          color: 'green'
+        }
+      ],
+
+      UUIDv4: new Map(), // debug param
+
       signalLensArrey: [],
       spanText: '...'
     }
   },
   watch: {
+    /* Предварительная проверка запрашиваемого компонента */
     $route(to, from) {
-      this.routeСontrol(to, from)
+      if (this.routeСontrol(to, from)) {
+        // pass
+      }
     }
   },
   mounted() {
@@ -34,15 +61,22 @@ export default {
         this.signalLensArrey.push(vue)
       })
 
-    this.routeСontrol(this.$route)
+    /* Предварительная проверка запрашиваемого компонента */
+    if (this.routeСontrol(this.$route)) {
+      const currentSignalLens = this.signalLensArrey.find(
+        (lens) => lens.name === this.$route.params.name
+      )
 
-    console.log()
+      currentSignalLens.startSignalLens()
+    }
   },
+
   methods: {
     routeСontrol(to, from) {
       if (this.signalLensArrey.some((lens) => lens.name === to.params.name)) {
         /* Действия при совпадении /:name с одним из компонентов SignalLens */
-        // pass
+
+        return true
       } else {
         /* Действия при отсутствии совпадения /:name с одним из компонентов SignalLens */
 
@@ -57,13 +91,27 @@ export default {
           params: { name: defaultLens.name }
         })
       }
+    },
+
+    handlerRedirect(event) {
+      // Перехватывает события
+    },
+
+    startTrafficLight() {
+      // pass
+    },
+
+    formatTime(ms) {
+      if (!ms || ms <= 0) return '0:000'
+
+      return `${~~(ms / 1000)}:${ms % 1000}`
     }
   }
 }
 </script>
 
 <style scoped>
-#traffic-light {
+.traffic-light {
   margin: auto;
   padding: 20px;
   width: 250px;
@@ -71,10 +119,10 @@ export default {
   border: 2px solid #eeeeee;
   border-radius: 30px;
 }
-#traffic-light > h1 {
+.traffic-light > h1 {
   text-align: center;
 }
-#traffic-light > span {
+.traffic-light > span {
   display: block;
   text-align: center;
   padding-bottom: 10px;
