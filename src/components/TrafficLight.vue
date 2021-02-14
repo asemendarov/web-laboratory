@@ -19,8 +19,6 @@ export default {
   name: 'TrafficLight',
   data() {
     return {
-      UUIDv4: new Map(), // debug param
-
       signalLensArrey: [],
       optionsList: [
         {
@@ -55,19 +53,6 @@ export default {
       if (this.routeСontrol(to, from)) {
         this.startTrafficLight()
       }
-    },
-
-    // debug watch
-    idInterval(newId, oldId) {
-      if (oldId && this.UUIDv4.has(oldId)) {
-        this.UUIDv4.delete(oldId)
-      }
-      this.UUIDv4.set(newId, this.uuidv4())
-      console.log(
-        `UUIDv4:\t${this.UUIDv4.get(newId)}\tsize: ${
-          this.UUIDv4.size
-        }\tnew: ${newId}, old: ${oldId}`
-      )
     }
   },
   mounted() {
@@ -108,10 +93,6 @@ export default {
     },
 
     startTrafficLight() {
-      this.startClockGenerator()
-    },
-
-    startClockGenerator() {
       if (this.idInterval) {
         clearInterval(this.idInterval)
       }
@@ -151,15 +132,6 @@ export default {
       if (!ms || ms <= 0) return '0:000'
 
       return `${~~(ms / 1000)}:${ms % 1000}`
-    },
-
-    // debug function
-    uuidv4() {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-        const r = (Math.random() * 16) | 0
-        const v = c === 'x' ? r : (r & 0x3) | 0x8
-        return v.toString(16)
-      })
     }
   }
 }
