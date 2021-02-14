@@ -1,5 +1,5 @@
 <template>
-  <div class="signal-lens" @click.stop="signalLensClick" :style="style">
+  <div class="signal-lens" @click.stop="emitRedirect(name)" :style="style">
     <slot>
       <!-- pass -->
     </slot>
@@ -41,10 +41,7 @@ export default {
       opacity: 0.2,
       stretchFlicker: 500,
 
-      idInterval: null,
-      endTimeOperation: null,
-
-      stepUpdate: 100
+      leftTime: null
     }
   },
   computed: {
@@ -55,37 +52,27 @@ export default {
       }
     }
   },
+  watch: {
+    $route() {
+      this.opacity = 0.2
+    }
+  },
   methods: {
-    async startSignalLens() {
-      this.opacity = 1
+    updatedСondition(startTimeOperation) {
+      this.leftTime = this.delay - (new Date() - startTimeOperation)
 
-      this.startTimer().then(() => this._redirect(this.whom))
-    },
+      this.calcFlicker(this.leftTime)
 
-    async startTimer() {
-      if (this.idInterval) {
-        clearInterval(this.idInterval)
-        this.endTimeOperation = null
+      if (this.leftTime <= 0) {
+        this.emitRedirect(this.whom)
       }
-
-      const currentTime = new Date()
-
-      return new Promise((resolve, reject) => {
-        this.idInterval = setInterval(() => {
-          this.endTimeOperation = this.delay - (new Date() - currentTime)
-
-          this.calcFlicker(this.endTimeOperation)
-
-          if (this.endTimeOperation <= 0) {
-            clearInterval(this.idInterval)
-            resolve()
-          }
-        }, this.stepUpdate)
-      })
     },
 
-    async calcFlicker(time) {
-      if (time > this.flicker) return
+    calcFlicker(time) {
+      if (time > this.flicker) {
+        this.opacity = 1
+        return
+      }
 
       if (~~((time + time / this.stretchFlicker) / this.stretchFlicker) % 2) {
         this.opacity = 1
@@ -94,21 +81,8 @@ export default {
       }
     },
 
-    _redirect(toName, ...param) {
-      if (this.$route.params.name === toName) return
-
-      clearInterval(this.idInterval)
-
-      this.$emit('redirect', ...param)
-
-      this.$router.push({
-        name: this.$router.currentRoute.name,
-        params: { name: toName }
-      })
-    },
-
-    signalLensClick() {
-      this._redirect(this.name)
+    emitRedirect(toName) {
+      this.$emit('redirect', toName)
     }
   }
 }
