@@ -2,12 +2,9 @@
   <div class="traffic-light">
     <h1>Светофор</h1>
     <span v-text="textTime"></span>
-    <signal-lens
-      v-for="(options, key) in optionsList"
-      :key="key"
-      v-bind="options"
-      @redirect="redirect"
-    />
+    <signal-lens name="red" whom="yellow" color="red" :delay="10000" default @redirect="redirect" />
+    <signal-lens name="yellow" whom="green" color="yellow" :delay="3000" @redirect="redirect" />
+    <signal-lens name="green" whom="red" color="green" :delay="15000" @redirect="redirect" />
   </div>
 </template>
 
@@ -20,27 +17,6 @@ export default {
   data() {
     return {
       signalLensArrey: [],
-      optionsList: [
-        {
-          name: 'red',
-          whom: 'yellow',
-          color: 'red',
-          delay: 10000,
-          default: 'default'
-        },
-        {
-          name: 'yellow',
-          whom: 'green',
-          delay: 3000,
-          color: 'yellow'
-        },
-        {
-          name: 'green',
-          whom: 'red',
-          delay: 15000,
-          color: 'green'
-        }
-      ],
 
       idInterval: null,
       stepUpdate: 100,
@@ -78,10 +54,12 @@ export default {
   },
 
   methods: {
+    // Обработчик события перезагрузки станицы
     beforeWindowUnload(event) {
       this.savePassedTimeOperation()
     },
 
+    // Сохраняет прошедшее время, затраченное на обработку операции
     savePassedTimeOperation() {
       if (!this.startTimeOperation) return
 
@@ -91,6 +69,7 @@ export default {
       )
     },
 
+    // Загружает прошедшее время, затраченное на обработку операции
     loadPassedTimeOperation() {
       const time = window.sessionStorage.getItem(`${this.$options._scopeId}-passedTime`)
 
@@ -100,6 +79,7 @@ export default {
       // window.sessionStorage.removeItem(`${this.$options._scopeId}-passedTime`)
     },
 
+    // Запускает сигнальную линзу у светофора в соответствии с маршрутом
     startTrafficLight() {
       if (this.idInterval) {
         clearInterval(this.idInterval)
@@ -117,6 +97,7 @@ export default {
       }, this.stepUpdate)
     },
 
+    // Проверка маршрута со списком зарегистрированных сигнальных линз
     routeСontrol(to, from) {
       if (!this.signalLensArrey.length) {
         throw new Error('В компоненте TrafficLight должен быть хотя бы один SignalLens')
@@ -142,6 +123,7 @@ export default {
       }
     },
 
+    // Обрабатывает запросы сигнальных линз на перенаправление
     redirect(toName) {
       if (this.$route.params.name === toName) return
 
@@ -153,6 +135,7 @@ export default {
       })
     },
 
+    // Форматирует время
     formatTime(ms) {
       if (!ms || ms <= 0) return '0:000'
 

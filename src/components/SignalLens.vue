@@ -62,6 +62,7 @@ export default {
     }
   },
   methods: {
+    // Обновляет состояние сигнальной линзы
     updatedСondition(startTimeOperation) {
       const leftTime = this.delay - (new Date() - startTimeOperation)
 
@@ -74,6 +75,7 @@ export default {
       return leftTime
     },
 
+    // Просчитывает должна ли в определенный момент времени линза гореть или нет
     async calcFlicker(time) {
       if (time > this.flicker) {
         this.opacity = 1
@@ -87,6 +89,7 @@ export default {
       }
     },
 
+    // Отправляет запрос на переадресацию
     async emitRedirect(toName) {
       this.$emit('redirect', toName)
     }
