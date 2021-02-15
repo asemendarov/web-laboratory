@@ -27,21 +27,25 @@ export default {
     /* Общее время, которое сигнальная линза должна гореть (в миллисекундах) */
     delay: {
       type: Number,
-      default: 3000 // Необходима валидация
+      default: 3000,
+      validator(value) {
+        return value >= 0
+      }
     },
     /* Время, которое линза должна мерцать (в миллисекундах) */
     flicker: {
       type: Number,
-      default: 3000 // Необходима валидация
+      default: 3000,
+      validator(value) {
+        return value >= 0
+      }
     }
   },
   name: 'SignalLens',
   data() {
     return {
       opacity: 0.2,
-      stretchFlicker: 500,
-
-      leftTime: null
+      stretchFlicker: 500
     }
   },
   computed: {
@@ -59,16 +63,18 @@ export default {
   },
   methods: {
     updatedСondition(startTimeOperation) {
-      this.leftTime = this.delay - (new Date() - startTimeOperation)
+      const leftTime = this.delay - (new Date() - startTimeOperation)
 
-      this.calcFlicker(this.leftTime)
+      this.calcFlicker(leftTime)
 
-      if (this.leftTime <= 0) {
+      if (leftTime <= 0) {
         this.emitRedirect(this.whom)
       }
+
+      return leftTime
     },
 
-    calcFlicker(time) {
+    async calcFlicker(time) {
       if (time > this.flicker) {
         this.opacity = 1
         return
@@ -81,7 +87,7 @@ export default {
       }
     },
 
-    emitRedirect(toName) {
+    async emitRedirect(toName) {
       this.$emit('redirect', toName)
     }
   }
