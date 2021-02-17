@@ -1,25 +1,27 @@
 <template>
   <div class="homepage">
-    <div class="first-screen-container">
-      <address class="main-address">
-        <router-link class="link location" to="">Новокузнечный переулок 4/1</router-link>
-        <router-link class="link tel" to="tel://8-945-000-00-00">8-945-000-00-00</router-link>
-      </address>
-      <nav class="main-menu">
-        <router-link class="link" to="">Каталог</router-link>
-        <router-link class="link" to="">Доставка</router-link>
-        <router-link class="link" to="">Коллекции</router-link>
-        <router-link class="link" to="">Контакты</router-link>
-      </nav>
-      <div class="buttons">
-        <router-link class="link" to="">Винная карта</router-link>
-        <div class="separator"></div>
-        <router-link class="link" to="">Дегустация</router-link>
+    <div class="screen first-screen">
+      <div class="screen-box">
+        <address class="main-address">
+          <router-link class="link location" to="">Новокузнечный переулок 4/1</router-link>
+          <router-link class="link tel" to="tel://8-945-000-00-00">8-945-000-00-00</router-link>
+        </address>
+        <nav class="main-menu">
+          <router-link class="link" to="">Каталог</router-link>
+          <router-link class="link" to="">Доставка</router-link>
+          <router-link class="link" to="">Коллекции</router-link>
+          <router-link class="link" to="">Контакты</router-link>
+        </nav>
+        <div class="buttons">
+          <router-link class="link button" to="">Винная карта</router-link>
+          <div class="separator"></div>
+          <router-link class="link button" to="">Дегустация</router-link>
+        </div>
       </div>
     </div>
 
-    <div class="text-container">
-      <div class="content-box">
+    <div class="screen second-screen">
+      <div class="screen-box">
         <h1 class="aligncenter">Лучший вкус, это вкус долголетнего вина</h1>
         <hr />
         <p class="aligncenter">
@@ -33,6 +35,54 @@
           risus. Pellentesque scelerisque nunc, orci aliquam quis.
         </p>
         <p class="aligncenter"><img src="@/assets/wineglass.png" alt="Бокал вина" /></p>
+      </div>
+    </div>
+
+    <div class="screen third-screen">
+      <div class="screen-box">
+        <div class="left-box">
+          <p>Новинки коллекций</p>
+          <h1>Март 1980 Урожай Марселя</h1>
+          <hr />
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat enim tortor in hac id
+            imperdiet adipiscing. Pellentesque nisi, mi sit non sit sed fermentum. Felis adipiscing
+            morbi sodales ac.
+          </p>
+          <table>
+            <tr>
+              <td>1980</td>
+              <td>
+                <h3>Colli Euganei Bianco Ca' Lustra 1980</h3>
+                <p>Красочная бутылка вина из Марселя</p>
+              </td>
+            </tr>
+            <tr>
+              <td>1980</td>
+              <td>
+                <h3>Colli Euganei Bianco Ca' Lustra 1980</h3>
+                <p>Красочная бутылка вина из Марселя</p>
+              </td>
+            </tr>
+            <tr>
+              <td>1980</td>
+              <td>
+                <h3>Colli Euganei Bianco Ca' Lustra 1980</h3>
+                <p>Красочная бутылка вина из Марселя</p>
+              </td>
+            </tr>
+          </table>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat enim tortor in hac id
+            imperdiet adipiscing. Pellentesque nisi, mi sit non sit sed fermentum. Felis adipiscing
+            morbi sodales ac.
+          </p>
+          <router-link class="link button" to="">Узнать подробнее</router-link>
+        </div>
+        <div class="separator"></div>
+        <div class="right-box">
+          <p class="aligncenter"><img src="@/assets/rectangle11.png" alt="Бокал вина" /></p>
+        </div>
       </div>
     </div>
   </div>
@@ -54,26 +104,29 @@ export default {
   height: inherit;
 }
 
-.first-screen-container {
+.screen {
   margin: 0 auto;
+  max-width: 1920px;
+}
+
+.screen-box {
+  margin: inherit;
+  max-width: 1110px;
+}
+
+.first-screen {
   padding-top: 10px;
 
-  max-width: 1920px;
   min-height: 900px;
 
   background: linear-gradient(180deg, #282828 0%, rgba(40, 40, 40, 0) 100%),
     url('~@/assets/bgc.jpg'), #ededed;
 }
 
-address {
-  font-style: inherit;
-}
-
 .main-address {
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  max-width: 1110px;
 }
 
 .main-address > .location,
@@ -100,17 +153,19 @@ address {
 
   display: flex;
 
-  max-width: 415px;
+  max-width: 430px;
 }
 
-.buttons > .link {
-  padding: 15px 15px;
-
-  flex: 1;
+.button {
+  padding: 15px 30px;
 
   letter-spacing: 0.05em;
   text-transform: uppercase;
   background: #99862a;
+}
+
+.buttons .button {
+  flex: 1;
 }
 
 .buttons > .separator {
@@ -118,30 +173,16 @@ address {
   max-width: 30px;
 }
 
-.link {
-  display: inline-block;
-  text-align: center;
-  text-decoration: none;
-  color: inherit;
-}
-
-.text-container {
-  margin: 0 auto;
+.second-screen {
   padding: 100px 0;
 
-  max-width: 1920px;
   min-height: 856px;
 
   background: #282828;
 }
 
-.content-box {
-  margin: 0 auto;
-  padding: 60px 0;
-
-  max-width: 1110px;
-  min-height: 656px;
-
+.second-screen > .screen-box {
+  padding: 90px 0;
   border: 3px solid #c4c4c4;
 }
 
@@ -149,18 +190,57 @@ address {
   text-align: center;
 }
 
-.content-box h1,
-.content-box p {
+.second-screen h1,
+.second-screen p {
   margin: 0 auto;
   max-width: 733px;
 }
 
-.content-box hr {
+.second-screen hr {
   margin: 40px auto;
   max-width: 160px;
+
+  background: #ffffff;
+  border: 1px solid #ffffff;
 }
 
-.content-box img {
+.second-screen img {
   margin-top: 50px;
+}
+
+.third-screen {
+  padding: 80px 0;
+
+  min-height: 1038px;
+
+  color: #000;
+  background: #e6e3c4;
+}
+
+.third-screen > .screen-box {
+  padding: 80px 0;
+
+  display: flex;
+  justify-content: space-between;
+
+  border-top: 1px solid #998431;
+  border-bottom: 1px solid #998431;
+}
+
+.third-screen .separator {
+  padding: 0 5px;
+  width: 115px;
+  max-width: 115px;
+}
+
+.third-screen hr {
+  margin: 30px 0;
+  max-width: 160px;
+
+  background: #282828;
+  border: 1px solid #282828;
+}
+
+.third-screen .button {
 }
 </style>

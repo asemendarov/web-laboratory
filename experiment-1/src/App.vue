@@ -11,6 +11,8 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;900&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -27,10 +29,37 @@ body {
   background-color: #222222;
   color: #eeeeee;
 
-  font-family: Montserrat;
+  font-family: 'Montserrat', serif;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   line-height: 150%;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 150%;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 150%;
+}
+
+address {
+  font-style: inherit;
+}
+
+.link {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
 }
 </style>
