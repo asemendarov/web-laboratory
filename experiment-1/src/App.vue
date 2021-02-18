@@ -22,11 +22,13 @@ export default {
 }
 html,
 body {
-  height: 100%;
+  min-height: 100%;
 }
+
 #app {
   height: inherit;
   background-color: #222222;
+
   color: #eeeeee;
 
   font-family: 'Montserrat', serif;
@@ -56,10 +58,28 @@ address {
   font-style: inherit;
 }
 
+img {
+  height: auto;
+  width: 100%;
+}
+
 .link {
   display: inline-block;
   text-align: center;
   text-decoration: none;
   color: inherit;
+}
+
+.img-wrap {
+  margin: 0 auto;
+  display: block;
+}
+
+.aligncenter {
+  text-align: center;
+}
+
+.flex-box {
+  display: flex;
 }
 </style>

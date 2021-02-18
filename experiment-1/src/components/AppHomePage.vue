@@ -34,7 +34,9 @@
           eget sit duis. Vitae dui vel pretium euismod diam. Pellentesque amet, lacus, amet, quis
           risus. Pellentesque scelerisque nunc, orci aliquam quis.
         </p>
-        <p class="aligncenter"><img src="@/assets/wineglass.png" alt="Бокал вина" /></p>
+        <div class="img-wrap">
+          <img src="@/assets/wineglass.png" alt="Бокал вина" />
+        </div>
       </div>
     </div>
 
@@ -79,12 +81,27 @@
           </p>
           <router-link class="link button" to="">Узнать подробнее</router-link>
         </div>
-        <div class="separator"></div>
-        <div class="right-box">
-          <p class="aligncenter"><img src="@/assets/rectangle11.png" alt="Бокал вина" /></p>
+        <div class="right-box flex-box">
+          <div class="img-wrap"><img src="@/assets/rectangle11.png" alt="Бокал вина" /></div>
+          <div class="flex-box">
+            <div class="img-wrap"><img src="@/assets/rectangle12.jpg" alt="Бокал вина" /></div>
+            <div class="img-wrap"><img src="@/assets/rectangle13.jpg" alt="Бокал вина" /></div>
+          </div>
         </div>
       </div>
     </div>
+
+    <div class="sceen fourth-screen">
+      <div class="screen-box">
+        <!-- pass -->
+      </div>
+    </div>
+
+    <footer>
+      <div class="screen-box">
+        <!-- pass -->
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -111,7 +128,8 @@ export default {
 
 .screen-box {
   margin: inherit;
-  max-width: 1110px;
+  padding: 0 10px;
+  max-width: 1130px;
 }
 
 .first-screen {
@@ -137,6 +155,7 @@ export default {
 .main-menu {
   margin: 0 auto;
   display: flex;
+  flex-flow: row wrap;
   max-width: 1110px;
 }
 
@@ -149,26 +168,26 @@ export default {
 }
 
 .buttons {
-  margin: 583px auto 0 auto;
-
+  margin-top: 583px;
   display: flex;
-
-  max-width: 430px;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
 }
 
 .button {
   padding: 15px 30px;
 
+  width: 200px;
+
+  white-space: nowrap;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   background: #99862a;
 }
 
-.buttons .button {
-  flex: 1;
-}
-
-.buttons > .separator {
+.button ~ .separator {
+  padding: 5px 0;
   width: 30px;
   max-width: 30px;
 }
@@ -182,18 +201,14 @@ export default {
 }
 
 .second-screen > .screen-box {
-  padding: 90px 0;
+  padding: 90px 10px;
   border: 3px solid #c4c4c4;
-}
-
-.aligncenter {
-  text-align: center;
 }
 
 .second-screen h1,
 .second-screen p {
   margin: 0 auto;
-  max-width: 733px;
+  max-width: 760px;
 }
 
 .second-screen hr {
@@ -204,8 +219,9 @@ export default {
   border: 1px solid #ffffff;
 }
 
-.second-screen img {
+.second-screen .img-wrap {
   margin-top: 50px;
+  max-width: 160px;
 }
 
 .third-screen {
@@ -218,19 +234,14 @@ export default {
 }
 
 .third-screen > .screen-box {
-  padding: 80px 0;
+  padding: 60px 10px;
 
   display: flex;
+  flex-flow: row nowrap;
   justify-content: space-between;
 
   border-top: 1px solid #998431;
   border-bottom: 1px solid #998431;
-}
-
-.third-screen .separator {
-  padding: 0 5px;
-  width: 115px;
-  max-width: 115px;
 }
 
 .third-screen hr {
@@ -241,6 +252,96 @@ export default {
   border: 1px solid #282828;
 }
 
+.third-screen .left-box {
+  padding-right: 10px;
+}
+
+.third-screen .left-box h1 {
+  max-width: 310px;
+}
+
+.third-screen .left-box > p:nth-of-type(1) {
+  padding-bottom: 30px;
+  max-width: 347px;
+}
+
+.third-screen .left-box > p:nth-of-type(2) {
+  padding-bottom: 30px;
+
+  max-width: 445px;
+}
+
+.third-screen .left-box > p:nth-of-type(3) {
+  padding: 30px 0;
+
+  max-width: 445px;
+}
+
+table {
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+tr:not(:last-of-type) {
+  border-bottom: 1px solid #282828;
+}
+
+td:not(:first-of-type) {
+  border-left: 1px solid #282828;
+}
+
+td:first-of-type {
+  padding: 26px 24px;
+}
+td:not(:first-of-type) {
+  padding: 10px 30px 15px 30px;
+}
+
+.right-box {
+  max-width: 540px;
+}
+
+.right-box.flex-box {
+  flex-flow: column nowrap;
+}
+
+.right-box.flex-box > .flex-box {
+  flex-flow: row nowrap;
+}
+
+.right-box.flex-box > div:not(:last-of-type) {
+  padding-bottom: 23px;
+}
+
+.right-box.flex-box .flex-box > div:not(:last-of-type) {
+  padding-right: 30px;
+}
+
+.third-screen .img-wrap {
+  max-width: 540px;
+}
+
 .third-screen .button {
+  width: 254px;
+}
+
+@media (max-width: 800px) {
+  .third-screen > .screen-box {
+    flex-wrap: wrap-reverse;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 455px) {
+  table {
+    white-space: normal;
+  }
+
+  .buttons {
+    margin-top: 483px;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+  }
 }
 </style>
