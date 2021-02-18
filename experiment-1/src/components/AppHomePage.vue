@@ -41,7 +41,6 @@ export default {
 
 .screen {
   margin: 0 auto;
-  max-width: 1920px;
 }
 
 .screen-box {
@@ -52,8 +51,6 @@ export default {
 
 .button {
   padding: 15px 30px;
-
-  width: 200px;
 
   white-space: nowrap;
   letter-spacing: 0.05em;

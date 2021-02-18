@@ -82,4 +82,9 @@ img {
 .flex-box {
   display: flex;
 }
+
+.grid-box {
+  margin: auto;
+  display: grid;
+}
 </style>
