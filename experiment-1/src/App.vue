@@ -84,7 +84,7 @@ img {
 }
 
 .grid-box {
-  margin: auto;
+  margin: 0 auto auto auto;
   display: grid;
 }
 </style>

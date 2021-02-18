@@ -1,19 +1,18 @@
 <template>
   <div class="screen first-screen">
     <div class="screen-box">
-      <address class="main-address">
+      <address class="main-address flex-box">
         <router-link class="link location" to="">Новокузнечный переулок 4/1</router-link>
         <router-link class="link tel" to="tel://8-945-000-00-00">8-945-000-00-00</router-link>
       </address>
-      <nav class="main-menu">
-        <router-link class="link" to="">Каталог</router-link>
-        <router-link class="link" to="">Доставка</router-link>
-        <router-link class="link" to="">Коллекции</router-link>
-        <router-link class="link" to="">Контакты</router-link>
+      <nav class="main-menu flex-box">
+        <router-link class="link flex__item" to="">Каталог</router-link>
+        <router-link class="link flex__item" to="">Доставка</router-link>
+        <router-link class="link flex__item" to="">Коллекции</router-link>
+        <router-link class="link flex__item" to="">Контакты</router-link>
       </nav>
-      <div class="buttons">
+      <div class="buttons flex-box">
         <router-link class="link button" to="">Винная карта</router-link>
-        <div class="separator"></div>
         <router-link class="link button" to="">Дегустация</router-link>
       </div>
     </div>
@@ -33,33 +32,22 @@ export default {
 
 <style scoped>
 .first-screen {
-  padding-top: 10px;
-
   min-height: 900px;
 
   background: linear-gradient(180deg, #282828 0%, rgba(40, 40, 40, 0) 100%),
     url('~@/assets/bgc.jpg'), #ededed;
 }
 
-.main-address {
-  margin: 0 auto;
-  display: flex;
+.main-address.flex-box {
+  padding: 20px 0;
   justify-content: space-between;
 }
 
-.main-address > .location,
-.main-address > .tel {
-  margin: 20px 0;
+.main-menu.flex-box {
+  flex-wrap: nowrap;
 }
 
-.main-menu {
-  margin: 0 auto;
-  display: flex;
-  flex-flow: row wrap;
-  max-width: 1110px;
-}
-
-.main-menu > .link {
+.main-menu.flex-box .flex__item {
   padding: 13px 13px;
 
   flex: 1;
@@ -67,26 +55,34 @@ export default {
   border: 1px solid #ffffff;
 }
 
-.buttons {
-  margin-top: 583px;
-  display: flex;
-  flex-direction: row;
+.main-menu.flex-box .flex__item:first-of-type {
+  border-left: none;
+}
+
+.main-menu.flex-box .flex__item:last-of-type {
+  border-right: none;
+}
+
+.buttons.flex-box {
+  padding-top: 563px;
+  flex-flow: row wrap;
   justify-content: center;
-  align-content: center;
 }
 
-.buttons > .separator {
-  padding: 5px 0;
-  width: 30px;
-  max-width: 30px;
+.button {
+  margin: 5px 15px;
 }
 
-@media (max-width: 455px) {
-  .buttons {
-    margin-top: 483px;
+@media (max-width: 445px) {
+  .main-menu.flex-box {
     flex-direction: column;
-    align-items: center;
-    align-self: center;
+  }
+  .main-menu.flex-box .flex__item {
+    border-left: none;
+    border-right: none;
+  }
+  .buttons.flex-box {
+    padding-top: 363px;
   }
 }
 </style>

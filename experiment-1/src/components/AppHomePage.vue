@@ -39,13 +39,10 @@ export default {
   height: inherit;
 }
 
-.screen {
-  margin: 0 auto;
-}
-
 .screen-box {
-  margin: inherit;
+  margin: 0 auto;
   padding: 0 10px;
+
   max-width: 1130px;
 }
 
