@@ -1,17 +1,17 @@
 <template>
   <div class="homepage">
-    <!-- <first-screen-home-page /> -->
+    <first-screen-home-page />
     <second-screen-home-page />
-    <!-- <third-screen-home-page /> -->
+    <third-screen-home-page />
 
-    <div class="sceen fourth-screen">
-      <div class="screen-box">
+    <div class="slide">
+      <div class="slide-box">
         <!-- pass -->
       </div>
     </div>
 
-    <footer>
-      <div class="screen-box">
+    <footer class="slide">
+      <div class="slide-box">
         <!-- pass -->
       </div>
     </footer>

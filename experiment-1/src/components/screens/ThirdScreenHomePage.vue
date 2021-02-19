@@ -1,54 +1,56 @@
 <template>
-  <div class="screen third-screen">
-    <div class="screen-box grid-box">
-      <div class="left-box grid-box">
-        <p>Новинки коллекций</p>
-        <h1>Март 1980 Урожай Марселя</h1>
-        <hr />
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat enim tortor in hac id
-          imperdiet adipiscing. Pellentesque nisi, mi sit non sit sed fermentum. Felis adipiscing
-          morbi sodales ac.
-        </p>
-        <table class="aligncenter">
-          <tr>
-            <td>1980</td>
-            <td>
-              <h3>Colli Euganei Bianco Ca' Lustra 1980</h3>
-              <p>Красочная бутылка вина из Марселя</p>
-            </td>
-          </tr>
-          <tr>
-            <td>1980</td>
-            <td>
-              <h3>Colli Euganei Bianco Ca' Lustra 1980</h3>
-              <p>Красочная бутылка вина из Марселя</p>
-            </td>
-          </tr>
-          <tr>
-            <td>1980</td>
-            <td>
-              <h3>Colli Euganei Bianco Ca' Lustra 1980</h3>
-              <p>Красочная бутылка вина из Марселя</p>
-            </td>
-          </tr>
-        </table>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat enim tortor in hac id
-          imperdiet adipiscing. Pellentesque nisi, mi sit non sit sed fermentum. Felis adipiscing
-          morbi sodales ac.
-        </p>
-        <router-link class="link button" to="">Узнать подробнее</router-link>
-      </div>
-      <div class="right-box grid-box">
-        <div class="img-wrap grid__item">
-          <img src="@/assets/rectangle11.png" alt="Бокал вина" />
+  <div class="slide">
+    <div class="slide-box">
+      <div class="content-box grid-box">
+        <div class="left-box grid-box">
+          <p>Новинки коллекций</p>
+          <h1>Март 1980 Урожай Марселя</h1>
+          <hr />
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat enim tortor in hac id
+            imperdiet adipiscing. Pellentesque nisi, mi sit non sit sed fermentum. Felis adipiscing
+            morbi sodales ac.
+          </p>
+          <table class="aligncenter">
+            <tr>
+              <td>1980</td>
+              <td>
+                <h3>Colli Euganei Bianco Ca' Lustra 1980</h3>
+                <p>Красочная бутылка вина из Марселя</p>
+              </td>
+            </tr>
+            <tr>
+              <td>1980</td>
+              <td>
+                <h3>Colli Euganei Bianco Ca' Lustra 1980</h3>
+                <p>Красочная бутылка вина из Марселя</p>
+              </td>
+            </tr>
+            <tr>
+              <td>1980</td>
+              <td>
+                <h3>Colli Euganei Bianco Ca' Lustra 1980</h3>
+                <p>Красочная бутылка вина из Марселя</p>
+              </td>
+            </tr>
+          </table>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat enim tortor in hac id
+            imperdiet adipiscing. Pellentesque nisi, mi sit non sit sed fermentum. Felis adipiscing
+            morbi sodales ac.
+          </p>
+          <router-link class="link button" to="">Узнать подробнее</router-link>
         </div>
-        <div class="img-wrap grid__item">
-          <img src="@/assets/rectangle12.jpg" alt="Бокал вина" />
-        </div>
-        <div class="img-wrap grid__item">
-          <img src="@/assets/rectangle13.jpg" alt="Бокал вина" />
+        <div class="right-box grid-box">
+          <div class="img-wrap grid__item">
+            <img src="@/assets/rectangle11.png" alt="Бокал вина" />
+          </div>
+          <div class="img-wrap grid__item">
+            <img src="@/assets/rectangle12.jpg" alt="Бокал вина" />
+          </div>
+          <div class="img-wrap grid__item">
+            <img src="@/assets/rectangle13.jpg" alt="Бокал вина" />
+          </div>
         </div>
       </div>
     </div>
@@ -67,23 +69,22 @@ export default {
 </script>
 
 <style scoped>
-.third-screen {
-  padding: 80px 0;
-
-  min-height: 1038px;
+.slide {
+  grid-template-rows: minmax(1038px, auto);
 
   color: #000;
   background: #e6e3c4;
 }
 
-.third-screen > .screen-box {
+.content-box {
+  margin: 80px 0;
   padding: 60px 10px;
 
   border-top: 1px solid #998431;
   border-bottom: 1px solid #998431;
 }
 
-.screen-box.grid-box {
+.content-box.grid-box {
   grid-template-columns: 1fr 1fr;
   column-gap: 10px;
 }
@@ -142,7 +143,7 @@ td:not(:first-of-type) {
 }
 
 @media (max-width: 915px) {
-  .screen-box.grid-box {
+  .content-box.grid-box {
     grid-template-columns: 1fr;
   }
   .right-box.grid-box {
