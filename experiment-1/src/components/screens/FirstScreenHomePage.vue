@@ -1,17 +1,17 @@
 <template>
-  <div class="screen first-screen">
-    <div class="screen-box">
-      <address class="main-address flex-box">
+  <div class="slide">
+    <div class="slide-box">
+      <address class="address grid-address">
         <router-link class="link location" to="">Новокузнечный переулок 4/1</router-link>
         <router-link class="link tel" to="tel://8-945-000-00-00">8-945-000-00-00</router-link>
       </address>
-      <nav class="main-menu flex-box">
-        <router-link class="link flex__item" to="">Каталог</router-link>
-        <router-link class="link flex__item" to="">Доставка</router-link>
-        <router-link class="link flex__item" to="">Коллекции</router-link>
-        <router-link class="link flex__item" to="">Контакты</router-link>
+      <nav class="navigation grid-navigation">
+        <router-link class="link grid__item" to="">Каталог</router-link>
+        <router-link class="link grid__item" to="">Доставка</router-link>
+        <router-link class="link grid__item" to="">Коллекции</router-link>
+        <router-link class="link grid__item" to="">Контакты</router-link>
       </nav>
-      <div class="buttons flex-box">
+      <div class="buttons">
         <router-link class="link button" to="">Винная карта</router-link>
         <router-link class="link button" to="">Дегустация</router-link>
       </div>
@@ -31,58 +31,100 @@ export default {
 </script>
 
 <style scoped>
-.first-screen {
-  min-height: 900px;
+/* Setting Global Grid */
+.slide {
+  grid-template-rows: minmax(900px, auto);
 
   background: linear-gradient(180deg, #282828 0%, rgba(40, 40, 40, 0) 100%),
-    url('~@/assets/bgc.jpg'), #ededed;
+    url('~@/assets/bgc.jpg'), #222;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-.main-address.flex-box {
-  padding: 20px 0;
-  justify-content: space-between;
+/* Grid Slide Box*/
+
+.slide-box {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(70px, auto) minmax(48px, auto) 1fr minmax(150px, auto);
+  gap: 0px 0px;
+  grid-template-areas:
+    'address'
+    'navigation'
+    'buttons'
+    '.';
 }
 
-.main-menu.flex-box {
-  flex-wrap: nowrap;
+.address {
+  grid-area: address;
+}
+.navigation {
+  grid-area: navigation;
+}
+.buttons {
+  grid-area: buttons;
+  justify-self: center;
+  align-self: end;
+  text-align: center;
 }
 
-.main-menu.flex-box .flex__item {
-  padding: 13px 13px;
+/* Grid Address*/
 
-  flex: 1;
+.grid-address {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: 1fr;
+  gap: 0px 5px;
+  grid-template-areas: 'location . tel';
 
-  border: 1px solid #ffffff;
+  align-items: center;
 }
 
-.main-menu.flex-box .flex__item:first-of-type {
-  border-left: none;
+.location {
+  grid-area: location;
+}
+.tel {
+  grid-area: tel;
 }
 
-.main-menu.flex-box .flex__item:last-of-type {
-  border-right: none;
+/* Grid Navigation*/
+
+.grid-navigation {
+  display: grid;
+
+  grid-auto-flow: column;
+
+  grid-auto-columns: 1fr;
+  grid-auto-rows: minmax(46px, auto);
+
+  border-block: 1px solid #d4d4d4;
 }
 
-.buttons.flex-box {
-  padding-top: 563px;
-  flex-flow: row wrap;
+.grid-navigation .grid__item {
+  display: grid;
+  align-content: center;
   justify-content: center;
 }
+
+.grid-navigation .grid__item:not(:first-of-type) {
+  border-left: 1px solid #d4d4d4;
+}
+
+/* Other */
 
 .button {
   margin: 5px 15px;
 }
 
-@media (max-width: 445px) {
-  .main-menu.flex-box {
-    flex-direction: column;
+/* Media */
+
+@media (max-width: 451px) {
+  .grid-navigation {
+    grid-auto-flow: row;
   }
-  .main-menu.flex-box .flex__item {
+  .grid-navigation .grid__item:not(:first-of-type) {
     border-left: none;
-    border-right: none;
-  }
-  .buttons.flex-box {
-    padding-top: 363px;
+    border-top: 1px solid #d4d4d4;
   }
 }
 </style>

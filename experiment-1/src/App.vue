@@ -87,4 +87,14 @@ img {
   margin: 0 auto auto auto;
   display: grid;
 }
+
+.slide {
+  display: grid;
+  grid: [row1-start] ' . slide-box . ' [row1-end] / auto minmax(auto, 1920px) auto;
+  gap: 0 10px;
+}
+
+.slide-box {
+  grid-area: slide-box;
+}
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="homepage">
     <first-screen-home-page />
-    <second-screen-home-page />
-    <third-screen-home-page />
+    <!-- <second-screen-home-page /> -->
+    <!-- <third-screen-home-page /> -->
 
     <div class="sceen fourth-screen">
       <div class="screen-box">
