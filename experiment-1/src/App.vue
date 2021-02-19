@@ -90,7 +90,7 @@ img {
 
 .slide {
   display: grid;
-  grid: [row1-start] ' . slide-box . ' [row1-end] / auto minmax(auto, 1920px) auto;
+  grid: [row1-start] ' . slide-box . ' [row1-end] / auto minmax(auto, 1110px) auto;
   gap: 0 10px;
 }
 

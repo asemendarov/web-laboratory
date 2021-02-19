@@ -3,12 +3,7 @@
     <first-screen-home-page />
     <second-screen-home-page />
     <third-screen-home-page />
-
-    <div class="slide">
-      <div class="slide-box">
-        <!-- pass -->
-      </div>
-    </div>
+    <fifth-screen-home-page />
 
     <footer class="slide">
       <div class="slide-box">
@@ -22,10 +17,16 @@
 import FirstScreenHomePage from '@/components/screens/FirstScreenHomePage'
 import SecondScreenHomePage from '@/components/screens/SecondScreenHomePage'
 import ThirdScreenHomePage from '@/components/screens/ThirdScreenHomePage'
+import FifthScreenHomePage from '@/components/screens/FifthScreenHomePage'
 
 export default {
   name: 'AppHomePage',
-  components: { FirstScreenHomePage, SecondScreenHomePage, ThirdScreenHomePage },
+  components: {
+    FirstScreenHomePage,
+    SecondScreenHomePage,
+    ThirdScreenHomePage,
+    FifthScreenHomePage
+  },
   data() {
     return {
       // pass
