@@ -70,37 +70,37 @@ export default {
 
 <style scoped>
 .slide {
-  grid-template-rows: minmax(1038px, auto);
+  grid-template-rows: minmax(103.8rem, auto);
 
   color: #000;
   background: #e6e3c4;
 }
 
 .content-box {
-  margin: 80px 0;
-  padding: 60px 10px;
+  margin: 8rem 0;
+  padding: 6rem 1rem;
 
-  border-top: 1px solid #998431;
-  border-bottom: 1px solid #998431;
+  border-top: 0.1rem solid #998431;
+  border-bottom: 0.1rem solid #998431;
 }
 
 .content-box.grid-box {
   grid-template-columns: 1fr 1fr;
-  column-gap: 10px;
+  column-gap: 1rem;
 }
 
 .left-box.grid-box {
-  max-width: 540px;
-  row-gap: 30px;
+  max-width: 54rem;
+  row-gap: 3rem;
 }
 
 .right-box.grid-box {
-  max-width: 540px;
+  max-width: 54rem;
 
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr;
 
-  gap: 22px 30px;
+  gap: 2.2rem 3rem;
 }
 
 .right-box.grid-box > .grid__item:first-of-type {
@@ -109,14 +109,14 @@ export default {
 }
 
 .left-box h1 {
-  max-width: 310px;
+  max-width: 31rem;
 }
 
 .left-box hr {
-  max-width: 160px;
+  max-width: 16rem;
 
   background: #282828;
-  border: 1px solid #282828;
+  border: 0.1rem solid #282828;
 }
 
 .button {
@@ -128,27 +128,27 @@ table {
 }
 
 tr:not(:last-of-type) {
-  border-bottom: 1px solid #282828;
+  border-bottom: 0.1rem solid #282828;
 }
 
 td:not(:first-of-type) {
-  border-left: 1px solid #282828;
+  border-left: 0.1rem solid #282828;
 }
 
 td:first-of-type {
-  padding: 26px 24px;
+  padding: 2.6rem 2.4rem;
 }
 td:not(:first-of-type) {
-  padding: 10px 30px 15px 30px;
+  padding: 1rem 3rem 1.5rem 3rem;
 }
 
-@media (max-width: 915px) {
+@media (max-width: 91.5rem) {
   .content-box.grid-box {
     grid-template-columns: 1fr;
   }
   .right-box.grid-box {
     order: -1;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
   }
   .button {
     margin: auto;

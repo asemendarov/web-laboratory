@@ -29,18 +29,18 @@ export default {
 </script>
 <style scoped>
 .slide {
-  grid-template-rows: minmax(220px, 1fr);
+  grid-template-rows: minmax(22rem, 1fr);
 
   background: #998431;
 
   white-space: nowrap;
-  font-size: 14px;
+  font-size: 1.4rem;
 }
 
 .slide-box {
   display: grid;
   grid-template-columns: repeat(4, auto);
-  grid-template-rows: minmax(50px, 1fr) repeat(2, minmax(60px, auto)) minmax(50px, 1fr);
+  grid-template-rows: minmax(5rem, 1fr) repeat(2, minmax(6rem, auto)) minmax(5rem, 1fr);
   grid-template-areas:
     '. . . .'
     'navigation-box navigation-box navigation-box navigation-box'
@@ -85,13 +85,13 @@ export default {
 .site-name,
 .social,
 .copyright {
-  border: 1px solid #ffffff;
+  border: 0.1rem solid #ffffff;
   border-left: none;
   font-weight: 600;
 }
 
 .link {
-  border-top: 1px solid #ffffff;
+  border-top: 0.1rem solid #ffffff;
 }
 
 .copyright {
@@ -103,10 +103,10 @@ export default {
   text-transform: uppercase;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 64rem) {
   .slide-box {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: minmax(50px, 1fr) repeat(4, minmax(30px, auto)) minmax(50px, 1fr);
+    grid-template-rows: minmax(5rem, 1fr) repeat(4, minmax(3rem, auto)) minmax(5rem, 1fr);
     grid-template-areas:
       '. .'
       'navigation-box site-name'
@@ -121,7 +121,7 @@ export default {
   .navigation-box {
     grid-auto-flow: row;
     grid-auto-columns: 1fr;
-    grid-auto-rows: minmax(40px, 1fr);
+    grid-auto-rows: minmax(4rem, 1fr);
   }
 
   .link {

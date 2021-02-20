@@ -38,7 +38,7 @@ export default {
 }
 
 .button {
-  padding: 15px 30px;
+  padding: 1.5rem 3rem;
 
   white-space: nowrap;
   letter-spacing: 0.05em;

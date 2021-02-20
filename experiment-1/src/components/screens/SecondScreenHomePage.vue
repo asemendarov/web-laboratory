@@ -35,38 +35,38 @@ export default {
 
 <style scoped>
 .slide {
-  grid-template-rows: minmax(856px, auto);
+  grid-template-rows: minmax(85.6rem, auto);
 
   background: #282828;
 }
 
 .content-box {
-  margin: 100px auto;
-  padding: 90px 10px;
+  margin: 10rem auto;
+  padding: 9rem 1rem;
 
-  max-width: 1110px;
+  max-width: 111rem;
 
-  border: 3px solid #c4c4c4;
+  border: 0.3rem solid #c4c4c4;
 }
 
 .content-box h1,
 .content-box p {
   margin: 0 auto;
 
-  max-width: 760px;
+  max-width: 76rem;
 }
 
 .content-box hr {
-  margin: 40px auto;
+  margin: 4rem auto;
 
-  max-width: 160px;
+  max-width: 16rem;
 
   background: #ffffff;
-  border: 1px solid #ffffff;
+  border: 0.1rem solid #ffffff;
 }
 
 .img-box {
-  margin: 50px auto 0 auto;
-  max-width: 160px;
+  margin: 5rem auto 0 auto;
+  max-width: 16rem;
 }
 </style>

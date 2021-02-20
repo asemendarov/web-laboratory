@@ -21,6 +21,14 @@ export default {
   -webkit-box-sizing: border-box;
 }
 
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+}
+
 html,
 body {
   min-height: 100%;
@@ -30,9 +38,6 @@ body {
   height: inherit;
 
   font-family: 'Montserrat', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
   line-height: 150%;
 
   color: #eeeeee;
@@ -41,16 +46,16 @@ body {
 
 h1 {
   font-family: 'Playfair Display', serif;
-  font-style: normal;
   font-weight: bold;
-  font-size: 36px;
+  font-size: 3.6rem;
+  line-height: 150%;
 }
 
 h2 {
   font-family: 'Playfair Display', serif;
-  font-style: normal;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 1.8rem;
+  line-height: 150%;
 }
 
 address {
@@ -99,8 +104,8 @@ input {
 
 .slide {
   display: grid;
-  grid: [row1-start] ' . slide-box . ' [row1-end] / auto minmax(auto, 1110px) auto;
-  gap: 0 10px;
+  grid: [row1-start] ' . slide-box . ' [row1-end] / auto minmax(auto, 111rem) auto;
+  gap: 0 1rem;
 }
 
 .slide-box {

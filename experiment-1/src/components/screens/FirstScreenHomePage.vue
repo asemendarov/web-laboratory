@@ -33,7 +33,7 @@ export default {
 <style scoped>
 /* Setting Global Grid */
 .slide {
-  grid-template-rows: minmax(900px, auto);
+  grid-template-rows: minmax(90rem, auto);
 
   background: linear-gradient(180deg, #282828 0%, rgba(40, 40, 40, 0) 100%),
     url('~@/assets/bgc.jpg'), #222;
@@ -46,8 +46,8 @@ export default {
 .slide-box {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: minmax(70px, auto) minmax(48px, auto) 1fr minmax(150px, auto);
-  gap: 0px 0px;
+  grid-template-rows: minmax(7rem, auto) minmax(4.8rem, auto) 1fr minmax(15rem, auto);
+  gap: 0rem 0rem;
   grid-template-areas:
     'address'
     'navigation'
@@ -74,7 +74,7 @@ export default {
   display: grid;
   grid-template-columns: auto 1fr auto;
   grid-template-rows: 1fr;
-  gap: 0px 5px;
+  gap: 0rem 0.5rem;
   grid-template-areas: 'location . tel';
 
   align-items: center;
@@ -95,9 +95,9 @@ export default {
   grid-auto-flow: column;
 
   grid-auto-columns: 1fr;
-  grid-auto-rows: minmax(46px, auto);
+  grid-auto-rows: minmax(4.6rem, auto);
 
-  border-block: 1px solid #d4d4d4;
+  border-block: 0.1rem solid #d4d4d4;
 }
 
 .grid-navigation .grid__item {
@@ -107,24 +107,24 @@ export default {
 }
 
 .grid-navigation .grid__item:not(:first-of-type) {
-  border-left: 1px solid #d4d4d4;
+  border-left: 0.1rem solid #d4d4d4;
 }
 
 /* Other */
 
 .button {
-  margin: 5px 15px;
+  margin: 0.4rem 1.5rem;
 }
 
 /* Media */
 
-@media (max-width: 451px) {
+@media (max-width: 45.1rem) {
   .grid-navigation {
     grid-auto-flow: row;
   }
   .grid-navigation .grid__item:not(:first-of-type) {
     border-left: none;
-    border-top: 1px solid #d4d4d4;
+    border-top: 0.1rem solid #d4d4d4;
   }
 }
 </style>

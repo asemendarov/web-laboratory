@@ -65,75 +65,75 @@ export default {
 
 <style scoped>
 .slide {
-  grid-template-rows: minmax(767px, auto);
+  grid-template-rows: minmax(76.7rem, auto);
 
   background: #282828;
 }
 
 .content-box {
-  margin: 129px auto 100px auto;
+  margin: 12.9rem auto 10rem auto;
 
   position: relative;
 
-  max-width: 1110px;
-  min-height: 538px;
+  max-width: 111rem;
+  min-height: 53.8rem;
 
-  border: 3px solid #c4c4c4;
+  border: 0.1rem solid #c4c4c4;
 
   overflow: visible;
 }
 
 .img-box {
   position: absolute;
-  max-width: 260px;
+  max-width: 26rem;
 }
 
 .img1 {
-  top: -69px;
-  left: -30px;
+  top: -6.9rem;
+  left: -3rem;
 }
 
 .img2 {
-  top: -69px;
-  right: -53px;
+  top: -6.9rem;
+  right: -5.3rem;
 }
 
 .title-content-box {
-  padding: 10px 50px;
+  padding: 1rem 5rem;
 
   position: absolute;
   left: 50%;
-  transform: translateX(-50%) translateY(-39px);
+  transform: translateX(-50%) translateY(-3.9rem);
 
   white-space: nowrap;
   background: #282828;
 }
 
 .form-content-box {
-  margin: 65px auto 80px auto;
-  padding: 0 10px;
+  margin: 6.5rem auto 8rem auto;
+  padding: 0 1rem;
 
-  max-width: 541px;
+  max-width: 54.1rem;
 }
 
 .form-content-box hr {
-  margin: 65px auto 40px auto;
-  max-width: 118px;
+  margin: 6.5rem auto 4rem auto;
+  max-width: 11.8rem;
 }
 
 .form-content-box p {
-  margin-bottom: 81px;
+  margin-bottom: 8.1rem;
 }
 
 .form-box {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(3, minmax(50px, auto));
+  grid-template-rows: repeat(3, minmax(5rem, auto));
   grid-template-areas:
     'inputName inputTel'
     'inputAddress inputAddress'
     'submit submit';
-  grid-gap: 30px 30px;
+  grid-gap: 3rem 3rem;
 }
 
 #inputName {
@@ -153,7 +153,7 @@ export default {
 
 input {
   border: none;
-  border-bottom: 1px solid #fff;
+  border-bottom: 0.1rem solid #fff;
   background: inherit;
   color: #fff;
 }
@@ -167,7 +167,7 @@ input:focus {
 }
 
 #submit {
-  border: 1px solid #fff;
+  border: 0.1rem solid #fff;
   text-decoration-style: solid;
   text-transform: uppercase;
 }
@@ -176,35 +176,35 @@ input:focus {
   background: rgba(0, 0, 0, 0.3);
 }
 
-@media (max-width: 925px) {
+@media (max-width: 92.5rem) {
   .img-box {
-    max-width: 150px;
+    max-width: 15rem;
   }
 
   .img1 {
-    top: -30px;
-    left: -20px;
+    top: -3rem;
+    left: -2rem;
   }
 
   .img2 {
-    top: -30px;
-    right: -23px;
+    top: -3rem;
+    right: -2.3rem;
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 80rem) {
   .img-box {
     display: none;
   }
 }
 
-@media (max-width: 540px) {
+@media (max-width: 54rem) {
   .title-content-box {
-    padding-inline: 20px;
+    padding-inline: 2rem;
   }
 }
 
-@media (max-width: 495px) {
+@media (max-width: 49.5rem) {
   .title-content-box {
     position: static;
     transform: none;
