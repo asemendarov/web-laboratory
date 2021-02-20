@@ -14,7 +14,7 @@
           eget sit duis. Vitae dui vel pretium euismod diam. Pellentesque amet, lacus, amet, quis
           risus. Pellentesque scelerisque nunc, orci aliquam quis.
         </p>
-        <div class="img-wrap">
+        <div class="img-box">
           <img src="@/assets/wineglass.png" alt="Бокал вина" />
         </div>
       </div>
@@ -65,8 +65,8 @@ export default {
   border: 1px solid #ffffff;
 }
 
-.content-box .img-wrap {
-  margin-top: 50px;
+.img-box {
+  margin: 50px auto 0 auto;
   max-width: 160px;
 }
 </style>

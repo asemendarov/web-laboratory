@@ -12,7 +12,7 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;900&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -20,6 +20,7 @@ export default {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
 }
+
 html,
 body {
   min-height: 100%;
@@ -27,15 +28,15 @@ body {
 
 #app {
   height: inherit;
-  background-color: #222222;
 
-  color: #eeeeee;
-
-  font-family: 'Montserrat', serif;
+  font-family: 'Montserrat', sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   line-height: 150%;
+
+  color: #eeeeee;
+  background-color: #222222;
 }
 
 h1 {
@@ -43,7 +44,6 @@ h1 {
   font-style: normal;
   font-weight: bold;
   font-size: 36px;
-  line-height: 150%;
 }
 
 h2 {
@@ -51,7 +51,6 @@ h2 {
   font-style: normal;
   font-weight: bold;
   font-size: 18px;
-  line-height: 150%;
 }
 
 address {
@@ -59,8 +58,13 @@ address {
 }
 
 img {
-  height: auto;
   width: 100%;
+  height: auto;
+}
+
+input {
+  display: block;
+  min-width: 100%;
 }
 
 .link {
@@ -70,17 +74,22 @@ img {
   color: inherit;
 }
 
-.img-wrap {
-  margin: 0 auto;
-  display: block;
+.link:hover {
+  position: relative;
+}
+
+.link:hover::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .aligncenter {
   text-align: center;
-}
-
-.flex-box {
-  display: flex;
 }
 
 .grid-box {

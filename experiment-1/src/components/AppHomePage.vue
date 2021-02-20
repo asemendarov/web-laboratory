@@ -4,12 +4,7 @@
     <second-screen-home-page />
     <third-screen-home-page />
     <fifth-screen-home-page />
-
-    <footer class="slide">
-      <div class="slide-box">
-        <!-- pass -->
-      </div>
-    </footer>
+    <app-footer />
   </div>
 </template>
 
@@ -18,6 +13,7 @@ import FirstScreenHomePage from '@/components/screens/FirstScreenHomePage'
 import SecondScreenHomePage from '@/components/screens/SecondScreenHomePage'
 import ThirdScreenHomePage from '@/components/screens/ThirdScreenHomePage'
 import FifthScreenHomePage from '@/components/screens/FifthScreenHomePage'
+import AppFooter from '@/components/AppFooter'
 
 export default {
   name: 'AppHomePage',
@@ -25,7 +21,8 @@ export default {
     FirstScreenHomePage,
     SecondScreenHomePage,
     ThirdScreenHomePage,
-    FifthScreenHomePage
+    FifthScreenHomePage,
+    AppFooter
   },
   data() {
     return {
@@ -38,13 +35,6 @@ export default {
 <style>
 .homepage {
   height: inherit;
-}
-
-.screen-box {
-  margin: 0 auto;
-  padding: 0 10px;
-
-  max-width: 1130px;
 }
 
 .button {
