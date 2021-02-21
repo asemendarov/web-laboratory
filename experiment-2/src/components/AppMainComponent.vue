@@ -1,9 +1,13 @@
 <template>
-  <div class="AppMainComponent"></div>
+  <div class="app-main-component">
+    <app-header />
+  </div>
 </template>
 
 <script>
+import AppHeader from '@/components/AppHeader'
 export default {
+  components: { AppHeader },
   name: 'AppMainComponent',
   data() {
     return {
@@ -14,7 +18,7 @@ export default {
 </script>
 
 <style scoped>
-.AppMainComponent {
+.app-main-component {
   height: inherit;
 }
 </style>

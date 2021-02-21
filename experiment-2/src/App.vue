@@ -11,6 +11,13 @@ export default {
 </script>
 
 <style>
+/* Logo Font */
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+
+/* Main Font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
+/* Basic Settings */
 * {
   margin: 0;
   padding: 0;
@@ -19,6 +26,7 @@ export default {
   -webkit-box-sizing: border-box;
 }
 html {
+  font-family: 'Roboto', sans-serif;
   font-size: 62.5%;
 }
 
@@ -37,4 +45,81 @@ body {
   color: #eeeeee;
   background-color: #222222;
 }
+
+/* My Normalization */
+
+a {
+  white-space: nowrap;
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: #ccc;
+}
+
+input {
+  border: none;
+  outline: none;
+  color: inherit;
+  background: inherit;
+}
+
+input::placeholder {
+  /* color: inherit; */
+}
+
+/* Global Class */
+
+.position-relative {
+  position: relative;
+}
+
+.font-f-logo {
+  font-family: 'PT Sans', sans-serif;
+}
+
+/* Global Margin and Padding Class */
+.mr-16 {
+  margin-right: 16px;
+}
+
+/* Global Flex Class */
+.d-flex {
+  display: flex;
+}
+
+.flex-auto {
+  flex: auto;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-ai-center {
+  align-items: center;
+}
+
+.flex-jc-center {
+  justify-content: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+/* ----------------- */
 </style>
