@@ -13,7 +13,6 @@ export default {
 <style>
 /* Logo Font */
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
-
 /* Main Font */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 
@@ -31,7 +30,7 @@ html {
 }
 
 body {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 
 html,
@@ -49,6 +48,7 @@ body {
 /* My Normalization */
 
 a {
+  user-select: none;
   white-space: nowrap;
   text-decoration: none;
   color: inherit;
@@ -58,25 +58,30 @@ a:hover {
   color: #ccc;
 }
 
-input {
+input,
+button {
   border: none;
   outline: none;
   color: inherit;
   background: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
 input::placeholder {
-  /* color: inherit; */
+  user-select: none;
+}
+
+button:hover {
+  color: rgb(244, 66, 25);
 }
 
 /* Global Class */
 
-.position-relative {
-  position: relative;
-}
-
-.font-f-logo {
-  font-family: 'PT Sans', sans-serif;
+.unselectable {
+  user-select: none;
 }
 
 /* Global Margin and Padding Class */
@@ -84,7 +89,16 @@ input::placeholder {
   margin-right: 16px;
 }
 
+/* Global Position Class */
+.position-relative {
+  position: relative;
+}
+
 /* Global Flex Class */
+.d-none {
+  display: none;
+}
+
 .d-flex {
   display: flex;
 }

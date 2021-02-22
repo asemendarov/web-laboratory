@@ -122,5 +122,12 @@ export default {
 </script>
 
 <style scoped>
-/* pass */
+.font-f-logo {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 1.6rem;
+}
+
+a {
+  color: inherit !important;
+}
 </style>
