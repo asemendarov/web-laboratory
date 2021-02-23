@@ -45,7 +45,7 @@ export default {
   methods: {
     clickControl(event) {
       this.isEnabled = !this.isEnabled
-      this.$emit('click', this.isEnabled, event)
+      this.$emit('app-click', this.isEnabled, event)
     }
   }
 }

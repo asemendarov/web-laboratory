@@ -9,7 +9,7 @@
         class="header-item header-main-control d-none flex-center mr-16 __md__ md-d-flex"
         width="32px"
         height="32px"
-        @click="menuControl"
+        @app-click="menuControl"
       />
       <!-- /// -->
       <app-logo
