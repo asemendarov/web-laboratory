@@ -1,9 +1,9 @@
 <template>
   <div class="app-search">
     <form class="from-container d-flex" action="" method="get">
-      <label class="input-wrapper d-flex flex-center" for="search">
+      <label class="input-wrapper d-flex flex-auto flex-center" for="search">
         <input type="text" name="search" placeholder="Search" />
-        <img class="unselectable" src="@/assets/search-key-slash.svg" alt="Search key slash" />
+        <img class="unselectable" src="@/assets/svg/search-key-slash.svg" alt="Search key slash" />
       </label>
     </form>
   </div>

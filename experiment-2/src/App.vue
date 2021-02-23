@@ -11,6 +11,14 @@ export default {
 </script>
 
 <style>
+/********************
+**  Точки останова:
+**  1. 808px - основная (глобальная)
+**
+**
+**
+********************/
+
 /* Logo Font */
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
 /* Main Font */
@@ -31,6 +39,7 @@ html {
 
 body {
   font-size: 1.4rem;
+  line-height: 1.5;
 }
 
 html,
@@ -60,6 +69,7 @@ a:hover {
 
 input,
 button {
+  width: 100%;
   border: none;
   outline: none;
   color: inherit;
@@ -135,5 +145,37 @@ button:hover {
 .flex-row {
   flex-direction: row;
 }
+
+@media (max-width: 808px) {
+  .md-d-flex {
+    display: flex !important;
+  }
+
+  .md-d-none {
+    display: none !important;
+  }
+
+  .md-flex-wrap {
+    flex-wrap: wrap !important;
+  }
+
+  .md-flex-auto {
+    flex: auto !important;
+  }
+
+  .md-flex-center {
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .md-flex-full-width {
+    flex: 1 1 100% !important;
+  }
+
+  .md-flex-column {
+    flex-direction: column;
+  }
+}
+
 /* ----------------- */
 </style>

@@ -1,21 +1,35 @@
 <template>
   <div class="app-header position-relative header-wrapper">
-    <header class="header d-flex flex-row flex-nowrap flex-auto">
+    <header
+      class="header d-flex flex-row flex-nowrap flex-auto __md__ md-flex-wrap"
+      :class="[classDetails]"
+    >
+      <!-- /// -->
       <app-menu-control
-        class="header-item header-main-control d-none d-md-flex flex-center mr-16"
+        class="header-item header-main-control d-none flex-center mr-16 __md__ md-d-flex"
+        width="32px"
+        height="32px"
+        @click="menuControl"
+      />
+      <!-- /// -->
+      <app-logo
+        class="header-item header-logo d-flex mr-16 __md__ md-flex-auto md-flex-center"
         width="32px"
         height="32px"
       />
-      <app-logo class="header-item header-logo d-flex mr-16" width="32px" height="32px" />
-      <div class="header-item header-main d-md-none d-flex flex-auto mr-16 width-full">
-        <app-search class="header-search d-flex mr-16" />
-        <app-navigation class="header-navigation d-flex mr-16" />
+      <div
+        class="header-item header-main d-flex flex-auto mr-16 __md__ md-flex-column md-flex-full-width Details-content"
+      >
+        <app-search class="header-search d-flex mr-16 __md__ md-flex-column" />
+        <app-navigation class="header-navigation d-flex mr-16 __md__ md-flex-column" />
       </div>
+      <!-- /// -->
       <app-theme-control
         class="header-item header-theme-control d-flex flex-center"
         width="24px"
         height="24px"
       />
+      <!-- /// -->
     </header>
   </div>
 </template>
@@ -32,17 +46,23 @@ export default {
   name: 'AppHeader',
   data() {
     return {
-      // pass
+      isEnabledDetails: null
+    }
+  },
+  computed: {
+    classDetails() {
+      return this.isEnabledDetails ? 'Details--on' : 'Details--off'
+    }
+  },
+  methods: {
+    menuControl(isEnabled, event) {
+      this.isEnabledDetails = isEnabled
     }
   }
 }
 </script>
 
 <style scoped>
-.header-main-control.d-md-none {
-  display: none !important;
-}
-
 .header {
   padding: 16px 32px;
 
@@ -55,18 +75,22 @@ export default {
   .header {
     padding-inline: 16px;
   }
-
-  .d-md-flex {
-    display: flex !important;
+  .header-main {
+    order: 999;
+  }
+  .header-main,
+  .header-main >>> .mr-16 {
+    margin-right: 0 !important;
+  }
+  .header-search {
+    margin-block: 20px;
+  }
+  .header-navigation >>> .nav__item {
+    border-top: 1px solid #30363d;
   }
 
-  .d-md-none {
-    display: none !important;
-  }
-
-  .header-logo {
-    flex: auto;
-    justify-content: center;
+  .Details--off .Details-content {
+    display: none;
   }
 }
 </style>

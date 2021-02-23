@@ -1,6 +1,6 @@
 <template>
   <div class="app-menu-control" @click.stop="clickControl">
-    <button class="d-flex" type="button">
+    <button class="d-flex" type="button" :aria-expanded="isEnabled.toString()">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         :width="width"
@@ -45,7 +45,7 @@ export default {
   methods: {
     clickControl(event) {
       this.isEnabled = !this.isEnabled
-      this.$emit('change', this.isEnabled, event)
+      this.$emit('click', this.isEnabled, event)
     }
   }
 }
