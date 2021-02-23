@@ -95,7 +95,7 @@
           />
         </g>
       </svg>
-      <span class="font-f-logo">Alpha Centauri</span>
+      <span class="font-f-logo md-319-d-none" :full="full">Alpha Centauri</span>
     </router-link>
   </div>
 </template>
@@ -110,6 +110,10 @@ export default {
     height: {
       type: String,
       required: true
+    },
+    full: {
+      type: Boolean,
+      default: true
     }
   },
   name: 'AppLogo',
@@ -122,12 +126,16 @@ export default {
 </script>
 
 <style scoped>
+a {
+  color: inherit !important;
+}
+
 .font-f-logo {
   font-family: 'PT Sans', sans-serif;
   font-size: 1.6rem;
 }
 
-a {
-  color: inherit !important;
+.font-f-logo:not([full]) {
+  display: none;
 }
 </style>

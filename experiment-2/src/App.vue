@@ -177,5 +177,11 @@ button:hover {
   }
 }
 
+@media (max-width: 319px) {
+  .md-319-d-none {
+    display: none !important;
+  }
+}
+
 /* ----------------- */
 </style>
