@@ -45,10 +45,11 @@ body {
 html,
 body {
   height: 100%;
+  min-height: 100%;
 }
 
 #app {
-  height: inherit;
+  min-height: inherit;
 
   color: #eeeeee;
   background-color: #222222;

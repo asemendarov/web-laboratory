@@ -37,11 +37,11 @@
 <script>
 import AppLogo from '@/components/AppLogo'
 
-import AppSearch from '@/components/headers/components/AppSearch'
-import AppNavigation from '@/components/headers/components/AppNavigation'
+import AppSearch from '@/components/$headers/components/AppSearch'
+import AppNavigation from '@/components/$headers/components/AppNavigation'
 
-import AppThemeControl from '@/components/controls/AppThemeControl'
-import AppMenuControl from '@/components/controls/AppMenuControl'
+import AppThemeControl from '@/components/$controls/AppThemeControl'
+import AppMenuControl from '@/components/$controls/AppMenuControl'
 
 export default {
   components: { AppLogo, AppSearch, AppNavigation, AppThemeControl, AppMenuControl },
