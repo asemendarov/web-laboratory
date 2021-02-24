@@ -4,7 +4,17 @@
     <div class="all-posts">
       <div class="post-wrap" v-for="(post, idx) in posts" :key="idx">
         <div class="post" :class="`post${idx}`">
-          <div class="post-title pd-15-30"><h1 v-text="post.title"></h1></div>
+          <div class="post-title pd-15-30">
+            <h1>
+              <span>
+                <router-link
+                  :to="{ name: 'post', params: { id: post.id } }"
+                  v-text="post.title"
+                ></router-link>
+              </span>
+              <span v-text="`#${post.id}`"></span>
+            </h1>
+          </div>
           <div class="post-body pd-15-30"><p v-text="post.body"></p></div>
         </div>
       </div>
@@ -32,9 +42,7 @@ export default {
     this.routerControl()
   },
   watch: {
-    $route() {
-      this.routerControl()
-    }
+    $route: 'routerControl'
   },
   methods: {
     clearPost() {
@@ -66,10 +74,28 @@ export default {
       this.clearPost()
 
       if (this.$route.params.id) {
-        this.getPost(this.$route.params.id)
+        if (this.validationRouterParams()) {
+          this.getPost(this.$route.params.id)
+        } else {
+          this.redirectToPosts()
+        }
       } else {
         this.getAllPost(this.range(5, this.lastIdPost + 1))
       }
+    },
+    validationRouterParams() {
+      let id = Number(this.$route.params.id)
+
+      // is invalid
+      if (isNaN(id)) return false
+      if (~~id !== id) return false
+      if (id < 1) return false
+
+      // is valid
+      return true
+    },
+    redirectToPosts() {
+      this.$router.push({ name: 'posts' })
     }
   }
 }
@@ -94,5 +120,9 @@ export default {
   border-radius: 7px;
   border: 1px solid #30363d;
   text-transform: uppercase;
+}
+
+a {
+  white-space: normal;
 }
 </style>

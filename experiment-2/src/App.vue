@@ -39,7 +39,7 @@ html {
 
 body {
   font-size: 1.4rem;
-  line-height: 1.5;
+  line-height: 150%;
 }
 
 html,
@@ -56,6 +56,12 @@ body {
 }
 
 /* My Normalization */
+
+h1 {
+  font-size: 3.2rem;
+  line-height: 150%;
+  font-weight: 400;
+}
 
 a {
   user-select: none;
