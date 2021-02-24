@@ -100,6 +100,10 @@ button:hover {
   margin-right: 16px;
 }
 
+.pd-15-30 {
+  padding: 15px 30px;
+}
+
 /* Global Position Class */
 .position-relative {
   position: relative;
