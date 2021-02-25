@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import AppMainComponent from '@/components/AppMainComponent'
 import AppPosts from '@/components/$mains/components/AppPosts'
+import AppUsers from '@/components/$mains/components/AppUsers'
 
 Vue.use(Router)
 
@@ -23,6 +24,16 @@ export default new Router({
           path: '/posts/:id',
           name: 'post',
           component: AppPosts
+        },
+        {
+          path: '/users',
+          name: 'users',
+          component: AppUsers
+        },
+        {
+          path: '/users/:id',
+          name: 'user',
+          component: AppUsers
         }
       ]
     },

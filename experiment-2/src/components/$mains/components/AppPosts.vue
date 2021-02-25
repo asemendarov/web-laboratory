@@ -5,13 +5,15 @@
       <div class="post-wrap" v-for="(post, idx) in posts" :key="idx">
         <div class="post" :class="`post${idx}`">
           <div class="post-title pd-15-30">
+            <div class="post-username mr-16">
+              <router-link :to="{ name: 'user', params: { id: post.userId } }"
+                ><span v-text="post.name"></span
+              ></router-link>
+            </div>
             <h1>
-              <span>
-                <router-link
-                  :to="{ name: 'post', params: { id: post.id } }"
-                  v-text="post.title"
-                ></router-link>
-              </span>
+              <router-link :to="{ name: 'post', params: { id: post.id } }">
+                <span v-text="post.title"></span>
+              </router-link>
               <span v-text="`#${post.id}`"></span>
             </h1>
           </div>
@@ -33,7 +35,7 @@ export default {
   name: 'AppPosts',
   data() {
     return {
-      url: 'https://jsonplaceholder.typicode.com/posts',
+      url: 'https://jsonplaceholder.typicode.com',
       posts: [],
       lastIdPost: 0
     }
@@ -41,21 +43,26 @@ export default {
   mounted() {
     this.routerControl()
   },
+
   watch: {
     $route: 'routerControl'
   },
   methods: {
-    clearPost() {
-      this.posts = []
-      this.lastIdPost = 0
-    },
     getPost(id) {
       this.lastIdPost = id
 
       axios
-        .get(`${this.url}/${id}`)
+        .get(`${this.url}/posts/${id}`)
         .then((response) => {
-          this.posts.push(response.data)
+          this.getUser(this.posts.push(response.data) - 1)
+        })
+        .catch((error) => console.log(error))
+    },
+    getUser(postIndex) {
+      axios
+        .get(`${this.url}/users/${this.posts[postIndex].userId}`)
+        .then((response) => {
+          this.$set(this.posts[postIndex], 'name', response.data.name)
         })
         .catch((error) => console.log(error))
     },
@@ -67,11 +74,15 @@ export default {
     getMore() {
       this.getAllPost(this.range(5, this.lastIdPost + 1))
     },
+    clearPosts() {
+      this.posts = []
+      this.lastIdPost = 0
+    },
     range(size, startAt = 1) {
       return [...Array(size).keys()].map((i) => i + startAt)
     },
     routerControl() {
-      this.clearPost()
+      this.clearPosts()
 
       if (this.$route.params.id) {
         if (this.validationRouterParams()) {
@@ -100,6 +111,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
 .post-wrap {
   border: 1px solid #30363d;
