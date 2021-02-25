@@ -7,7 +7,7 @@
           <div class="post-title pd-15-30">
             <div class="post-username mr-16">
               <router-link :to="{ name: 'user', params: { id: post.userId } }"
-                ><span v-text="post.name"></span
+                ><span class="post-author" v-text="post.name"></span
               ></router-link>
             </div>
             <h1>
@@ -120,6 +120,14 @@ export default {
 
 .post-wrap:not(:first-of-type) {
   margin-top: 20px;
+}
+
+.post-author {
+  color: rgb(85, 132, 185);
+}
+
+.post-author:hover {
+  text-decoration: underline;
 }
 
 .post-title {

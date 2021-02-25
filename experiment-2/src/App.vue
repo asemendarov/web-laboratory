@@ -52,7 +52,7 @@ body {
   min-height: inherit;
 
   color: #eeeeee;
-  background-color: #222222;
+  background-color: rgb(13, 17, 23);
 }
 
 /* My Normalization */
@@ -101,6 +101,10 @@ button:hover {
   user-select: none;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 /* Global Margin and Padding Class */
 .mr-16 {
   margin-right: 16px;
@@ -108,6 +112,12 @@ button:hover {
 
 .pd-15-30 {
   padding: 15px 30px;
+}
+
+@media (max-width: 808px) {
+  .md-mr-16 {
+    margin-right: 16px !important;
+  }
 }
 
 /* Global Position Class */
@@ -131,6 +141,18 @@ button:hover {
 .flex-center {
   align-items: center;
   justify-content: center;
+}
+
+.flex-as-stretch {
+  align-self: stretch;
+}
+
+.flex-jc-space-between {
+  justify-content: space-between;
+}
+
+.flex-jc-stretch {
+  justify-content: stretch;
 }
 
 .flex-ai-center {
