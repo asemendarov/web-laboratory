@@ -21,6 +21,7 @@ export default {
 </script>
 <style scoped>
 .nav__item {
-  padding-block: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 </style>

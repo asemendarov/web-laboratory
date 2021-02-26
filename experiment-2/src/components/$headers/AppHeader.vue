@@ -88,7 +88,8 @@ export default {
 
 @media (max-width: 808px) {
   .header {
-    padding-inline: 16px;
+    padding-right: 16px;
+    padding-left: 16px;
   }
   .header-main {
     -webkit-box-ordinal-group: 1000;
@@ -100,7 +101,8 @@ export default {
     margin-right: 0 !important;
   }
   .header-search {
-    margin-block: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
   .header-navigation >>> .nav__item {
     border-top: 1px solid #30363d;

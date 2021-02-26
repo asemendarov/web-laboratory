@@ -27,8 +27,12 @@ export default {
 <style scoped>
 .main-content {
   margin-top: 32px;
-  margin-inline: auto;
-  padding-inline: 16px;
+  margin-left: auto;
+  margin-right: auto;
+
+  padding-left: 16px;
+  padding-right: 16px;
+
   max-width: 1280px;
 }
 </style>
