@@ -2,38 +2,40 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import AppMainComponent from '@/components/AppMainComponent'
-import AppPosts from '@/components/$mains/components/AppPosts'
-import AppUsers from '@/components/$mains/components/AppUsers'
+import AppPostsPage from '@/components/$mains/components/AppPostsPage'
+import AppUsersPage from '@/components/$mains/components/AppUsersPage'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
       name: 'home',
       component: AppMainComponent,
+      redirect: { name: 'posts' },
 
       children: [
         {
           path: '/posts',
           name: 'posts',
-          component: AppPosts
+          component: AppPostsPage
         },
         {
           path: '/posts/:id',
           name: 'post',
-          component: AppPosts
+          component: AppPostsPage
         },
         {
           path: '/users',
           name: 'users',
-          component: AppUsers
+          component: AppUsersPage
         },
         {
           path: '/users/:id',
           name: 'user',
-          component: AppUsers
+          component: AppUsersPage
         }
       ]
     },

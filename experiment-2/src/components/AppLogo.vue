@@ -136,7 +136,7 @@ a {
 
 .font-f-logo {
   font-family: 'PT Sans', sans-serif;
-  font-size: 1.6rem;
+  font-size: 16px;
 }
 
 .font-f-logo:not([full]) {

@@ -68,9 +68,22 @@ export default {
 .header {
   padding: 16px 32px;
 
+  -ms-flex-item-align: stretch;
+
+  -ms-grid-row-align: stretch;
+
   align-self: stretch;
 
   background: rgb(22, 27, 34);
+}
+
+.header-search:focus-within {
+  width: 100%;
+  max-width: 808px;
+}
+
+.header-search:focus-within >>> .search-key-slash {
+  display: none;
 }
 
 @media (max-width: 808px) {
@@ -78,6 +91,8 @@ export default {
     padding-inline: 16px;
   }
   .header-main {
+    -webkit-box-ordinal-group: 1000;
+    -ms-flex-order: 999;
     order: 999;
   }
   .header-main,

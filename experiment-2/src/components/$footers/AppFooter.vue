@@ -64,10 +64,6 @@ export default {
   width: 40%;
 }
 
-.list-style-none {
-  list-style: none;
-}
-
 a {
   color: rgb(85, 132, 185);
 }
