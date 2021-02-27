@@ -1,10 +1,10 @@
-# preject-2-redesign
+# Experiment-4-redesign
 
 > Single Page Application (SPA) Test Project
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
