@@ -31,6 +31,10 @@ npx serve
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
+# Gource Visualization
+
+![Gource Visualization](https://user-images.githubusercontent.com/31689842/109397920-799ff900-794a-11eb-83eb-e6372ad76d6a.gif)
+
 # Experiment-0
 
 No comment.
