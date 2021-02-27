@@ -58,11 +58,11 @@ export default {
 }
 
 .darker-control {
-  color: rgb(13, 17, 23);
+  color: var(--color-background-default);
 }
 
 .lighter-control {
-  color: rgb(253, 175, 33);
+  color: var(--color-button-hover);
 }
 
 button:hover {

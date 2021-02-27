@@ -37,8 +37,8 @@
 <script>
 import AppLogo from '@/components/AppLogo'
 
-import AppSearch from '@/components/$headers/components/AppSearch'
-import AppNavigation from '@/components/$headers/components/AppNavigation'
+import AppSearch from '@/components/$header/components/AppSearch'
+import AppNavigation from '@/components/$header/components/AppNavigation'
 
 import AppThemeControl from '@/components/$controls/AppThemeControl'
 import AppMenuControl from '@/components/$controls/AppMenuControl'
@@ -74,7 +74,7 @@ export default {
 
   align-self: stretch;
 
-  background: rgb(22, 27, 34);
+  background: var(--color-background-header);
 }
 
 .header-search:focus-within {
@@ -105,7 +105,7 @@ export default {
     margin-bottom: 20px;
   }
   .header-navigation >>> .nav__item {
-    border-top: 1px solid #30363d;
+    border-top: 1px solid var(--color-scrollbar);
   }
 
   .Details--off .Details-content {

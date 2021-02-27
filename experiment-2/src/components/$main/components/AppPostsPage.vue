@@ -114,7 +114,7 @@ export default {
 
 <style scoped>
 .post-wrap {
-  border: 1px solid #30363d;
+  border: 1px solid var(--color-scrollbar);
   border-radius: 10px;
 }
 
@@ -123,7 +123,7 @@ export default {
 }
 
 .post-author {
-  color: rgb(85, 132, 185);
+  color: var(--color-link-footer);
 }
 
 .post-author:hover {
@@ -131,14 +131,14 @@ export default {
 }
 
 .post-title {
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--color-scrollbar);
 }
 
 .button {
   margin-top: 30px;
 
   border-radius: 7px;
-  border: 1px solid #30363d;
+  border: 1px solid var(--color-scrollbar);
   text-transform: uppercase;
 }
 

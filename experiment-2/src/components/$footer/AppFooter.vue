@@ -57,7 +57,7 @@ export default {
 .footer {
   margin-top: 40px;
 
-  border-top: 1px solid #30363d;
+  border-top: 1px solid var(--color-scrollbar);
 }
 
 .ul {
@@ -65,7 +65,7 @@ export default {
 }
 
 a {
-  color: rgb(85, 132, 185);
+  color: var(--color-link-footer);
 }
 
 a:hover {

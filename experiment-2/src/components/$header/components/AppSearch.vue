@@ -37,7 +37,7 @@ export default {
   min-height: 28px;
 
   border-radius: 6px;
-  background: rgb(13, 17, 23);
+  background: var(--color-background-default);
 }
 
 .input {
@@ -53,7 +53,7 @@ export default {
 .input:focus {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
-  border: 1px solid rgba(253, 176, 33, 0.438);
+  border: 1px solid var(--color-input-focus);
   border-bottom: none;
 }
 
@@ -67,9 +67,9 @@ export default {
 
   width: 100%;
 
-  background: #0d1117;
-  border: 1px solid rgba(253, 176, 33, 0.438);
-  border-top: 1px solid #30363d;
+  background: var(--color-text-default);
+  border: 1px solid var(--color-input-focus);
+  border-top: 1px solid var(--color-scrollbar);
 
   border-top-left-radius: 0;
   border-top-right-radius: 0;

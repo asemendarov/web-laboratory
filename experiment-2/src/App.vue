@@ -32,13 +32,24 @@ export default {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
 }
-html {
-  font-family: 'Roboto', sans-serif;
-}
 
-body {
-  font-size: 14px;
-  line-height: 150%;
+:root {
+  font-family: 'Roboto', sans-serif;
+
+  /* ---- VAR ---- */
+  --color-text-default: rgb(238, 238, 238);
+  --color-background-default: rgb(13, 17, 23);
+
+  --color-background-header: rgb(22, 27, 34);
+
+  --color-text-hover: rgb(204, 204, 204);
+  --color-button-hover: rgb(253, 176, 33);
+  --color-input-focus: rgba(253, 176, 33, 0.438);
+
+  --color-link-footer: rgb(85, 132, 185);
+
+  --color-scrollbar: rgb(48, 54, 61);
+  /* ------------- */
 }
 
 html,
@@ -47,11 +58,16 @@ body {
   min-height: 100%;
 }
 
+body {
+  font-size: 14px;
+  line-height: 150%;
+}
+
 #app {
   min-height: inherit;
 
-  color: #eeeeee;
-  background-color: rgb(13, 17, 23);
+  color: var(--color-text-default);
+  background-color: var(--color-background-default);
 }
 
 /* My Normalization */
@@ -73,7 +89,7 @@ a {
 }
 
 a:hover {
-  color: #ccc;
+  color: var(--color-text-hover);
 }
 
 input,
@@ -119,7 +135,7 @@ input::placeholder {
 }
 
 button:hover {
-  color: rgb(253, 176, 33);
+  color: var(--color-button-hover);
 }
 
 /* Global Class */
@@ -149,11 +165,11 @@ button:hover {
   -o-overflow-scrolling: touch;
 
   scrollbar-width: 7px;
-  scrollbar-color: #30363d;
+  scrollbar-color: var(--color-scrollbar);
 
-  scrollbar-face-color: #30363d;
-  scrollbar-shadow-color: #30363d;
-  scrollbar-highlight-color: #30363d;
+  scrollbar-face-color: var(--color-scrollbar);
+  scrollbar-shadow-color: var(--color-scrollbar);
+  scrollbar-highlight-color: var(--color-scrollbar);
 }
 .scrollbox::-webkit-scrollbar {
   -webkit-appearance: none;
@@ -161,9 +177,9 @@ button:hover {
 }
 .scrollbox::-webkit-scrollbar-thumb {
   border-radius: 3px;
-  background-color: #30363d;
-  box-shadow: 0 0 1px#30363d;
-  -webkit-box-shadow: 0 0 1px #30363d;
+  background-color: var(--color-scrollbar);
+  box-shadow: 0 0 1px var(--color-scrollbar);
+  -webkit-box-shadow: 0 0 1px var(--color-scrollbar);
 }
 
 /* Global Margin and Padding Class */

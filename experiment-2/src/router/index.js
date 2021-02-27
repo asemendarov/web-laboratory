@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import AppMainComponent from '@/components/AppMainComponent'
-import AppPostsPage from '@/components/$mains/components/AppPostsPage'
-import AppUsersPage from '@/components/$mains/components/AppUsersPage'
+import AppPostsPage from '@/components/$main/components/AppPostsPage'
+import AppUsersPage from '@/components/$main/components/AppUsersPage'
 
 Vue.use(Router)
 
