@@ -77,6 +77,10 @@ export default {
   background: var(--color-background-header);
 }
 
+.header-search {
+  transition: margin 0.5s ease-in-out;
+}
+
 .header-search:focus-within {
   width: 100%;
   max-width: 808px;

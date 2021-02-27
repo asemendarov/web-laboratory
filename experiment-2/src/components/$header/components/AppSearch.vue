@@ -67,7 +67,7 @@ export default {
 
   width: 100%;
 
-  background: var(--color-text-default);
+  background: var(--color-background-default);
   border: 1px solid var(--color-input-focus);
   border-top: 1px solid var(--color-scrollbar);
 
@@ -78,6 +78,6 @@ export default {
 
   z-index: 999;
 
-  max-height: 100px;
+  max-height: 400px;
 }
 </style>
