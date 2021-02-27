@@ -58,7 +58,7 @@ No comment.
 
 ![Промежуточный результат](https://user-images.githubusercontent.com/31689842/107634756-1ab85f80-6c7b-11eb-9160-303fc93af3e3.gif)
 
-# experiment-2
+# Experiment-2
 
 ## Задание
 
@@ -77,7 +77,7 @@ No comment.
 
 ![Результат](https://user-images.githubusercontent.com/31689842/107679596-d1cdce80-6cad-11eb-8166-6dd21b806070.png)
 
-# experiment-3
+# Experiment-3
 
 ## Задание
 
@@ -91,7 +91,7 @@ No comment.
 
 ![Результат](https://user-images.githubusercontent.com/31689842/109396007-756ede00-7940-11eb-9334-6238ff629b01.png)
 
-# experiment-4
+# Experiment-4
 
 ## Задание
 
@@ -134,11 +134,11 @@ No comment.
 
 ![Результат](https://user-images.githubusercontent.com/31689842/107563444-214ec480-6bf2-11eb-999b-32e58482bba1.gif)
 
-# experiment-4-redesign
+# Experiment-4-redesign
 
 > На мой взгляд улучшена структура кода и логика работы светофора. Реализация стала более масштабируемой.
 
-# experiment-5
+# Experiment-5
 
 ## Задание
 
