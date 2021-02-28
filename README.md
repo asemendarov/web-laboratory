@@ -89,7 +89,11 @@ No comment.
 
 ## Шаблон
 
-![Шаблон](https://user-images.githubusercontent.com/31689842/109395723-e9a88200-793e-11eb-95f2-7a92c4afbd12.png)
+Шаблон сайта - винный магазин
+
+Шаблон сайта для Figma. Тематика: винный магазин.
+
+[Скачать шаблон для Figma (Download template for Figma)](https://figma.info/blog/templates/2021-01-04-shablon-vinnogo-magazina.html)
 
 ## Результат
 
