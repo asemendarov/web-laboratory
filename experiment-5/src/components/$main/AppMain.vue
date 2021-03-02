@@ -10,19 +10,19 @@
 
 <script>
 export default {
-  name: 'AppMain',
+  name: "AppMain",
   data() {
     return {
       // pass
-    }
+    };
   },
   mounted() {
     // pass
   },
   methods: {
     // pass
-  }
-}
+  },
+};
 </script>
 <style scoped>
 .main-content {

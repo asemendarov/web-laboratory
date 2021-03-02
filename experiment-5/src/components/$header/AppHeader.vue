@@ -1,67 +1,55 @@
 <template>
   <div class="app-header position-relative header-wrapper">
-    <header
-      class="header d-flex flex-row flex-nowrap flex-auto __md__ md-flex-wrap"
-      :class="[classDetails]"
-    >
+    <header class="header d-flex flex-row flex-nowrap flex-auto __md__ md-flex-wrap" :class="[classDetails]">
       <!-- /// -->
-      <app-menu-control
-        class="header-item header-main-control d-none flex-center mr-16 __md__ md-d-flex"
-        width="32px"
-        height="32px"
-        @app-click="menuControl"
-      />
+      <app-menu-control class="header-item header-main-control d-none flex-center mr-16 __md__ md-d-flex" width="32px" height="32px" @app-click="menuControl" />
       <!-- /// -->
-      <app-logo
-        class="header-item header-logo d-flex mr-16 __md__ md-flex-auto md-flex-center"
-        width="32px"
-        height="32px"
-      />
-      <div
-        class="header-item header-main d-flex flex-auto mr-16 __md__ md-flex-column md-flex-full-width Details-content"
-      >
+      <app-logo class="header-item header-logo d-flex mr-16 __md__ md-flex-auto md-flex-center" width="32px" height="32px" />
+      <div class="header-item header-main d-flex flex-auto mr-16 __md__ md-flex-column md-flex-full-width Details-content">
         <app-search class="header-search d-flex mr-16 __md__ md-flex-column" />
         <app-navigation class="header-navigation d-flex mr-16 __md__ md-flex-column" />
       </div>
       <!-- /// -->
-      <app-theme-control
-        class="header-item header-theme-control d-flex flex-center"
-        width="24px"
-        height="24px"
-      />
+      <app-theme-control class="header-item header-theme-control d-flex flex-center" width="24px" height="24px" />
       <!-- /// -->
     </header>
   </div>
 </template>
 
 <script>
-import AppLogo from '@/components/AppLogo'
+import AppLogo from "@/components/AppLogo";
 
-import AppSearch from '@/components/$header/components/AppSearch'
-import AppNavigation from '@/components/$header/components/AppNavigation'
+import AppSearch from "@/components/$header/components/AppSearch";
+import AppNavigation from "@/components/$header/components/AppNavigation";
 
-import AppThemeControl from '@/components/$controls/AppThemeControl'
-import AppMenuControl from '@/components/$controls/AppMenuControl'
+import AppThemeControl from "@/components/$controls/AppThemeControl";
+import AppMenuControl from "@/components/$controls/AppMenuControl";
 
 export default {
-  components: { AppLogo, AppSearch, AppNavigation, AppThemeControl, AppMenuControl },
-  name: 'AppHeader',
+  components: {
+    AppLogo,
+    AppSearch,
+    AppNavigation,
+    AppThemeControl,
+    AppMenuControl,
+  },
+  name: "AppHeader",
   data() {
     return {
-      isEnabledDetails: null
-    }
+      isEnabledDetails: null,
+    };
   },
   computed: {
     classDetails() {
-      return this.isEnabledDetails ? 'Details--on' : 'Details--off'
-    }
+      return this.isEnabledDetails ? "Details--on" : "Details--off";
+    },
   },
   methods: {
-    menuControl(isEnabled, event) {
-      this.isEnabledDetails = isEnabled
-    }
-  }
-}
+    menuControl(isEnabled) {
+      this.isEnabledDetails = isEnabled;
+    },
+  },
+};
 </script>
 
 <style scoped>

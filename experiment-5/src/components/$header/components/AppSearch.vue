@@ -3,17 +3,26 @@
     <form class="from-container d-flex flex-auto" action="" method="get">
       <label class="input-wrapper position-relative d-flex flex-auto flex-center" for="search">
         <input class="input pd-0-12 flex-auto" type="text" name="search" placeholder="Search" />
-        <img
-          class="search-key-slash unselectable mn-0-12"
-          src="@/assets/svg/search-key-slash.svg"
-          alt="Search key slash"
-        />
+        <img class="search-key-slash unselectable mn-0-12" src="@/assets/svg/search-key-slash.svg" alt="Search key slash" />
         <div class="box position-absolute scrollbox">
           <ul class="list-style-none">
             <li class="pd-15-20">QQQQQQQQQQQQQQ</li>
             <li class="pd-15-20">WWWWWWWWWWWWWW</li>
             <li class="pd-15-20">EEEEEEEEEEEEEE</li>
             <li class="pd-15-20">NNNNNNNNNNNNNN</li>
+            <li class="pd-15-20">WWWWWWWWWWWWWW</li>
+            <li class="pd-15-20">QQQQQQQQQQQQQQ</li>
+            <li class="pd-15-20">WWWWWWWWWWWWWW</li>
+            <li class="pd-15-20">EEEEEEEEEEEEEE</li>
+            <li class="pd-15-20">QQQQQQQQQQQQQQ</li>
+            <li class="pd-15-20">WWWWWWWWWWWWWW</li>
+            <li class="pd-15-20">EEEEEEEEEEEEEE</li>
+            <li class="pd-15-20">QQQQQQQQQQQQQQ</li>
+            <li class="pd-15-20">WWWWWWWWWWWWWW</li>
+            <li class="pd-15-20">EEEEEEEEEEEEEE</li>
+            <li class="pd-15-20">QQQQQQQQQQQQQQ</li>
+            <li class="pd-15-20">WWWWWWWWWWWWWW</li>
+            <li class="pd-15-20">EEEEEEEEEEEEEE</li>
           </ul>
         </div>
       </label>
@@ -23,13 +32,13 @@
 
 <script>
 export default {
-  name: 'AppSearch',
+  name: "AppSearch",
   data() {
     return {
       // pass
-    }
-  }
-}
+    };
+  },
+};
 </script>
 
 <style scoped>

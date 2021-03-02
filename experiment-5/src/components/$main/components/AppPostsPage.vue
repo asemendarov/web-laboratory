@@ -6,9 +6,7 @@
         <div class="post" :class="`post${idx}`">
           <div class="post-title pd-15-30">
             <div class="post-username mr-16">
-              <router-link :to="{ name: 'user', params: { id: post.userId } }"
-                ><span class="post-author" v-text="post.name"></span
-              ></router-link>
+              <router-link :to="{ name: 'user', params: { id: post.userId } }"><span class="post-author" v-text="post.name"></span></router-link>
             </div>
             <h1>
               <router-link :to="{ name: 'post', params: { id: post.id } }">
@@ -22,94 +20,92 @@
       </div>
     </div>
     <!-- /// -->
-    <button class="button pd-15-30" type="button" v-if="!$route.params.id" @click.stop="getMore">
-      Показать еще
-    </button>
+    <button class="button pd-15-30" type="button" v-if="!$route.params.id" @click.stop="getMore">Показать еще</button>
     <!-- /// -->
   </div>
 </template>
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
-  name: 'AppPosts',
+  name: "AppPosts",
   data() {
     return {
-      url: 'https://jsonplaceholder.typicode.com',
+      url: "https://jsonplaceholder.typicode.com",
       posts: [],
-      lastIdPost: 0
-    }
+      lastIdPost: 0,
+    };
   },
   mounted() {
-    this.routerControl()
+    this.routerControl();
   },
 
   watch: {
-    $route: 'routerControl'
+    $route: "routerControl",
   },
   methods: {
     getPost(id) {
-      this.lastIdPost = id
+      this.lastIdPost = id;
 
       axios
         .get(`${this.url}/posts/${id}`)
         .then((response) => {
-          this.getUser(this.posts.push(response.data) - 1)
+          this.getUser(this.posts.push(response.data) - 1);
         })
-        .catch((error) => console.log(error))
+        .catch((error) => console.log(error));
     },
     getUser(postIndex) {
       axios
         .get(`${this.url}/users/${this.posts[postIndex].userId}`)
         .then((response) => {
-          this.$set(this.posts[postIndex], 'name', response.data.name)
+          this.$set(this.posts[postIndex], "name", response.data.name);
         })
-        .catch((error) => console.log(error))
+        .catch((error) => console.log(error));
     },
     getAllPost(idArr) {
       idArr.forEach((id) => {
-        this.getPost(id)
-      })
+        this.getPost(id);
+      });
     },
     getMore() {
-      this.getAllPost(this.range(5, this.lastIdPost + 1))
+      this.getAllPost(this.range(5, this.lastIdPost + 1));
     },
     clearPosts() {
-      this.posts = []
-      this.lastIdPost = 0
+      this.posts = [];
+      this.lastIdPost = 0;
     },
     range(size, startAt = 1) {
-      return [...Array(size).keys()].map((i) => i + startAt)
+      return [...Array(size).keys()].map((i) => i + startAt);
     },
     routerControl() {
-      this.clearPosts()
+      this.clearPosts();
 
       if (this.$route.params.id) {
         if (this.validationRouterParams()) {
-          this.getPost(this.$route.params.id)
+          this.getPost(this.$route.params.id);
         } else {
-          this.redirectToPosts()
+          this.redirectToPosts();
         }
       } else {
-        this.getAllPost(this.range(5, this.lastIdPost + 1))
+        this.getAllPost(this.range(5, this.lastIdPost + 1));
       }
     },
     validationRouterParams() {
-      let id = Number(this.$route.params.id)
+      let id = Number(this.$route.params.id);
 
       // is invalid
-      if (isNaN(id)) return false
-      if (~~id !== id) return false
-      if (id < 1) return false
+      if (isNaN(id)) return false;
+      if (~~id !== id) return false;
+      if (id < 1) return false;
 
       // is valid
-      return true
+      return true;
     },
     redirectToPosts() {
-      this.$router.push({ name: 'posts' })
-    }
-  }
-}
+      this.$router.push({ name: "posts" });
+    },
+  },
+};
 </script>
 
 <style scoped>
