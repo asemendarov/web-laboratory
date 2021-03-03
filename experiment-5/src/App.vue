@@ -162,15 +162,6 @@ button:hover {
   -webkit-box-shadow: 0 0 1px var(--color-scrollbar);
 }
 
-/* Global Position Class */
-.position-relative {
-  position: relative;
-}
-
-.position-absolute {
-  position: absolute;
-}
-
 /* Global Flex Class */
 .d-none {
   display: none;

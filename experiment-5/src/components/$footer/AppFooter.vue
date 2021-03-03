@@ -1,5 +1,5 @@
 <template>
-  <div class="app-footer position-relative footer-wrapper">
+  <div class="app-footer tw-relative footer-wrapper">
     <footer class="footer d-flex tw-px-8 tw-py-4 __md__ md-flex-column md-flex-center">
       <ul class="ul list-style-none d-flex flex-ai-center flex-jc-space-between __md__ md-flex-center md-flex-full-width">
         <li class="li d-flex flex-center __md__ md:tw-mr-4">

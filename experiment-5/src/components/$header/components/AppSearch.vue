@@ -1,10 +1,10 @@
 <template>
   <div class="app-search">
     <form class="from-container d-flex flex-auto" action="" method="get">
-      <label class="input-wrapper position-relative d-flex flex-auto flex-center" for="search">
+      <label class="input-wrapper tw-relative d-flex flex-auto flex-center" for="search">
         <input class="input tw-px-3 flex-auto" type="text" name="search" placeholder="Search" />
         <img class="search-key-slash unselectable tw-mx-3" src="@/assets/svg/search-key-slash.svg" alt="Search key slash" />
-        <div class="box position-absolute scrollbox">
+        <div class="box tw-absolute scrollbox">
           <ul class="list-style-none">
             <li class="tw-px-5 tw-py-3">QQQQQQQQQQQQQQ</li>
             <li class="tw-px-5 tw-py-3">WWWWWWWWWWWWWW</li>

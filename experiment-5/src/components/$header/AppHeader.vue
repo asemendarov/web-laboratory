@@ -1,5 +1,5 @@
 <template>
-  <div class="app-header position-relative header-wrapper">
+  <div class="app-header tw-relative header-wrapper">
     <header class="header d-flex flex-row flex-nowrap flex-auto __md__ md-flex-wrap" :class="[classDetails]">
       <!-- /// -->
       <app-menu-control class="header-item header-main-control d-none flex-center tw-mr-4 __md__ md-d-flex" width="32px" height="32px" @app-click="menuControl" />
