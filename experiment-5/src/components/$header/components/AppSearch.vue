@@ -50,10 +50,7 @@ export default {
 }
 
 .input {
-  -ms-grid-column-align: stretch;
   justify-self: stretch;
-  -ms-flex-item-align: stretch;
-  -ms-grid-row-align: stretch;
   align-self: stretch;
 
   border-radius: 6px;

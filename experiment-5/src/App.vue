@@ -37,7 +37,6 @@ export default {
   padding: 0;
 
   box-sizing: border-box;
-  -webkit-box-sizing: border-box;
 }
 
 :root {
@@ -96,9 +95,6 @@ h1 {
 }
 
 a {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   white-space: nowrap;
   text-decoration: none;
@@ -122,32 +118,7 @@ button {
   cursor: pointer;
 }
 
-input::-webkit-input-placeholder {
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-input::-moz-placeholder {
-  -moz-user-select: none;
-  user-select: none;
-}
-
-input:-ms-input-placeholder {
-  -ms-user-select: none;
-  user-select: none;
-}
-
-input::-ms-input-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
 input::placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -158,9 +129,6 @@ button:hover {
 /* Global Class */
 
 .unselectable {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -176,6 +144,7 @@ button:hover {
   overflow-y: auto;
   overflow-x: hidden;
 
+  /* Autoprefixer not working */
   -webkit-overflow-scrolling: touch;
   -moz-overflow-scrolling: touch;
   -ms-overflow-scrolling: touch;
@@ -240,86 +209,56 @@ button:hover {
 }
 
 .d-flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
 .flex-auto {
-  -webkit-box-flex: 1;
-  -ms-flex: auto;
   flex: auto;
 }
 
 .flex-center {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -ms-grid-row-align: center;
   align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
 }
 
 .flex-as-stretch {
-  -ms-flex-item-align: stretch;
-  -ms-grid-row-align: stretch;
   align-self: stretch;
 }
 
 .flex-jc-space-between {
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
 .flex-jc-stretch {
-  -webkit-box-pack: stretch;
-  -ms-flex-pack: stretch;
   justify-content: stretch;
 }
 
 .flex-ai-center {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -ms-grid-row-align: center;
   align-items: center;
 }
 
 .flex-jc-center {
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
 }
 
 .flex-wrap {
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
 .flex-nowrap {
-  -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
 }
 
 .flex-column {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
 }
 
 .flex-row {
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
   flex-direction: row;
 }
 
 @media (max-width: 808px) {
   .md-d-flex {
-    display: -webkit-box !important;
-    display: -ms-flexbox !important;
     display: flex !important;
   }
 
@@ -328,36 +267,23 @@ button:hover {
   }
 
   .md-flex-wrap {
-    -ms-flex-wrap: wrap !important;
     flex-wrap: wrap !important;
   }
 
   .md-flex-auto {
-    -webkit-box-flex: 1 !important;
-    -ms-flex: auto !important;
     flex: auto !important;
   }
 
   .md-flex-center {
-    -webkit-box-align: center !important;
-    -ms-flex-align: center !important;
-    -ms-grid-row-align: center !important;
     align-items: center !important;
-    -webkit-box-pack: center !important;
-    -ms-flex-pack: center !important;
     justify-content: center !important;
   }
 
   .md-flex-full-width {
-    -webkit-box-flex: 1 !important;
-    -ms-flex: 1 1 100% !important;
     flex: 1 1 100% !important;
   }
 
   .md-flex-column {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
     flex-direction: column;
   }
 }

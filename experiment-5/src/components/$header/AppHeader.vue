@@ -56,10 +56,6 @@ export default {
 .header {
   padding: 16px 32px;
 
-  -ms-flex-item-align: stretch;
-
-  -ms-grid-row-align: stretch;
-
   align-self: stretch;
 
   background: var(--color-background-header);
@@ -84,8 +80,6 @@ export default {
     padding-left: 16px;
   }
   .header-main {
-    -webkit-box-ordinal-group: 1000;
-    -ms-flex-order: 999;
     order: 999;
   }
   .header-main,
