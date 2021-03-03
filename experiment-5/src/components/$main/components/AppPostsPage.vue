@@ -5,7 +5,7 @@
       <div class="post-wrap" v-for="(post, idx) in posts" :key="idx">
         <div class="post" :class="`post${idx}`">
           <div class="post-title pd-15-30">
-            <div class="post-username mr-16">
+            <div class="post-username tw-mr-4">
               <router-link :to="{ name: 'user', params: { id: post.userId } }"><span class="post-author" v-text="post.name"></span></router-link>
             </div>
             <h1>

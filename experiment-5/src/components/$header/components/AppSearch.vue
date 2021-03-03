@@ -2,27 +2,27 @@
   <div class="app-search">
     <form class="from-container d-flex flex-auto" action="" method="get">
       <label class="input-wrapper position-relative d-flex flex-auto flex-center" for="search">
-        <input class="input pd-0-12 flex-auto" type="text" name="search" placeholder="Search" />
-        <img class="search-key-slash unselectable mn-0-12" src="@/assets/svg/search-key-slash.svg" alt="Search key slash" />
+        <input class="input tw-px-3 flex-auto" type="text" name="search" placeholder="Search" />
+        <img class="search-key-slash unselectable tw-mx-3" src="@/assets/svg/search-key-slash.svg" alt="Search key slash" />
         <div class="box position-absolute scrollbox">
           <ul class="list-style-none">
-            <li class="pd-15-20">QQQQQQQQQQQQQQ</li>
-            <li class="pd-15-20">WWWWWWWWWWWWWW</li>
-            <li class="pd-15-20">EEEEEEEEEEEEEE</li>
-            <li class="pd-15-20">NNNNNNNNNNNNNN</li>
-            <li class="pd-15-20">WWWWWWWWWWWWWW</li>
-            <li class="pd-15-20">QQQQQQQQQQQQQQ</li>
-            <li class="pd-15-20">WWWWWWWWWWWWWW</li>
-            <li class="pd-15-20">EEEEEEEEEEEEEE</li>
-            <li class="pd-15-20">QQQQQQQQQQQQQQ</li>
-            <li class="pd-15-20">WWWWWWWWWWWWWW</li>
-            <li class="pd-15-20">EEEEEEEEEEEEEE</li>
-            <li class="pd-15-20">QQQQQQQQQQQQQQ</li>
-            <li class="pd-15-20">WWWWWWWWWWWWWW</li>
-            <li class="pd-15-20">EEEEEEEEEEEEEE</li>
-            <li class="pd-15-20">QQQQQQQQQQQQQQ</li>
-            <li class="pd-15-20">WWWWWWWWWWWWWW</li>
-            <li class="pd-15-20">EEEEEEEEEEEEEE</li>
+            <li class="tw-px-5 tw-py-3">QQQQQQQQQQQQQQ</li>
+            <li class="tw-px-5 tw-py-3">WWWWWWWWWWWWWW</li>
+            <li class="tw-px-5 tw-py-3">EEEEEEEEEEEEEE</li>
+            <li class="tw-px-5 tw-py-3">NNNNNNNNNNNNNN</li>
+            <li class="tw-px-5 tw-py-3">WWWWWWWWWWWWWW</li>
+            <li class="tw-px-5 tw-py-3">QQQQQQQQQQQQQQ</li>
+            <li class="tw-px-5 tw-py-3">WWWWWWWWWWWWWW</li>
+            <li class="tw-px-5 tw-py-3">EEEEEEEEEEEEEE</li>
+            <li class="tw-px-5 tw-py-3">QQQQQQQQQQQQQQ</li>
+            <li class="tw-px-5 tw-py-3">WWWWWWWWWWWWWW</li>
+            <li class="tw-px-5 tw-py-3">EEEEEEEEEEEEEE</li>
+            <li class="tw-px-5 tw-py-3">QQQQQQQQQQQQQQ</li>
+            <li class="tw-px-5 tw-py-3">WWWWWWWWWWWWWW</li>
+            <li class="tw-px-5 tw-py-3">EEEEEEEEEEEEEE</li>
+            <li class="tw-px-5 tw-py-3">QQQQQQQQQQQQQQ</li>
+            <li class="tw-px-5 tw-py-3">WWWWWWWWWWWWWW</li>
+            <li class="tw-px-5 tw-py-3">EEEEEEEEEEEEEE</li>
           </ul>
         </div>
       </label>

@@ -162,37 +162,11 @@ button:hover {
   -webkit-box-shadow: 0 0 1px var(--color-scrollbar);
 }
 
-/* Global Margin and Padding Class */
-.mr-16 {
-  margin-right: 16px;
-}
-
-.mn-0-12 {
-  margin: 0 12px;
-}
-
-.pd-15-30 {
-  padding: 15px 30px;
-}
-
-.pd-0-12 {
-  padding: 0 12px;
-}
-
-.pd-15-20 {
-  padding: 15px 20px;
-}
-
-@media (max-width: 808px) {
-  .md-mr-16 {
-    margin-right: 16px !important;
-  }
-}
-
 /* Global Position Class */
 .position-relative {
   position: relative;
 }
+
 .position-absolute {
   position: absolute;
 }

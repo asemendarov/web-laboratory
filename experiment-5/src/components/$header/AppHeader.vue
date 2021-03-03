@@ -2,12 +2,12 @@
   <div class="app-header position-relative header-wrapper">
     <header class="header d-flex flex-row flex-nowrap flex-auto __md__ md-flex-wrap" :class="[classDetails]">
       <!-- /// -->
-      <app-menu-control class="header-item header-main-control d-none flex-center mr-16 __md__ md-d-flex" width="32px" height="32px" @app-click="menuControl" />
+      <app-menu-control class="header-item header-main-control d-none flex-center tw-mr-4 __md__ md-d-flex" width="32px" height="32px" @app-click="menuControl" />
       <!-- /// -->
-      <app-logo class="header-item header-logo d-flex mr-16 __md__ md-flex-auto md-flex-center" width="32px" height="32px" />
-      <div class="header-item header-main d-flex flex-auto mr-16 __md__ md-flex-column md-flex-full-width Details-content">
-        <app-search class="header-search d-flex mr-16 __md__ md-flex-column" />
-        <app-navigation class="header-navigation d-flex mr-16 __md__ md-flex-column" />
+      <app-logo class="header-item header-logo d-flex tw-mr-4 __md__ md-flex-auto md-flex-center" width="32px" height="32px" />
+      <div class="header-item header-main d-flex flex-auto tw-mr-4 __md__ md-flex-column md-flex-full-width Details-content">
+        <app-search class="header-search d-flex tw-mr-4 md:tw-mr-0 __md__ md-flex-column" />
+        <app-navigation class="header-navigation d-flex tw-mr-4 md:tw-mr-0 __md__ md-flex-column" />
       </div>
       <!-- /// -->
       <app-theme-control class="header-item header-theme-control d-flex flex-center" width="24px" height="24px" />
@@ -82,8 +82,7 @@ export default {
   .header-main {
     order: 999;
   }
-  .header-main,
-  .header-main >>> .mr-16 {
+  .header-main {
     margin-right: 0 !important;
   }
   .header-search {

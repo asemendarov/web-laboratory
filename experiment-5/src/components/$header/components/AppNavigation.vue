@@ -1,10 +1,10 @@
 <template>
   <nav class="app-navigation">
-    <router-link class="nav__item d-flex flex-ai-center mr-16" :to="{ name: 'posts' }">News</router-link>
-    <router-link class="nav__item d-flex flex-ai-center mr-16" to="">Articles</router-link>
-    <router-link class="nav__item d-flex flex-ai-center mr-16" to="">Discussion</router-link>
-    <router-link class="nav__item d-flex flex-ai-center mr-16" to="">Codex</router-link>
-    <router-link class="nav__item d-flex flex-ai-center mr-16" to="">Rating</router-link>
+    <router-link class="nav__item d-flex flex-ai-center tw-mr-4 md:tw-mr-0" :to="{ name: 'posts' }">News</router-link>
+    <router-link class="nav__item d-flex flex-ai-center tw-mr-4 md:tw-mr-0" to="">Articles</router-link>
+    <router-link class="nav__item d-flex flex-ai-center tw-mr-4 md:tw-mr-0" to="">Discussion</router-link>
+    <router-link class="nav__item d-flex flex-ai-center tw-mr-4 md:tw-mr-0" to="">Codex</router-link>
+    <router-link class="nav__item d-flex flex-ai-center tw-mr-4 md:tw-mr-0" to="">Rating</router-link>
   </nav>
 </template>
 <script>

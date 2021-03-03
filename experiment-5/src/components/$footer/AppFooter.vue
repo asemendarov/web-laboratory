@@ -1,24 +1,24 @@
 <template>
   <div class="app-footer position-relative footer-wrapper">
-    <footer class="footer d-flex pd-15-30 __md__ md-flex-column md-flex-center">
+    <footer class="footer d-flex tw-px-8 tw-py-4 __md__ md-flex-column md-flex-center">
       <ul class="ul list-style-none d-flex flex-ai-center flex-jc-space-between __md__ md-flex-center md-flex-full-width">
-        <li class="li d-flex flex-center __md__ md-mr-16">
+        <li class="li d-flex flex-center __md__ md:tw-mr-4">
           <span class="nowrap">© 2021 Alpha Centauri</span>
         </li>
-        <li class="li d-flex flex-center __md__ md-mr-16"><router-link to="">API</router-link></li>
-        <li class="li d-flex flex-center __md__ md-mr-16">
+        <li class="li d-flex flex-center __md__ md:tw-mr-4"><router-link to="">API</router-link></li>
+        <li class="li d-flex flex-center __md__ md:tw-mr-4">
           <router-link to="">Codex</router-link>
         </li>
       </ul>
       <app-logo class="footer-item footer-logo d-flex flex-center flex-auto __md__ md-d-none" width="32px" height="32px" :full="false" alpha="55" />
       <ul class="ul list-style-none d-flex flex-ai-center flex-jc-space-between __md__ md-flex-center md-flex-full-width">
-        <li class="li d-flex flex-center __md__ md-mr-16">
+        <li class="li d-flex flex-center __md__ md:tw-mr-4">
           <router-link to="">Contact</router-link>
         </li>
-        <li class="li d-flex flex-center __md__ md-mr-16">
+        <li class="li d-flex flex-center __md__ md:tw-mr-4">
           <router-link to="">Privacy</router-link>
         </li>
-        <li class="li d-flex flex-center __md__ md-mr-16">
+        <li class="li d-flex flex-center __md__ md:tw-mr-4">
           <router-link :to="{ name: 'About' }">About</router-link>
         </li>
       </ul>
