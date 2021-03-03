@@ -88,12 +88,6 @@ body {
 
 /* My Normalization */
 
-h1 {
-  font-size: 32px;
-  line-height: 150%;
-  font-weight: 400;
-}
-
 a {
   user-select: none;
   white-space: nowrap;
