@@ -45,20 +45,16 @@ export default {
 };
 </script>
 
-<style scoped>
-.app-theme-control:hover {
+<style lang="sass" scoped>
+.app-theme-control:hover
   /* pass */
-}
 
-.darker-control {
-  color: var(--color-background-default);
-}
+.darker-control
+  @apply tw-text-very-dark-mostly-black-800
 
-.lighter-control {
-  color: var(--color-button-hover);
-}
+.lighter-control
+  @apply tw-text-vivid-orange-600
 
-button:hover {
-  color: inherit !important;
-}
+button:hover
+  color: inherit !important
 </style>

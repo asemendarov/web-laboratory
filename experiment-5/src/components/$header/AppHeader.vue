@@ -52,49 +52,43 @@ export default {
 };
 </script>
 
-<style scoped>
-.header {
-  padding: 16px 32px;
+<style lang="sass" scoped>
+.header
+  @apply tw-bg-very-dark-mostly-black-700
 
-  align-self: stretch;
+.header
+  padding: 16px 32px
 
-  background: var(--color-background-header);
-}
+  align-self: stretch
 
-.header-search {
-  transition: margin 0.5s ease-in-out;
-}
+  &-search
+    transition: margin 0.5s ease-in-out
 
-.header-search:focus-within {
-  width: 100%;
-  max-width: 808px;
-}
+  &-search:focus-within
+    width: 100%
+    max-width: 808px
 
-.header-search:focus-within >>> .search-key-slash {
-  display: none;
-}
+  &-search:focus-within::v-deep .search-key-slash
+    display: none
 
-@media (max-width: 808px) {
-  .header {
-    padding-right: 16px;
-    padding-left: 16px;
-  }
-  .header-main {
-    order: 999;
-  }
-  .header-main {
-    margin-right: 0 !important;
-  }
-  .header-search {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-  .header-navigation >>> .nav__item {
-    border-top: 1px solid var(--color-scrollbar);
-  }
+@media (max-width: 808px)
+  .header
+    padding-right: 16px
+    padding-left: 16px
 
-  .Details--off .Details-content {
-    display: none;
-  }
-}
+  &-main
+    order: 999
+
+  &-main
+    margin-right: 0 !important
+
+  &-search
+    margin-top: 20px
+    margin-bottom: 20px
+
+  &-navigation::v-deep .nav__item
+    border-top: 1px solid var(--color-scrollbar)
+
+  .Details--off .Details-content
+    display: none
 </style>

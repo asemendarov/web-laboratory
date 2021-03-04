@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   prefix: 'tw-',
@@ -7,24 +8,6 @@ module.exports = {
   },
   theme: {
     screens: {
-      // 'sm': '640px',
-      // // => @media (min-width: 640px) { ... }
-
-      // // 'md': '768px', // default
-      // 'md': '808px', // my
-      // // => @media (min-width: 768px) { ... }
-
-      // 'lg': '1024px',
-      // // => @media (min-width: 1024px) { ... }
-
-      // 'xl': '1280px',
-      // // => @media (min-width: 1280px) { ... }
-
-      // '2xl': '1536px',
-      // // => @media (min-width: 1536px) { ... }
-      
-      // ----------------------------------------
-
       '2xl': {'max': '1535px'},
       // => @media (max-width: 1535px) { ... }
 
@@ -34,8 +17,7 @@ module.exports = {
       'lg': {'max': '1023px'},
       // => @media (max-width: 1023px) { ... }
 
-      // 'md': {'max': '767px'}, // default
-      'md': {'max': '808px'}, // my
+      'md': {'max': '808px'},
       // => @media (max-width: 767px) { ... }
 
       'sm': {'max': '639px'},
@@ -45,7 +27,20 @@ module.exports = {
       // => @media (max-width: 319px) { ... }
     },
     colors: {
-      inherit: 'inherit'
+      inherit: 'inherit',
+      'very-light-gray': {
+        200: '#eeeeee',
+        400: '#cccccc'
+      },
+      'very-dark-mostly-black': {
+        700: '#161b22',
+        800: '#0d1117'
+      },
+      'vivid-orange': {
+        600: '#fdb021',
+        800: '#c7912d'
+      },
+      ...colors
     },
     fontFamily: {
       'sans': ['Roboto', ...defaultTheme.fontFamily.sans],
@@ -54,6 +49,9 @@ module.exports = {
     flex: {
       'auto': 'auto',
       'full': '1 1 100%',
+    },
+    outline: {
+      none: 'none',
     }
   },
   variants: {},

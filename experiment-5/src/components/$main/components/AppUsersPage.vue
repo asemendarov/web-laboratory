@@ -96,25 +96,22 @@ export default {
   },
 };
 </script>
-<style scoped>
-.user-wrap {
-  border: 1px solid var(--color-scrollbar);
-  border-radius: 10px;
-}
+<style lang="sass" scoped>
+.user-wrap
+  border: 1px solid var(--color-scrollbar)
+  border-radius: 10px
 
-.user-wrap:not(:first-of-type) {
-  margin-top: 20px;
-}
 
-.user-name {
-  border-bottom: 1px solid var(--color-scrollbar);
-}
+  &:not(:first-of-type)
+    margin-top: 20px
 
-.button {
-  margin-top: 30px;
+.user-name
+  border-bottom: 1px solid var(--color-scrollbar)
 
-  border-radius: 7px;
-  border: 1px solid var(--color-scrollbar);
-  text-transform: uppercase;
-}
+.button
+  margin-top: 30px
+
+  border-radius: 7px
+  border: 1px solid var(--color-scrollbar)
+  text-transform: uppercase
 </style>

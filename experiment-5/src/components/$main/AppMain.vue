@@ -24,15 +24,8 @@ export default {
   },
 };
 </script>
-<style scoped>
-.main-content {
-  margin-top: 32px;
-  margin-left: auto;
-  margin-right: auto;
 
-  padding-left: 16px;
-  padding-right: 16px;
-
-  max-width: 1280px;
-}
+<style lang="sass" scoped>
+.main-content
+  @apply tw-mt-8 tw-mx-auto tw-px-4 tw-max-w-7xl
 </style>

@@ -38,27 +38,22 @@ export default {
   },
 };
 </script>
-<style scoped>
-.app-footer {
-  margin: 0 auto;
-  max-width: 1280px;
-}
+<style lang="sass" scoped>
+.app-footer
+  margin: 0 auto
+  max-width: 1280px
 
-.footer {
-  margin-top: 40px;
+.footer
+  margin-top: 40px
 
-  border-top: 1px solid var(--color-scrollbar);
-}
+  border-top: 1px solid var(--color-scrollbar)
 
-.ul {
-  width: 40%;
-}
+.ul
+  width: 40%
 
-a {
-  color: var(--color-link-footer);
-}
+a
+  color: var(--color-link-footer)
 
-a:hover {
-  text-decoration: underline;
-}
+a:hover
+  text-decoration: underline
 </style>

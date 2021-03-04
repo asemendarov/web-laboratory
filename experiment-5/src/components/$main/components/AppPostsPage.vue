@@ -108,37 +108,32 @@ export default {
 };
 </script>
 
-<style scoped>
-.post-wrap {
-  border: 1px solid var(--color-scrollbar);
-  border-radius: 10px;
-}
+<style lang="sass" scoped>
+.post-wrap
+  border: 1px solid var(--color-scrollbar)
+  border-radius: 10px
 
-.post-wrap:not(:first-of-type) {
-  margin-top: 20px;
-}
 
-.post-author {
-  color: var(--color-link-footer);
-}
+  &:not(:first-of-type)
+    margin-top: 20px
 
-.post-author:hover {
-  text-decoration: underline;
-}
+.post-author
+  color: var(--color-link-footer)
 
-.post-title {
-  border-bottom: 1px solid var(--color-scrollbar);
-}
 
-.button {
-  margin-top: 30px;
+  &:hover
+    text-decoration: underline
 
-  border-radius: 7px;
-  border: 1px solid var(--color-scrollbar);
-  text-transform: uppercase;
-}
+.post-title
+  border-bottom: 1px solid var(--color-scrollbar)
 
-a {
-  white-space: normal;
-}
+.button
+  margin-top: 30px
+
+  border-radius: 7px
+  border: 1px solid var(--color-scrollbar)
+  text-transform: uppercase
+
+a
+  white-space: normal
 </style>

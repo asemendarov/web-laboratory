@@ -41,49 +41,46 @@ export default {
 };
 </script>
 
-<style scoped>
-.input-wrapper {
-  min-height: 28px;
+<style lang="sass" scoped>
+.input-wrapper
+  min-height: 28px
 
-  border-radius: 6px;
-  background: var(--color-background-default);
-}
+  border-radius: 6px
 
-.input {
-  justify-self: stretch;
-  align-self: stretch;
+  @apply tw-bg-very-dark-mostly-black-800
 
-  border-radius: 6px;
-}
+.input
+  justify-self: stretch
+  align-self: stretch
 
-.input:focus {
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-  border: 1px solid var(--color-input-focus);
-  border-bottom: none;
-}
+  border-radius: 6px
 
-.input:not(:focus) ~ .box {
-  display: none;
-}
+  &:focus
+    border-bottom-left-radius: 0px
+    border-bottom-right-radius: 0px
+    border-bottom: none
+    border: 1px solid var(--color-button-hover)
 
-.input-wrapper .box {
-  top: 100%;
-  left: 0;
+  &:not(:focus) ~ .box
+    display: none
 
-  width: 100%;
+  &-wrapper .box
+    top: 100%
+    left: 0
 
-  background: var(--color-background-default);
-  border: 1px solid var(--color-input-focus);
-  border-top: 1px solid var(--color-scrollbar);
+    width: 100%
 
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+    border: 1px solid var(--color-button-hover)
+    border-top: 1px solid var(--color-scrollbar)
 
-  z-index: 999;
+    border-top-left-radius: 0
+    border-top-right-radius: 0
+    border-bottom-left-radius: 6px
+    border-bottom-right-radius: 6px
 
-  max-height: 400px;
-}
+    z-index: 999
+
+    max-height: 400px
+
+    @apply tw-bg-very-dark-mostly-black-800
 </style>

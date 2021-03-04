@@ -17,9 +17,8 @@ export default {
   },
 };
 </script>
-<style scoped>
-.nav__item {
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
+<style lang="sass" scoped>
+.nav__item
+  padding-top: 5px
+  padding-bottom: 5px
 </style>
