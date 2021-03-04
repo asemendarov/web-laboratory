@@ -1,6 +1,6 @@
 <template>
   <div class="app-menu-control" @click.stop="clickControl">
-    <button class="d-flex" type="button" :aria-expanded="isEnabled.toString()">
+    <button class="tw-flex" type="button" :aria-expanded="isEnabled.toString()">
       <svg xmlns="http://www.w3.org/2000/svg" :width="width" :height="height" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
         <path
           fill-rule="evenodd"

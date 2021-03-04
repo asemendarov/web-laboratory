@@ -1,16 +1,16 @@
 <template>
   <div class="app-header tw-relative header-wrapper">
-    <header class="header d-flex flex-row flex-nowrap flex-auto __md__ md-flex-wrap" :class="[classDetails]">
+    <header class="header tw-flex tw-flex-row tw-flex-nowrap tw-flex-auto __md__ md:tw-flex-wrap" :class="[classDetails]">
       <!-- /// -->
-      <app-menu-control class="header-item header-main-control d-none flex-center tw-mr-4 __md__ md-d-flex" width="32px" height="32px" @app-click="menuControl" />
+      <app-menu-control class="header-item header-main-control tw-hidden tw-items-center tw-justify-center tw-mr-4 __md__ md:tw-flex" width="32px" height="32px" @app-click="menuControl" />
       <!-- /// -->
-      <app-logo class="header-item header-logo d-flex tw-mr-4 __md__ md-flex-auto md-flex-center" width="32px" height="32px" />
-      <div class="header-item header-main d-flex flex-auto tw-mr-4 __md__ md-flex-column md-flex-full-width Details-content">
-        <app-search class="header-search d-flex tw-mr-4 md:tw-mr-0 __md__ md-flex-column" />
-        <app-navigation class="header-navigation d-flex tw-mr-4 md:tw-mr-0 __md__ md-flex-column" />
+      <app-logo class="header-item header-logo tw-flex tw-mr-4 __md__ md:tw-flex-auto md:tw-items-center md:tw-justify-center" width="32px" height="32px" />
+      <div class="header-item header-main tw-flex tw-flex-auto tw-mr-4 __md__ md:tw-flex-col md:tw-flex-full Details-content">
+        <app-search class="header-search tw-flex tw-mr-4 md:tw-mr-0 __md__ md:tw-flex-col" />
+        <app-navigation class="header-navigation tw-flex tw-mr-4 md:tw-mr-0 __md__ md:tw-flex-col" />
       </div>
       <!-- /// -->
-      <app-theme-control class="header-item header-theme-control d-flex flex-center" width="24px" height="24px" />
+      <app-theme-control class="header-item header-theme-control tw-flex tw-items-center tw-justify-center" width="24px" height="24px" />
       <!-- /// -->
     </header>
   </div>

@@ -1,11 +1,27 @@
 @import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
 
 @layer base {
+  html,
+  body {
+    @apply tw-h-full tw-min-h-full;
+  }
+
+  body {
+    @apply tw-text-sm md:tw-text-base;
+  }
+
   h1 {
-    font-size: 32px;
-    line-height: 150%;
-    font-weight: 400;
+    @apply tw-text-3xl md:tw-text-2xl;
+  }
+
+  a {
+    @apply tw-select-none tw-whitespace-nowrap tw-no-underline tw-text-inherit;
+  }
+
+  img {
+    @apply tw-select-none;
   }
 }
+
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";

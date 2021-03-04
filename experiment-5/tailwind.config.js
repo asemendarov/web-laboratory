@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   prefix: 'tw-',
   purge: {
@@ -38,7 +40,21 @@ module.exports = {
 
       'sm': {'max': '639px'},
       // => @media (max-width: 639px) { ... }
+
+      'xs': {'max': '319px'}
+      // => @media (max-width: 319px) { ... }
     },
+    colors: {
+      inherit: 'inherit'
+    },
+    fontFamily: {
+      'sans': ['Roboto', ...defaultTheme.fontFamily.sans],
+      'logo': ['"PT Sans"', ...defaultTheme.fontFamily.sans]
+    },
+    flex: {
+      'auto': 'auto',
+      'full': '1 1 100%',
+    }
   },
   variants: {},
   plugins: [],

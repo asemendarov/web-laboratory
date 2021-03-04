@@ -22,8 +22,7 @@ export default {
 };
 </script>
 
-<style scoped>
-.app-main-component {
-  min-height: inherit;
-}
+<style lang="sass" scoped>
+// .app-main-component
+//   @apply tw-min-h-full
 </style>
