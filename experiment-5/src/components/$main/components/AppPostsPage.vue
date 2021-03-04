@@ -4,7 +4,7 @@
     <div class="all-posts">
       <div class="post-wrap" v-for="(post, idx) in posts" :key="idx">
         <div class="post" :class="`post${idx}`">
-          <div class="post-title pd-15-30">
+          <div class="post-title tw-px-7 tw-py-4">
             <div class="post-username tw-mr-4">
               <router-link :to="{ name: 'user', params: { id: post.userId } }"><span class="post-author" v-text="post.name"></span></router-link>
             </div>
@@ -15,12 +15,12 @@
               <span v-text="`#${post.id}`"></span>
             </h1>
           </div>
-          <div class="post-body pd-15-30"><p v-text="post.body"></p></div>
+          <div class="post-body tw-px-7 tw-py-4"><p v-text="post.body"></p></div>
         </div>
       </div>
     </div>
     <!-- /// -->
-    <button class="button pd-15-30" type="button" v-if="!$route.params.id" @click.stop="getMore">Показать еще</button>
+    <button class="button tw-px-7 tw-py-4" type="button" v-if="!$route.params.id" @click.stop="getMore">Показать еще</button>
     <!-- /// -->
   </div>
 </template>

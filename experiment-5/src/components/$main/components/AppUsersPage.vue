@@ -4,7 +4,7 @@
     <div class="all-users">
       <div class="user-wrap" v-for="(user, idx) in users" :key="idx">
         <div class="user" :class="`user${idx}`">
-          <div class="user-name pd-15-30">
+          <div class="user-name tw-px-7 tw-py-4">
             <h1>
               <router-link :to="{ name: 'user', params: { id: user.id } }">
                 <span v-text="user.name"></span>
@@ -12,12 +12,12 @@
               <span v-text="`#${user.id}`"></span>
             </h1>
           </div>
-          <div class="user-body pd-15-30"><p v-text="user.email"></p></div>
+          <div class="user-body tw-px-7 tw-py-4"><p v-text="user.email"></p></div>
         </div>
       </div>
     </div>
     <!-- /// -->
-    <button class="button pd-15-30" type="button" v-if="!$route.params.id" @click.stop="getMore">Показать еще</button>
+    <button class="button tw-px-7 tw-py-4" type="button" v-if="!$route.params.id" @click.stop="getMore">Показать еще</button>
     <!-- /// -->
   </div>
 </template>
