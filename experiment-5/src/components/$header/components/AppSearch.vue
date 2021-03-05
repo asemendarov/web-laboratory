@@ -1,10 +1,10 @@
 <template>
   <div class="app-search">
-    <form class="from-container tw-flex tw-flex-auto" action="" method="get">
-      <label class="input-wrapper tw-relative tw-flex tw-flex-auto tw-items-center tw-justify-center" for="search">
-        <input class="input tw-px-3 tw-flex-auto" type="text" name="search" placeholder="Search" />
-        <img class="search-key-slash tw-mx-3" src="@/assets/svg/search-key-slash.svg" alt="Search key slash" />
-        <div class="box tw-absolute scrollbox">
+    <form class="from-container" action="" method="get">
+      <label class="input-wrapper" for="search">
+        <input class="input" type="text" name="search" placeholder="Search" />
+        <img class="search-key-slash" src="@/assets/svg/search-key-slash.svg" alt="Search key slash" />
+        <div class="box scrollbox">
           <ul>
             <li class="tw-px-5 tw-py-3">QQQQQQQQQQQQQQ</li>
             <li class="tw-px-5 tw-py-3">WWWWWWWWWWWWWW</li>
@@ -42,45 +42,32 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.input-wrapper
-  min-height: 28px
+.search-key-slash
+  @apply tw-mx-3
 
-  border-radius: 6px
+.from-container
+  @apply tw-flex tw-flex-auto
 
-  @apply tw-bg-very-dark-mostly-black-800
+.box
+  @apply tw-absolute
 
 .input
-  justify-self: stretch
-  align-self: stretch
-
-  border-radius: 6px
+  &
+    @apply tw-px-3 tw-flex-auto tw-justify-self-stretch tw-self-stretch tw-rounded-md
 
   &:focus
-    border-bottom-left-radius: 0px
-    border-bottom-right-radius: 0px
-    border-bottom: none
-    border: 1px solid var(--color-button-hover)
+    @apply tw-rounded-bl-none tw-rounded-br-none tw-border tw-border-solid tw-border-very-dark-grayish-blue-700 tw-border-b-0
 
   &:not(:focus) ~ .box
-    display: none
+    @apply tw-hidden
 
-  &-wrapper .box
-    top: 100%
-    left: 0
+.input-wrapper
+  @apply tw-relative tw-flex tw-flex-auto tw-items-center tw-justify-center
+  @apply tw-min-h-6 tw-bg-very-dark-mostly-black-800 tw-rounded-md
+  @apply md:tw-min-h-8
 
-    width: 100%
-
-    border: 1px solid var(--color-button-hover)
-    border-top: 1px solid var(--color-scrollbar)
-
-    border-top-left-radius: 0
-    border-top-right-radius: 0
-    border-bottom-left-radius: 6px
-    border-bottom-right-radius: 6px
-
-    z-index: 999
-
-    max-height: 400px
-
-    @apply tw-bg-very-dark-mostly-black-800
+  & .box
+    @apply tw-max-h-80 tw-z-50
+    @apply tw-rounded-t-none tw-rounded-b-md
+    @apply tw-top-full tw-left-0 tw-w-full tw-border tw-border-solid tw-border-very-dark-grayish-blue-700 tw-bg-very-dark-mostly-black-800
 </style>

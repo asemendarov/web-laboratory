@@ -81,14 +81,13 @@ export default {
     @apply tw-mr-4 tw-flex
     @apply md:tw-mr-0 md:tw-my-5 md:tw-flex-col
 
-  &-search:focus-within
-    width: 100%
-    max-width: 808px
+    &:focus-within
+      @apply tw-w-full tw-max-w-4xl
 
-  &-search:focus-within::v-deep .search-key-slash
-    display: none
+      &::v-deep .search-key-slash
+        @apply tw-hidden
 
 @media (max-width: 808px)
   .Details--off .Details-content
-    display: none
+    @apply tw-hidden
 </style>
