@@ -22,13 +22,13 @@ export default {
   -o-overflow-scrolling: touch
 
   scrollbar-width: 7px
-  scrollbar-color: var(#30363d)
+  scrollbar-color: #30363d
 
-  scrollbar-face-color: var(#30363d)
-  scrollbar-shadow-color: var(#30363d)
-  scrollbar-highlight-color: var(#30363d)
+  scrollbar-face-color: #30363d
+  scrollbar-shadow-color: #30363d
+  scrollbar-highlight-color: #30363d
 
-  @apply tw-overflow-y-auto tw-overflow-y-hidden
+  @apply tw-overflow-y-auto tw-overflow-x-hidden
 
   &::-webkit-scrollbar
     -webkit-appearance: none
@@ -36,7 +36,7 @@ export default {
 
   &::-webkit-scrollbar-thumb
     border-radius: 3px
-    background-color: var(#30363d)
-    box-shadow: 0 0 1px var(#30363d)
-    -webkit-box-shadow: 0 0 1px var(#30363d)
+    background-color: #30363d
+    box-shadow: 0 0 1px #30363d
+    -webkit-box-shadow: 0 0 1px #30363d
 </style>
