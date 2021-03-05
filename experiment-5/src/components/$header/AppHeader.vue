@@ -1,16 +1,16 @@
 <template>
-  <div class="app-header tw-relative header-wrapper">
-    <header class="header tw-flex tw-flex-row tw-flex-nowrap tw-flex-auto __md__ md:tw-flex-wrap" :class="[classDetails]">
+  <div class="app-header header-wrapper tw-relative">
+    <header class="header" :class="[classDetails]">
       <!-- /// -->
-      <app-menu-control class="header-item header-main-control tw-hidden tw-items-center tw-justify-center tw-mr-4 __md__ md:tw-flex" width="32px" height="32px" @app-click="menuControl" />
+      <app-menu-control class="header-item header-main-control" width="32px" height="32px" @app-click="menuControl" />
       <!-- /// -->
-      <app-logo class="header-item header-logo tw-flex tw-mr-4 __md__ md:tw-flex-auto md:tw-items-center md:tw-justify-center" width="32px" height="32px" />
-      <div class="header-item header-main tw-flex tw-flex-auto tw-mr-4 __md__ md:tw-flex-col md:tw-flex-full Details-content">
-        <app-search class="header-search tw-flex tw-mr-4 md:tw-mr-0 __md__ md:tw-flex-col" />
-        <app-navigation class="header-navigation tw-flex tw-mr-4 md:tw-mr-0 __md__ md:tw-flex-col" />
+      <app-logo class="header-item header-logo" width="32px" height="32px" />
+      <div class="header-item header-main Details-content">
+        <app-search class="header-search" />
+        <app-navigation class="header-navigation" />
       </div>
       <!-- /// -->
-      <app-theme-control class="header-item header-theme-control tw-flex tw-items-center tw-justify-center" width="24px" height="24px" />
+      <app-theme-control class="header-item header-theme-control" width="24px" height="24px" />
       <!-- /// -->
     </header>
   </div>
@@ -54,15 +54,32 @@ export default {
 
 <style lang="sass" scoped>
 .header
-  @apply tw-bg-very-dark-mostly-black-700
+  &
+    @apply tw-px-8 tw-py-4 tw-flex tw-flex-row tw-flex-nowrap tw-flex-auto tw-self-stretch tw-bg-very-dark-mostly-black-700
+    @apply md:tw-flex-wrap md:tw-px-4
 
-.header
-  padding: 16px 32px
+  &-main-control
+    @apply tw-mr-4 tw-hidden tw-items-center tw-justify-center
+    @apply md:tw-flex
 
-  align-self: stretch
+  &-logo
+    @apply tw-mr-4 tw-flex
+    @apply md:tw-flex-auto md:tw-items-center md:tw-justify-center
+
+  &-main
+    @apply tw-mr-4 tw-flex tw-flex-auto tw-transition tw-delay-500 tw-ease-in-out
+    @apply md:tw-mr-0 md:tw-flex-col md:tw-flex-full md:tw-order-last
+
+  &-navigation
+    @apply tw-flex tw-mr-4
+    @apply md:tw-mr-0 md:tw-flex-col
+
+  &-theme-control
+    @apply tw-flex tw-items-center tw-justify-center
 
   &-search
-    transition: margin 0.5s ease-in-out
+    @apply tw-mr-4 tw-flex
+    @apply md:tw-mr-0 md:tw-my-5 md:tw-flex-col
 
   &-search:focus-within
     width: 100%
@@ -72,23 +89,6 @@ export default {
     display: none
 
 @media (max-width: 808px)
-  .header
-    padding-right: 16px
-    padding-left: 16px
-
-  &-main
-    order: 999
-
-  &-main
-    margin-right: 0 !important
-
-  &-search
-    margin-top: 20px
-    margin-bottom: 20px
-
-  &-navigation::v-deep .nav__item
-    border-top: 1px solid var(--color-scrollbar)
-
   .Details--off .Details-content
     display: none
 </style>

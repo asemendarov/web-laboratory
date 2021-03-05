@@ -1,10 +1,10 @@
 <template>
   <nav class="app-navigation">
-    <router-link class="nav__item tw-flex tw-items-center tw-mr-4 md:tw-mr-0" :to="{ name: 'posts' }">News</router-link>
-    <router-link class="nav__item tw-flex tw-items-center tw-mr-4 md:tw-mr-0" to="">Articles</router-link>
-    <router-link class="nav__item tw-flex tw-items-center tw-mr-4 md:tw-mr-0" to="">Discussion</router-link>
-    <router-link class="nav__item tw-flex tw-items-center tw-mr-4 md:tw-mr-0" to="">Codex</router-link>
-    <router-link class="nav__item tw-flex tw-items-center tw-mr-4 md:tw-mr-0" to="">Rating</router-link>
+    <router-link class="nav__item" :to="{ name: 'posts' }">News</router-link>
+    <router-link class="nav__item" to="">Articles</router-link>
+    <router-link class="nav__item" to="">Discussion</router-link>
+    <router-link class="nav__item" to="">Codex</router-link>
+    <router-link class="nav__item" to="">Rating</router-link>
   </nav>
 </template>
 <script>
@@ -19,6 +19,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 .nav__item
-  padding-top: 5px
-  padding-bottom: 5px
+  @apply tw-flex tw-items-center tw-mr-4
+  @apply md:tw-mr-0 md:tw-py-1 md:tw-border-t md:tw-border-very-dark-grayish-blue-700
 </style>

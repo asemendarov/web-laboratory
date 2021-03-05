@@ -33,12 +33,15 @@ module.exports = {
         400: '#cccccc'
       },
       'very-dark-mostly-black': {
-        700: '#161b22',
+        700: '#161b22', 
         800: '#0d1117'
       },
       'vivid-orange': {
         600: '#fdb021',
         800: '#c7912d'
+      },
+      'very-dark-grayish-blue': {
+        700: '#30363d'
       },
       ...colors
     },
