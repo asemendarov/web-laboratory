@@ -43,6 +43,9 @@ module.exports = {
       'very-dark-grayish-blue': {
         700: '#30363d'
       },
+      'moderate-blue': {
+        500: '#5584b9'
+      },
       ...colors
     },
     fontFamily: {

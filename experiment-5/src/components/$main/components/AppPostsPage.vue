@@ -4,8 +4,8 @@
     <div class="all-posts">
       <div class="post-wrap" v-for="(post, idx) in posts" :key="idx">
         <div class="post" :class="`post${idx}`">
-          <div class="post-title tw-px-7 tw-py-4">
-            <div class="post-username tw-mr-4">
+          <div class="post-title">
+            <div class="post-username">
               <router-link :to="{ name: 'user', params: { id: post.userId } }"><span class="post-author" v-text="post.name"></span></router-link>
             </div>
             <h1>
@@ -15,12 +15,12 @@
               <span v-text="`#${post.id}`"></span>
             </h1>
           </div>
-          <div class="post-body tw-px-7 tw-py-4"><p v-text="post.body"></p></div>
+          <div class="post-body"><p v-text="post.body"></p></div>
         </div>
       </div>
     </div>
     <!-- /// -->
-    <button class="button tw-px-7 tw-py-4" type="button" v-if="!$route.params.id" @click.stop="getMore">Показать еще</button>
+    <button class="button" type="button" v-if="!$route.params.id" @click.stop="getMore">Показать еще</button>
     <!-- /// -->
   </div>
 </template>
@@ -109,31 +109,31 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.post-wrap
-  border: 1px solid var(--color-scrollbar)
-  border-radius: 10px
+.post
+  &-wrap
+    @apply tw-border tw-rounded-lg tw-border-very-dark-grayish-blue-700
 
+    &:not(:first-of-type)
+      @apply tw-mt-5
 
-  &:not(:first-of-type)
-    margin-top: 20px
+  &-username
+    @apply tw-mr-4
 
-.post-author
-  color: var(--color-link-footer)
+  &-author
+    @apply tw-text-moderate-blue-500
 
+    &:hover
+      @apply tw-underline
 
-  &:hover
-    text-decoration: underline
+  &-title
+    @apply tw-px-7 tw-py-4 tw-border-b tw-border-very-dark-grayish-blue-700
 
-.post-title
-  border-bottom: 1px solid var(--color-scrollbar)
+  &-body
+    @apply tw-px-7 tw-py-4
 
 .button
-  margin-top: 30px
-
-  border-radius: 7px
-  border: 1px solid var(--color-scrollbar)
-  text-transform: uppercase
+  @apply tw-px-7 tw-py-4 tw-mt-7 tw-uppercase tw-border tw-border-solid tw-rounded-lg tw-border-very-dark-grayish-blue-700
 
 a
-  white-space: normal
+  @apply tw-whitespace-normal
 </style>

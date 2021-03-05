@@ -4,20 +4,20 @@
     <div class="all-users">
       <div class="user-wrap" v-for="(user, idx) in users" :key="idx">
         <div class="user" :class="`user${idx}`">
-          <div class="user-name tw-px-7 tw-py-4">
+          <div class="user-name">
             <h1>
               <router-link :to="{ name: 'user', params: { id: user.id } }">
                 <span v-text="user.name"></span>
               </router-link>
-              <span v-text="`#${user.id}`"></span>
+              <span v-text="` #${user.id}`"></span>
             </h1>
           </div>
-          <div class="user-body tw-px-7 tw-py-4"><p v-text="user.email"></p></div>
+          <div class="user-body"><p v-text="user.email"></p></div>
         </div>
       </div>
     </div>
     <!-- /// -->
-    <button class="button tw-px-7 tw-py-4" type="button" v-if="!$route.params.id" @click.stop="getMore">Показать еще</button>
+    <button class="button" type="button" v-if="!$route.params.id" @click.stop="getMore">Показать еще</button>
     <!-- /// -->
   </div>
 </template>
@@ -97,21 +97,19 @@ export default {
 };
 </script>
 <style lang="sass" scoped>
-.user-wrap
-  border: 1px solid var(--color-scrollbar)
-  border-radius: 10px
+.user
+  &-wrap
+    @apply tw-border tw-rounded-lg tw-border-very-dark-grayish-blue-700
 
+    &:not(:first-of-type)
+      @apply tw-mt-5
 
-  &:not(:first-of-type)
-    margin-top: 20px
+  &-name
+    @apply tw-px-7 tw-py-4 tw-border-b tw-border-very-dark-grayish-blue-700
 
-.user-name
-  border-bottom: 1px solid var(--color-scrollbar)
+  &-body
+    @apply tw-px-7 tw-py-4
 
 .button
-  margin-top: 30px
-
-  border-radius: 7px
-  border: 1px solid var(--color-scrollbar)
-  text-transform: uppercase
+  @apply tw-px-7 tw-py-4 tw-mt-7 tw-uppercase tw-border tw-border-solid tw-rounded-lg tw-border-very-dark-grayish-blue-700
 </style>

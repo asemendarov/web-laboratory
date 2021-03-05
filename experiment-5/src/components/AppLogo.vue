@@ -52,7 +52,8 @@ export default {
 
 <style lang="sass" scoped>
 .text-logo
-  @apply tw-font-logo tw-text-base xs:tw-hidden
+  @apply tw-font-logo tw-text-base
+  @apply xs:tw-hidden
 
   &:not([full])
     @apply tw-hidden
