@@ -12,7 +12,7 @@
               <router-link :to="{ name: 'post', params: { id: post.id } }">
                 <span v-text="post.title"></span>
               </router-link>
-              <span v-text="`#${post.id}`"></span>
+              <span v-text="` #${post.id}`"></span>
             </h1>
           </div>
           <div class="post-body"><p v-text="post.body"></p></div>
@@ -20,20 +20,26 @@
       </div>
     </div>
     <!-- /// -->
-    <button class="button" type="button" v-if="!$route.params.id" @click.stop="getMore">Показать еще</button>
+    <app-loader v-if="isLoading" class="loader" :size="50" color="#5584b9" />
+    <button class="button" type="button" v-else-if="!$route.params.id" @click.stop="getMore">Показать еще</button>
     <!-- /// -->
   </div>
 </template>
+
 <script>
+import AppLoader from "@/components/$animation/AppLoader";
+
 import axios from "axios";
 
 export default {
+  components: { AppLoader },
   name: "AppPosts",
   data() {
     return {
       url: "https://jsonplaceholder.typicode.com",
       posts: [],
       lastIdPost: 0,
+      isLoading: null,
     };
   },
   mounted() {
@@ -44,32 +50,44 @@ export default {
     $route: "routerControl",
   },
   methods: {
-    getPost(id) {
+    async getPost(id) {
       this.lastIdPost = id;
 
-      axios
-        .get(`${this.url}/posts/${id}`)
-        .then((response) => {
-          this.getUser(this.posts.push(response.data) - 1);
-        })
-        .catch((error) => console.log(error));
+      this.isLoading++;
+
+      await this.sleep(1000);
+      const response = await axios.get(`${this.url}/posts/${id}`);
+
+      this.getUser(this.posts.push(response.data) - 1);
+
+      this.isLoading--;
     },
-    getUser(postIndex) {
-      axios
-        .get(`${this.url}/users/${this.posts[postIndex].userId}`)
-        .then((response) => {
-          this.$set(this.posts[postIndex], "name", response.data.name);
-        })
-        .catch((error) => console.log(error));
+
+    async getUser(postIndex) {
+      const response = await axios.get(`${this.url}/users/${this.posts[postIndex].userId}`);
+
+      this.$set(this.posts[postIndex], "name", response.data.name);
     },
-    getAllPost(idArr) {
-      idArr.forEach((id) => {
-        this.getPost(id);
+
+    async sleep(ms) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, ms);
       });
     },
+
+    async getAllPost(idArr) {
+      for (const id of idArr) {
+        this.getPost(id);
+        await this.sleep(500);
+      }
+    },
+
     getMore() {
       this.getAllPost(this.range(5, this.lastIdPost + 1));
     },
+
     clearPosts() {
       this.posts = [];
       this.lastIdPost = 0;
@@ -110,11 +128,7 @@ export default {
 
 <style lang="sass" scoped>
 .post
-  &-wrap
-    @apply tw-border tw-rounded-lg tw-border-very-dark-grayish-blue-700
-
-    &:not(:first-of-type)
-      @apply tw-mt-5
+  @apply tw-border tw-rounded-lg tw-border-very-dark-grayish-blue-700 tw-mt-5
 
   &-username
     @apply tw-mr-4

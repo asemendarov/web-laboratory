@@ -17,20 +17,24 @@
       </div>
     </div>
     <!-- /// -->
+    <app-loader v-if="isLoading" class="loader" :size="50" color="#5584b9" />
     <button class="button" type="button" v-if="!$route.params.id" @click.stop="getMore">Показать еще</button>
     <!-- /// -->
   </div>
 </template>
 <script>
 import axios from "axios";
+import AppLoader from "../../$animation/AppLoader.vue";
 
 export default {
+  components: { AppLoader },
   name: "AppUsers",
   data() {
     return {
       url: "https://jsonplaceholder.typicode.com",
       users: [],
       lastIdUser: 0,
+      isLoading: null,
     };
   },
   mounted() {
@@ -45,20 +49,32 @@ export default {
       this.lastIdUser = 0;
     },
 
-    getUser(id) {
+    async getUser(id) {
       this.lastIdUser = id;
 
-      axios
-        .get(`${this.url}/users/${id}`)
-        .then((response) => {
-          this.users.push(response.data);
-        })
-        .catch((error) => console.log(error));
+      this.isLoading++;
+
+      await this.sleep(1000);
+      const response = await axios.get(`${this.url}/users/${id}`);
+
+      this.users.push(response.data);
+
+      this.isLoading--;
     },
-    getAllUser(idArr) {
-      idArr.forEach((id) => {
-        this.getUser(id);
+
+    async sleep(ms) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, ms);
       });
+    },
+
+    async getAllUser(idArr) {
+      for (const id of idArr) {
+        this.getUser(id);
+        await this.sleep(500);
+      }
     },
     getMore() {
       this.getAllUser(this.range(5, this.lastIdUser + 1));
