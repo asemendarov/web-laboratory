@@ -7,6 +7,17 @@
 <script>
 export default {
   name: "App",
+  mounted() {
+    this.routerControl(this.$route);
+  },
+  watch: {
+    $route: "routerControl",
+  },
+  methods: {
+    routerControl(to) {
+      console.log(to);
+    },
+  },
 };
 </script>
 

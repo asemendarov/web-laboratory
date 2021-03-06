@@ -52,7 +52,7 @@ module.exports = {
         }
       }, 
       flex: {
-        'full': '1 1 100%',
+        'full': '1 0 auto',
       },
       outline: {
         none: 'none',

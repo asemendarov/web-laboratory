@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import AppLoader from "@/components/$animation/AppLoader";
+import AppLoader from "@/components/$animations/AppLoader";
 
 import axios from "axios";
 

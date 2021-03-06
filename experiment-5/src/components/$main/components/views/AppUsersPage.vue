@@ -18,13 +18,14 @@
     </div>
     <!-- /// -->
     <app-loader v-if="isLoading" class="loader" :size="50" color="#5584b9" />
-    <button class="button" type="button" v-if="!$route.params.id" @click.stop="getMore">Показать еще</button>
+    <button v-else-if="!$route.params.id" class="button" type="button" @click.stop="getMore">Показать еще</button>
     <!-- /// -->
   </div>
 </template>
+
 <script>
 import axios from "axios";
-import AppLoader from "../../$animation/AppLoader.vue";
+import AppLoader from "@/components/$animations/AppLoader.vue";
 
 export default {
   components: { AppLoader },
@@ -112,6 +113,7 @@ export default {
   },
 };
 </script>
+
 <style lang="sass" scoped>
 .user
   &-wrap

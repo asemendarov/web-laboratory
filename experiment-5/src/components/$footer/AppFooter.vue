@@ -19,7 +19,7 @@
           <router-link to="">Privacy</router-link>
         </li>
         <li class="li">
-          <router-link :to="{ name: 'About' }">About</router-link>
+          <router-link :to="{ name: 'about' }">About</router-link>
         </li>
       </ul>
     </footer>
@@ -52,7 +52,7 @@ export default {
 
 .ul
   @apply tw-w-2/5 tw-flex tw-items-center tw-justify-between
-  @apply md:tw-items-center md:tw-justify-center md:tw-flex-full
+  @apply md:tw-items-center md:tw-justify-center md:tw-flex-auto
 
 .li
   @apply tw-flex tw-items-center tw-justify-center

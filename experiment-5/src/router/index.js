@@ -2,8 +2,10 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import AppMainComponent from '@/components/AppMainComponent';
-import AppPostsPage from '@/components/$main/components/AppPostsPage';
-import AppUsersPage from '@/components/$main/components/AppUsersPage';
+import AppPostsPage from '@/components/$main/components/views/AppPostsPage';
+import AppUsersPage from '@/components/$main/components/views/AppUsersPage';
+import AppAboutPage from '@/components/$main/components/views/AppAboutPage';
+import AppSearchPage from '@/components/$main/components/views/AppSearchPage';
 
 Vue.use(VueRouter);
 
@@ -34,17 +36,18 @@ const routes = [
         path: '/users/:id',
         name: 'user',
         component: AppUsersPage
+      },
+      {
+        path: "/about",
+        name: "about",
+        component: AppAboutPage
+      },
+      {
+        path: "/search",
+        name: "search",
+        component: AppSearchPage,
       }
     ]
-  },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/About.vue")
   },
   {
     path: '*',
@@ -53,7 +56,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  // mode: "history",
+  mode: "history",
   base: process.env.BASE_URL,
   routes
 });

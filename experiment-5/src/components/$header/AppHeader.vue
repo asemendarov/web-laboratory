@@ -6,7 +6,7 @@
       <!-- /// -->
       <app-logo class="header-item header-logo" width="32px" height="32px" />
       <div class="header-item header-main Details-content">
-        <app-search class="header-search" />
+        <app-search v-if="isSearchEnabled" class="header-search" />
         <app-navigation class="header-navigation" />
       </div>
       <!-- /// -->
@@ -19,7 +19,7 @@
 <script>
 import AppLogo from "@/components/AppLogo";
 
-import AppSearch from "@/components/$header/components/AppSearch";
+import AppSearch from "@/components/$forms/AppSearch";
 import AppNavigation from "@/components/$header/components/AppNavigation";
 
 import AppThemeControl from "@/components/$controls/AppThemeControl";
@@ -42,6 +42,9 @@ export default {
   computed: {
     classDetails() {
       return this.isEnabledDetails ? "Details--on" : "Details--off";
+    },
+    isSearchEnabled() {
+      return this.$route.name !== "search";
     },
   },
   methods: {
@@ -68,7 +71,7 @@ export default {
 
   &-main
     @apply tw-mr-4 tw-flex tw-flex-auto tw-transition tw-delay-500 tw-ease-in-out
-    @apply md:tw-mr-0 md:tw-flex-col md:tw-flex-full md:tw-order-last
+    @apply md:tw-mr-0 md:tw-flex-col md:tw-flex-auto md:tw-order-last
 
   &-navigation
     @apply tw-flex tw-mr-4
