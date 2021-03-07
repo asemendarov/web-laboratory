@@ -6,9 +6,3 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://asemendarov.github.io/web-laboratory/" # the base hostname & protocol for your site, e.g. http://example.com
 github_username: asemendarov
-
-language: node_js
-  node_js:
-    - "node"
-  cache: npm
-  script: npx serve
