@@ -1,4 +1,4 @@
-# Web-Laboratory
+# Web-Laboratory ([Experiment-5 Pages](https://asemendarov.github.io/web-laboratory/))
 
 The web lab was created exclusively for experimentation. I am sorry for the possible harm caused to your emotional state.
 
@@ -146,7 +146,7 @@ No comment.
 
 > На мой взгляд улучшена структура кода и логика работы светофора. Реализация стала более масштабируемой.
 
-# Experiment-5
+# Experiment-5 ([Github Pages](https://asemendarov.github.io/web-laboratory/))
 
 ## Задание
 
