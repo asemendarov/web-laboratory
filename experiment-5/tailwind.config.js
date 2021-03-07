@@ -52,7 +52,7 @@ module.exports = {
         }
       }, 
       flex: {
-        'full': '1 0 auto',
+        'full': '1 1 100%',
       },
       outline: {
         none: 'none',
@@ -63,13 +63,13 @@ module.exports = {
         '8': '2.0rem    /* 32px */',
       },
       animation: {
-        'cssload': 'fold-thecube 2.76s infinite linear both',
+        'cssload': 'tw-fold-thecube 2.76s infinite linear both',
       },
       keyframes: {
         'fold-thecube': {
           '0%, 10%': { transform: 'perspective(136px) rotateX(-180deg)', opacity: '0' },
           '25%, 75%': { transform: 'perspective(136px) rotateX(0deg)', opacity: '1' },
-          '90%, 100%': { transform: 'transform: perspective(136px) rotateY(180deg)', opacity: '0' },
+          '90%, 100%': { transform: 'perspective(136px) rotateY(180deg)', opacity: '0' },
         }
       },
       rotate: {

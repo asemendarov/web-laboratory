@@ -71,7 +71,7 @@ export default {
 
   &-main
     @apply tw-mr-4 tw-flex tw-flex-auto tw-transition tw-delay-500 tw-ease-in-out
-    @apply md:tw-mr-0 md:tw-flex-col md:tw-flex-auto md:tw-order-last
+    @apply md:tw-mr-0 md:tw-flex-col md:tw-flex-full md:tw-order-last
 
   &-navigation
     @apply tw-flex tw-mr-4
