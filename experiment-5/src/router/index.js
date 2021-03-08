@@ -46,6 +46,7 @@ const routes = [
         path: "/search",
         name: "search",
         component: AppSearchPage,
+        props: (route) => ({ query: route.query.q })
       }
     ]
   },
@@ -56,7 +57,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  // mode: "history",
+  mode: "history",
   base: process.env.BASE_URL,
   routes
 });

@@ -8,6 +8,7 @@
 <script>
 import AppSearch from "@/components/$forms/AppSearch";
 export default {
+  props: ["q"],
   components: { AppSearch },
   name: "AppSearchPage",
   date() {

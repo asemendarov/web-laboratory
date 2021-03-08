@@ -1,8 +1,8 @@
 <template>
   <div class="app-search">
-    <form class="from-container" action="/search" method="get">
+    <form class="from-container" @submit.prevent="onSubmit">
       <label class="input-wrapper" for="q">
-        <input class="input" type="search" name="q" placeholder="Search" />
+        <input class="input" type="search" v-model="search" name="q" placeholder="Search" />
         <img class="search-key-slash" src="@/assets/svg/search-key-slash.svg" alt="Search key slash" />
         <div class="box scrollbox">
           <ul>
@@ -16,11 +16,6 @@
 
 <script>
 export default {
-  props: {
-    q: {
-      type: String,
-    },
-  },
   name: "AppSearch",
   data() {
     return {
@@ -44,6 +39,7 @@ export default {
         "QQQQQQQQQQQQQQ",
         "EEEEEEEEEEEEEE",
       ],
+      search: null,
     };
   },
   mounted() {
@@ -53,8 +49,11 @@ export default {
     $route: "routerControl",
   },
   methods: {
-    routerControl(to) {
-      console.log(to);
+    routerControl() {
+      // console.log(to);
+    },
+    onSubmit() {
+      this.$router.push({ name: "search", query: { q: this.search } });
     },
   },
 };
