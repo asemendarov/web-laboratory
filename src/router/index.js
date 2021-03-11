@@ -1,21 +1,34 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import HomePage from "@/views/HomePage.vue";
+import HomePage from "@/views/HomePage";
+
+import ContactListPage from "@/views/ContactListPage";
+import ContactInfoPage from "@/views/ContactInfoPage";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "home",
+    name: "Home",
     component: HomePage
   },
   {
-    path: "/about",
-    name: "about",
-    component: () => import(/* webpackChunkName: "about" */ "@/views/AboutPage")
-  }
+    path: "/contact-list",
+    name: "ContactList",
+    component: ContactListPage
+  },
+  {
+    path: "/contact-info",
+    name: "ContactInfo",
+    props: true,
+    component: ContactInfoPage
+  },
+  {
+    path: "*",
+    redirect: { name: "Home" }
+  },
 ];
 
 const router = new VueRouter({

@@ -1,0 +1,28 @@
+@import "./variables";
+
+.table {
+  border-collapse: collapse;
+
+  width: 100%;
+  margin-bottom: 20px;
+
+  border: 1px solid lighten($color-text, 65);
+
+  & .table-header {
+    background: lighten($color-text, 65);
+  }
+
+  & .table-body {
+    & .table-row {
+      padding: 5px;
+
+      &:nth-child(odd) {
+        background: lighten($color-text, 72);
+      }
+    }
+
+    & .table-col {
+      padding: 5px;
+    }
+  }
+}

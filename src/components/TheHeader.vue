@@ -1,10 +1,10 @@
 <template>
   <header class="the-header">
     <nav class="header-container">
-      <router-link to="/">Главная</router-link>
-      <router-link to="/about">Контакты</router-link>
+      <router-link :to="{ name: 'Home' }">Главная</router-link>
+      <router-link :to="{ name: 'ContactList' }">Список контактов</router-link>
+      <router-link :to="{ name: 'ContactInfo' }">Контактная информация</router-link>
     </nav>
-    <slot></slot>
   </header>
 </template>
 <script>
@@ -37,8 +37,17 @@ export default {
 
   & nav {
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 20px;
+  }
+
+  & a {
+    border-bottom: 1px solid darken($bg-header, 10);
+
+    &:hover {
+      border-color: darken($bg-header, 100);
+    }
   }
 }
 </style>

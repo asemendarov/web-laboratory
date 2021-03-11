@@ -1,12 +1,9 @@
 <template>
   <div id="app">
-    <!-- /// -->
-    <the-header></the-header>
-    <!-- /// -->
+    <the-header />
     <the-main>
       <router-view />
     </the-main>
-    <!-- /// -->
     <the-footer>
       <!-- pass -->
     </the-footer>
@@ -28,9 +25,10 @@ export default {
     $route: "routerControl",
   },
   methods: {
-    routerControl(to) {
-      console.log(to);
-    },
+    routerControl() {},
+    // routerControl(to) {
+    //   console.log(to);
+    // },
   },
 };
 </script>
@@ -40,7 +38,7 @@ export default {
 
 @import "~@/assets/scss/normalize";
 @import "~@/assets/scss/tw-normalize";
-
+@import "~@/assets/scss/table";
 @import "~@/assets/scss/variables";
 
 *,
@@ -61,10 +59,8 @@ body {
 }
 
 #app {
-  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-    "Noto Color Emoji";
+  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 1.6rem;
@@ -77,14 +73,28 @@ body {
 a {
   text-decoration: none;
   color: $color-text;
-
-  &:hover {
-    text-decoration: underline;
-  }
+  white-space: nowrap;
 }
 
 h1 {
   font-size: 3.6rem;
   font-weight: 700;
+}
+
+:active,
+:hover,
+:focus {
+  outline: 0;
+  outline-offset: 0;
+}
+
+input,
+button {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.icon {
+  cursor: pointer;
 }
 </style>
