@@ -1,13 +1,13 @@
 <template>
   <div class="contact-list-page">
-    <h1>Список контактов</h1>
+    <h1 class="page-title xs-text-base">Список контактов</h1>
     <loader v-if="statusLoad > 0" />
     <msg-exception v-else-if="statusLoad < 0" msg="Error: Ошибка при подключении к серверу!" />
     <div v-else class="contact-list">
       <table class="table">
         <thead class="table-header">
           <tr class="table-row">
-            <th class="table-col">ID</th>
+            <th class="table-col xs-d-none">ID</th>
             <th class="table-col">Name</th>
             <th class="table-col">Phone</th>
             <th>
@@ -16,15 +16,36 @@
           </tr>
         </thead>
         <tbody class="table-body">
-          <tr class="table-row" v-for="(contact, idx) in contacts" :key="idx" @dblclick="showContact(contact, $event)">
-            <td class="table-col">#{{ contact.id }}</td>
-            <td class="table-col">{{ contact.name }}</td>
-            <td class="table-col">{{ contact.phone || "Пусто" }}</td>
+          <!-- Contact List -->
+          <tr class="table-row" v-for="(contactData, idx) in contactDataList" :key="idx" @dblclick="showContact(contactData, $event)">
+            <td class="table-col col-center xs-d-none">#{{ contactData.id || "?" }}</td>
+            <td class="table-col">{{ contactData.name || "Пусто" }}</td>
+            <td class="table-col">{{ contactData.phone || "Пусто" }}</td>
+            <!-- Control -->
             <td class="table-col">
-              <div class="icon-wrap" @dblclick.stop>
-                <icon-pencil-square @click.native="showEditContact(contact)" />
-                <icon-person-plus-fill @click.native="showAddContact(contact)" />
-                <icon-person-dash-fill @click.native="showDeleteContact(contact)" />
+              <div v-if="contactData.id && contactData.name && contactData.phone" class="icon-wrap icon-control" @dblclick.stop>
+                <icon-pencil-square @click.native="showEditContact(contactData)" />
+                <icon-person-dash-fill @click.native="showDeleteContact(contactData)" />
+              </div>
+            </td>
+          </tr>
+          <!-- Add New Contact -->
+          <tr class="table-row row-new-contact">
+            <td class="table-col xs-d-none">
+              <div class="icon-wrap icon-none">
+                <icon-keyboard />
+              </div>
+            </td>
+            <td class="table-col">
+              <input type="text" name="newName" id="newName" v-model="newContact.name" placeholder="Имя" />
+            </td>
+            <td class="table-col">
+              <input type="text" name="newPhone" id="newPhone" v-model="newContact.phone" placeholder="Телефон" />
+            </td>
+            <!-- Control -->
+            <td class="table-col">
+              <div class="icon-wrap icon-control" @dblclick.stop>
+                <icon-person-plus-fill @click.native="handlerAddContact" />
               </div>
             </td>
           </tr>
@@ -33,6 +54,14 @@
           <!-- pass -->
         </tfoot>
       </table>
+    </div>
+    <!-- Modal Window -->
+    <div class="modal-window">
+      <button class="button button-show-modal" type="button" @click="showModalWindow">Show Modal</button>
+      <modal-component v-if="modal.active" @result="handlerModalResult">
+        <h1 slot="header" v-text="modal.title"></h1>
+        <p slot="body" v-text="modal.message"></p>
+      </modal-component>
     </div>
   </div>
 </template>
@@ -44,14 +73,27 @@ import MsgException from "@/components/MsgException";
 import IconPencilSquare from "@/components/icons/IconPencilSquare";
 import IconPersonDashFill from "@/components/icons/IconPersonDashFill";
 import IconPersonPlusFill from "@/components/icons/IconPersonPlusFill";
+import IconKeyboard from "@/components/icons/IconKeyboard";
+import ModalComponent from "@/components/ModalComponent.vue";
 
 export default {
-  components: { Loader, MsgException, IconPencilSquare, IconPersonDashFill, IconPersonPlusFill },
+  components: { Loader, MsgException, IconPencilSquare, IconPersonDashFill, IconPersonPlusFill, IconKeyboard, ModalComponent },
   name: "ContactListPage",
   data() {
     return {
-      statusLoad: 1,
-      contacts: [],
+      statusLoad: 0,
+      contactDataList: [],
+
+      newContact: {
+        name: null,
+        phone: null,
+      },
+
+      modal: {
+        active: false,
+        title: "default title",
+        message: "default message",
+      },
     };
   },
   mounted() {
@@ -71,9 +113,9 @@ export default {
       this.fetchContactList()
         .then((data) => {
           data.forEach((el) => {
-            this.contacts.push(el);
+            this.contactDataList.push(el);
           });
-          this.statusLoad = 0;
+          this.statusLoad--;
         })
         .catch((e) => {
           this.statusLoad = -1;
@@ -98,23 +140,64 @@ export default {
       });
     },
 
-    showContact(contact, event) {
-      this.showEditContact(contact, event);
+    showContact(contactData, event) {
+      this.showEditContact(contactData, event);
     },
 
-    showEditContact(contact) {
-      console.log("showEditContact", contact);
-      this.$router.push({ name: "ContactInfo", params: { mode: "edit", contact } });
+    showEditContact(contactData) {
+      console.log("showEditContact", contactData);
+      this.$router.push({ name: "ContactInfo", params: { mode: "all", contactData } });
     },
 
-    showAddContact(contact) {
-      console.log("showAddContact", contact);
-      this.$router.push({ name: "ContactInfo", params: { mode: "add" } });
+    showDeleteContact(contactData) {
+      console.log("showDeleteContact", contactData);
+      this.$router.push({ name: "ContactInfo", params: { mode: "delete", contactData } });
     },
 
-    showDeleteContact(contact) {
-      console.log("showDeleteContact", contact);
-      this.$router.push({ name: "ContactInfo", params: { mode: "delete", contact } });
+    handlerAddContact() {
+      if (!this.validationNewContact()) {
+        this.showModalWindow("Ошибка!", "Пожалуйста, введите имя и номер нового контакта");
+        return;
+      }
+
+      this.showEditContact(this.newContact);
+    },
+
+    validationNewContact() {
+      // Валидаця имени
+      if (!this.newContact.name || !/^[\d\s\w]+$/.test(this.newContact.name)) {
+        return false;
+      }
+
+      // Валидаця телефона
+      if (!this.newContact.phone || !/^[\d\s\w]+$/.test(this.newContact.phone)) {
+        return false;
+      }
+
+      return true;
+    },
+
+    showModalWindow(title, message) {
+      this.modal = {
+        active: true,
+        title,
+        message,
+      };
+    },
+
+    closeModalWindow() {
+      this.modal.active;
+    },
+
+    handlerModalResult(event) {
+      this.modal.active = false;
+
+      if (event === "ok") {
+        console.log("handlerModalResult", "ok");
+      } else {
+        // event == cancal
+        console.log("handlerModalResult", "cancal");
+      }
     },
   },
 };
@@ -128,13 +211,33 @@ export default {
     display: flex;
     justify-content: flex-start;
 
-    & .table-body .table-row {
-      &:hover {
-        outline: 1px solid lighten($color-text, 40);
-      }
+    & .table-body {
+      & .table-row {
+        &:hover {
+          outline: 1px solid lighten($color-text, 40);
+        }
 
-      &:active {
-        outline-color: lighten($color-text, 20);
+        &:active {
+          outline-color: lighten($color-text, 20);
+        }
+      }
+    }
+
+    & input {
+      padding: 0;
+
+      width: 80%;
+      height: 32px;
+
+      background: initial;
+
+      cursor: pointer;
+
+      border-bottom: 1px solid lighten($color-text, 65);
+
+      &:focus {
+        border-bottom-color: lighten($color-text, 20);
+        cursor: text;
       }
     }
 
@@ -146,10 +249,12 @@ export default {
 
       & .icon {
         padding: 4px;
+      }
+    }
 
-        &:hover {
-          color: $bg-header;
-        }
+    & .icon-control {
+      & .icon:hover {
+        color: $color-header;
       }
     }
   }

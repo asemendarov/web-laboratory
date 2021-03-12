@@ -33,7 +33,7 @@ export default {
 }
 
 .the-header {
-  background-color: $bg-header;
+  background-color: $color-header;
 
   & nav {
     display: flex;
@@ -43,10 +43,10 @@ export default {
   }
 
   & a {
-    border-bottom: 1px solid darken($bg-header, 10);
+    border-bottom: 1px solid darken($color-header, 10);
 
     &:hover {
-      border-color: darken($bg-header, 100);
+      border-color: darken($color-header, 100);
     }
   }
 }

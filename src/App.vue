@@ -41,6 +41,8 @@ export default {
 @import "~@/assets/scss/table";
 @import "~@/assets/scss/variables";
 
+@import "~@/assets/scss/media";
+
 *,
 ::after,
 ::before {
@@ -94,7 +96,7 @@ button {
   padding-right: 8px;
 }
 
-.icon {
+.icon-control {
   cursor: pointer;
 }
 </style>
