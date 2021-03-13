@@ -25,7 +25,7 @@
             <!-- Control -->
             <td class="table-col">
               <div class="icon-wrap icon-control">
-                <icon-trash class="icon-delete" @click.native="deleteData" />
+                <icon-trash class="icon-delete" @click.native="handlerDeleteProperty(key)" />
               </div>
             </td>
           </template>
@@ -38,16 +38,16 @@
             </div>
           </td>
           <td class="table-col">
-            <input type="text" name="newKey" id="newKey" placeholder="Ключ" />
+            <input type="text" name="newKey" id="newKey" v-model="newProperty.key" placeholder="Название" />
           </td>
           <td class="table-col">:</td>
           <td class="table-col">
-            <input type="text" name="newValue" id="newValue" placeholder="Значение" />
+            <input type="text" name="newValue" id="newValue" v-model="newProperty.value" placeholder="Значение" />
           </td>
           <!-- Control -->
           <td class="table-col">
-            <div class="icon-wrap icon-control" @dblclick.stop>
-              <icon-node-plus width="22" height="22" @click.native="handlerAddProperties" />
+            <div class="icon-wrap icon-control">
+              <icon-node-plus width="22" height="22" @click.native="handlerAddProperty" />
             </div>
           </td>
         </tr>
@@ -56,6 +56,14 @@
         <!-- pass -->
       </tfoot>
     </table>
+    <!-- Modal Window -->
+    <div class="modal-window">
+      <button class="button button-show-modal" type="button" @click="showModalWindow">Show Modal</button>
+      <modal-component v-if="modal.active" @result="handlerModalResult">
+        <h1 slot="header" v-text="modal.title"></h1>
+        <p slot="body" v-text="modal.message"></p>
+      </modal-component>
+    </div>
     <!-- Control -->
     <div class="button-control">
       <input v-if="isEnabledAddButton" class="button button-add" type="button" value="Создать контакт" @click="handlerAddButton" />
@@ -69,11 +77,12 @@
 <script>
 import IconTrash from "@/components/icons/IconTrash";
 import IconKeyboard from "@/components/icons/IconKeyboard";
-import IconNodePlus from "../components/icons/IconNodePlus.vue";
+import IconNodePlus from "@/components/icons/IconNodePlus";
+import ModalComponent from "@/components/ModalComponent";
 
 export default {
   name: "ContactInfoPage",
-  components: { IconTrash, IconKeyboard, IconNodePlus },
+  components: { ModalComponent, IconTrash, IconKeyboard, IconNodePlus },
   props: {
     mode: {
       type: String,
@@ -90,7 +99,15 @@ export default {
   },
   data() {
     return {
-      //pass
+      newProperty: {
+        key: null,
+        value: null,
+      },
+      modal: {
+        active: false,
+        title: "default title",
+        message: "default message",
+      },
     };
   },
   watch: {
@@ -136,8 +153,28 @@ export default {
       }
     },
 
-    deleteData() {
-      console.log("deleteData");
+    handlerDeleteProperty(key) {
+      // !!!!!! show modal
+
+      this.deletePropertyFromContactData(key);
+    },
+
+    handlerAddProperty() {
+      if (!this.validationProperty(this.newProperty)) {
+        this.showModalWindow("Ошибка!", "Пожалуйста, введите название и значение данных");
+        return;
+      }
+
+      this.addPropertyToContactData(this.newProperty);
+    },
+
+    // Добавляет новое свойство в данные контакта
+    addPropertyToContactData(property) {
+      this.$set(this.contactData, property.key, property.value);
+    },
+
+    deletePropertyFromContactData(key) {
+      this.$delete(this.contactData, key);
     },
 
     handlerAddButton() {
@@ -225,6 +262,46 @@ export default {
 
     redirectToContactListPage() {
       this.$router.push({ name: "ContactList" });
+    },
+
+    // Валидация ключа и значения свойства свойства
+    validationProperty(property) {
+      return this.validationKeyProperty(property.key) && this.validationValueProperty(property.value);
+    },
+
+    // Валидаця ключа свойства объекта
+    validationKeyProperty(key) {
+      console.log("key", key);
+      return key && /^[\w]+$/.test(key);
+    },
+
+    // Валидаця значения свойства объекта
+    validationValueProperty(value) {
+      console.log("value", value);
+      return value && /^[\d\s\w]+$/.test(value);
+    },
+
+    showModalWindow(title, message) {
+      this.modal = {
+        active: true,
+        title,
+        message,
+      };
+    },
+
+    closeModalWindow() {
+      this.modal.active;
+    },
+
+    handlerModalResult(event) {
+      this.modal.active = false;
+
+      if (event === "ok") {
+        console.log("handlerModalResult", "ok");
+      } else {
+        // event == cancal
+        console.log("handlerModalResult", "cancal");
+      }
     },
   },
 };

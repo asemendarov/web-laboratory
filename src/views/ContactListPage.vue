@@ -74,7 +74,7 @@ import IconPencilSquare from "@/components/icons/IconPencilSquare";
 import IconPersonDashFill from "@/components/icons/IconPersonDashFill";
 import IconPersonPlusFill from "@/components/icons/IconPersonPlusFill";
 import IconKeyboard from "@/components/icons/IconKeyboard";
-import ModalComponent from "@/components/ModalComponent.vue";
+import ModalComponent from "@/components/ModalComponent";
 
 export default {
   components: { Loader, MsgException, IconPencilSquare, IconPersonDashFill, IconPersonPlusFill, IconKeyboard, ModalComponent },
