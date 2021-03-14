@@ -57,11 +57,7 @@
     </div>
     <!-- Modal Window -->
     <div class="modal-window">
-      <button class="button button-show-modal" type="button" @click="showModalWindow">Show Modal</button>
-      <modal-component v-if="modal.active" @result="handlerModalResult">
-        <h1 slot="header" v-text="modal.title"></h1>
-        <p slot="body" v-text="modal.message"></p>
-      </modal-component>
+      <modal-warning ref="modal" />
     </div>
   </div>
 </template>
@@ -69,15 +65,15 @@
 <script>
 import Loader from "@/components/Loader";
 import MsgException from "@/components/MsgException";
+import ModalWarning from "@/components/modals/ModalWarning";
 
 import IconPencilSquare from "@/components/icons/IconPencilSquare";
 import IconPersonDashFill from "@/components/icons/IconPersonDashFill";
 import IconPersonPlusFill from "@/components/icons/IconPersonPlusFill";
 import IconKeyboard from "@/components/icons/IconKeyboard";
-import ModalComponent from "@/components/ModalComponent";
 
 export default {
-  components: { Loader, MsgException, IconPencilSquare, IconPersonDashFill, IconPersonPlusFill, IconKeyboard, ModalComponent },
+  components: { Loader, MsgException, ModalWarning, IconPencilSquare, IconPersonDashFill, IconPersonPlusFill, IconKeyboard },
   name: "ContactListPage",
   data() {
     return {
@@ -87,12 +83,6 @@ export default {
       newContact: {
         name: null,
         phone: null,
-      },
-
-      modal: {
-        active: false,
-        title: "default title",
-        message: "default message",
       },
     };
   },
@@ -178,26 +168,7 @@ export default {
     },
 
     showModalWindow(title, message) {
-      this.modal = {
-        active: true,
-        title,
-        message,
-      };
-    },
-
-    closeModalWindow() {
-      this.modal.active;
-    },
-
-    handlerModalResult(event) {
-      this.modal.active = false;
-
-      if (event === "ok") {
-        console.log("handlerModalResult", "ok");
-      } else {
-        // event == cancal
-        console.log("handlerModalResult", "cancal");
-      }
+      return this.$refs.modal.show(title, message);
     },
   },
 };

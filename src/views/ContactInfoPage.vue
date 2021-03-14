@@ -58,16 +58,12 @@
     </table>
     <!-- Modal Window -->
     <div class="modal-window">
-      <button class="button button-show-modal" type="button" @click="showModalWindow">Show Modal</button>
-      <modal-component v-if="modal.active" @result="handlerModalResult">
-        <h1 slot="header" v-text="modal.title"></h1>
-        <p slot="body" v-text="modal.message"></p>
-      </modal-component>
+      <modal-warning ref="modal" />
     </div>
     <!-- Control -->
     <div class="button-control">
-      <input v-if="isEnabledAddButton" class="button button-add" type="button" value="Создать контакт" @click="handlerAddButton" />
-      <input v-if="isEnabledEditButton" class="button button-edit" type="button" value="Изменить контакт" @click="handlerEditButton" />
+      <input v-if="isEnabledCreateButton" class="button button-create" type="button" value="Создать контакт" @click="handlerCreateButton" />
+      <input v-if="isEnabledEditButton" class="button button-edit" type="button" value="Применить изменения" @click="handlerEditButton" />
       <input v-if="isEnabledDeleteButton" class="button button-delete" type="button" value="Удалить контакт" @click="handlerDeleteButton" />
       <input class="button button-cancel" type="button" value="Отмена" @click="handlerCancelButton" />
     </div>
@@ -78,16 +74,16 @@
 import IconTrash from "@/components/icons/IconTrash";
 import IconKeyboard from "@/components/icons/IconKeyboard";
 import IconNodePlus from "@/components/icons/IconNodePlus";
-import ModalComponent from "@/components/ModalComponent";
+import ModalWarning from "@/components/modals/ModalWarning";
 
 export default {
   name: "ContactInfoPage",
-  components: { ModalComponent, IconTrash, IconKeyboard, IconNodePlus },
+  components: { IconTrash, IconKeyboard, IconNodePlus, ModalWarning },
   props: {
     mode: {
       type: String,
       validator(value) {
-        return ~["all", "delete", "edit", "add"].indexOf(value);
+        return ~["all", "delete", "edit", "create"].indexOf(value);
       },
     },
     contactData: {
@@ -103,11 +99,6 @@ export default {
         key: null,
         value: null,
       },
-      modal: {
-        active: false,
-        title: "default title",
-        message: "default message",
-      },
     };
   },
   watch: {
@@ -121,8 +112,8 @@ export default {
       return `${this.$store.state.urlServer}/users`;
     },
 
-    isEnabledAddButton() {
-      return this.mode === "all" || this.mode === "add";
+    isEnabledCreateButton() {
+      return this.mode === "all" || this.mode === "create";
     },
 
     isEnabledEditButton() {
@@ -145,18 +136,21 @@ export default {
     processingMode() {
       if (this.mode == "delete") {
         console.log("processingMode", "delete");
+        this.deleteContactData();
       } else if (this.mode == "edit") {
         console.log("processingMode", "edit");
       } else {
-        // add mode
-        console.log("processingMode", "add");
+        // create mode
+        console.log("processingMode", "create");
       }
     },
 
     handlerDeleteProperty(key) {
-      // !!!!!! show modal
-
-      this.deletePropertyFromContactData(key);
+      this.showModalWindow("Внимание!", "Вы действительно ходите удалить эти данные?").then((event) => {
+        if (event === "ok") {
+          this.deletePropertyFromContactData(key);
+        }
+      });
     },
 
     handlerAddProperty() {
@@ -177,8 +171,29 @@ export default {
       this.$delete(this.contactData, key);
     },
 
-    handlerAddButton() {
-      console.log("handlerAddButton");
+    deleteContactData() {
+      this.showModalWindow("Внимание!", "Вы действительно ходите удалить данный контакт?").then((event) => {
+        if (event === "ok") {
+          this.deletingResourceOnServer(this.contactData).then(() => {
+            this.redirectToContactListPage();
+          });
+        }
+      });
+    },
+
+    createContactData() {
+      if (!this.validationAllProperties()) {
+        this.showModalWindow("Ошибка!", "Пожалуйста, убедитесь, что вы ввели данные правильно!");
+        return;
+      }
+
+      this.creatingResourceOnServer(this.contactData).then(() => {
+        this.redirectToContactListPage();
+      });
+    },
+
+    handlerCreateButton() {
+      this.createContactData();
     },
 
     handlerEditButton() {
@@ -186,7 +201,7 @@ export default {
     },
 
     handlerDeleteButton() {
-      console.log("handlerDeleteButton");
+      this.deleteContactData();
     },
 
     // Обработчик нажатия "Отмена"
@@ -213,7 +228,7 @@ export default {
 
     // Обновляет данные на сервере
     async updatingResourceOnServer(data) {
-      if (!/^[1-9]\d*$/.test(data.id)) {
+      if (!data.id || !/^[1-9]\d*$/.test(data.id)) {
         throw "updatingResource >> некоректный ID";
       }
 
@@ -232,14 +247,15 @@ export default {
 
     // Удаляет данные на сервере
     async deletingResourceOnServer(data) {
-      if (!/^[1-9]\d*$/.test(data.id)) {
+      if (!data.id || !/^[1-9]\d*$/.test(data.id)) {
         throw "deletingResource >> некоректный ID";
       }
 
-      const result = fetch(`${this.url}/${data.id}`, {
+      const response = await fetch(`${this.url}/${data.id}`, {
         method: "DELETE",
       });
-      console.log("deletingResource", result);
+
+      console.log("deletingResource", response.status);
     },
 
     async sleep(ms) {
@@ -252,7 +268,7 @@ export default {
 
     validatorMode() {
       console.log("validatorMode", this.mode);
-      return ~["all", "delete", "edit", "add"].indexOf(this.mode);
+      return ~["all", "delete", "edit", "create"].indexOf(this.mode);
     },
 
     validatorContactData() {
@@ -264,7 +280,12 @@ export default {
       this.$router.push({ name: "ContactList" });
     },
 
-    // Валидация ключа и значения свойства свойства
+    // Валидация всех свойств
+    validationAllProperties() {
+      return true; // !!!!!!!!!!!!!!!!!!!!!! Реализация
+    },
+
+    // Валидация ключа и значения свойства
     validationProperty(property) {
       return this.validationKeyProperty(property.key) && this.validationValueProperty(property.value);
     },
@@ -282,26 +303,7 @@ export default {
     },
 
     showModalWindow(title, message) {
-      this.modal = {
-        active: true,
-        title,
-        message,
-      };
-    },
-
-    closeModalWindow() {
-      this.modal.active;
-    },
-
-    handlerModalResult(event) {
-      this.modal.active = false;
-
-      if (event === "ok") {
-        console.log("handlerModalResult", "ok");
-      } else {
-        // event == cancal
-        console.log("handlerModalResult", "cancal");
-      }
+      return this.$refs.modal.show(title, message);
     },
   },
 };

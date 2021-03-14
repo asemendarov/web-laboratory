@@ -9,8 +9,8 @@
       </div>
       <div slot="footer">
         <div class="modal-warning__button-control">
-          <button class="button modal-warning__button-ok" type="button" @click="emitEventOK">OK</button>
-          <button class="button modal-warning__button-cancel" type="button" @click="emitEventCancel">Cancel</button>
+          <button class="button modal-warning__button-ok" type="button" @click="emitEventModal('ok')">OK</button>
+          <button class="button modal-warning__button-cancel" type="button" @click="emitEventModal('cancel')">Cancel</button>
         </div>
       </div>
     </modal-base>
@@ -38,29 +38,32 @@ export default {
       this.isEnabled = true;
       this.title = title;
       this.message = message;
+
+      return new Promise((resolve) => {
+        this.$once("modal", (event) => {
+          resolve(event);
+        });
+      });
     },
 
     close() {
       this.isEnabled = false;
     },
 
-    emitEventOK() {
+    emitEventModal(event) {
       this.close();
-      this.$emit("ok");
-    },
-
-    emitEventCancel() {
-      this.close();
-      this.$emit("Cancel");
+      this.$emit("modal", event);
     },
   },
 };
 </script>
 
 <style lang="scss">
+@import "~@/assets/scss/variables";
+
 .modal-warning {
-  &__modal-warning__title {
-    font-size: 2.4rem;
+  &__title {
+    font-size: 1.8rem;
     margin-top: 0;
     color: $color-header;
   }
