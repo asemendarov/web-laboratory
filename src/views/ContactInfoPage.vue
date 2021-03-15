@@ -16,11 +16,11 @@
           <template v-if="key !== 'id'">
             <td class="table-col col-center xs-d-none">{{ idx }}.</td>
             <td class="table-col">
-              <input type="text" :name="`key-${key}`" :id="`key-${key}`" :value="key" />
+              <input type="text" :value="key" />
             </td>
             <td class="table-col">:</td>
             <td class="table-col">
-              <input type="text" :name="key" :id="key" :value="value" />
+              <input type="text" :value="value" />
             </td>
             <!-- Control -->
             <td class="table-col">
@@ -38,11 +38,11 @@
             </div>
           </td>
           <td class="table-col">
-            <input type="text" name="newKey" id="newKey" v-model="newProperty.key" placeholder="Название" />
+            <input type="text" v-model="newProperty.key" placeholder="Название" />
           </td>
           <td class="table-col">:</td>
           <td class="table-col">
-            <input type="text" name="newValue" id="newValue" v-model="newProperty.value" placeholder="Значение" />
+            <input type="text" v-model="newProperty.value" placeholder="Значение" />
           </td>
           <!-- Control -->
           <td class="table-col">
@@ -103,6 +103,10 @@ export default {
   },
   watch: {
     $route: "routerControl",
+
+    contactData(to) {
+      console.log(to);
+    },
   },
   mounted() {
     this.routerControl(this.$route);

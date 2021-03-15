@@ -37,10 +37,10 @@
               </div>
             </td>
             <td class="table-col">
-              <input type="text" name="newName" id="newName" v-model="newContact.name" placeholder="Имя" :pattern="patternName" />
+              <input type="text" v-model="newContact.name" placeholder="Имя" :pattern="patternName" />
             </td>
             <td class="table-col">
-              <input type="text" name="newPhone" id="newPhone" v-model="newContact.phone" placeholder="Телефон" :pattern="patternPhone" />
+              <input type="text" v-model="newContact.phone" placeholder="Телефон" :pattern="patternPhone" />
             </td>
             <!-- Control -->
             <td class="table-col">
