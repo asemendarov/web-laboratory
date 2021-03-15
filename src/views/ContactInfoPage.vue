@@ -113,15 +113,15 @@ export default {
     },
 
     isEnabledCreateButton() {
-      return this.mode === "all" || this.mode === "create";
+      return ~["all", "create"].indexOf(this.mode);
     },
 
     isEnabledEditButton() {
-      return this.mode === "all" || this.mode === "edit";
+      return ~["all", "edit"].indexOf(this.mode);
     },
 
     isEnabledDeleteButton() {
-      return this.mode === "all" || this.mode === "delete";
+      return ~["all", "delete", "edit"].indexOf(this.mode);
     },
   },
   methods: {
@@ -146,29 +146,40 @@ export default {
     },
 
     handlerDeleteProperty(key) {
-      this.showModalWindow("Внимание!", "Вы действительно ходите удалить эти данные?").then((event) => {
-        if (event === "ok") {
-          this.deletePropertyFromContactData(key);
-        }
-      });
+      this.deletePropertyFromContactData(key);
     },
 
     handlerAddProperty() {
-      if (!this.validationProperty(this.newProperty)) {
-        this.showModalWindow("Ошибка!", "Пожалуйста, введите название и значение данных");
-        return;
-      }
-
       this.addPropertyToContactData(this.newProperty);
     },
 
     // Добавляет новое свойство в данные контакта
     addPropertyToContactData(property) {
+      if (!this.validationProperty(this.newProperty)) {
+        this.showModalWindow("Ошибка!", "Пожалуйста, введите название и значение данных");
+        return;
+      }
+
+      if (~Object.keys(this.contactData).indexOf(property.key)) {
+        this.showModalWindow("Ошибка!", `Измините, но "${property.key}" уже существует, либо её добавление запрещено!`);
+        return;
+      }
+
       this.$set(this.contactData, property.key, property.value);
+      this.resetNewProperty();
     },
 
     deletePropertyFromContactData(key) {
-      this.$delete(this.contactData, key);
+      if (~["id", "name", "phone"].indexOf(key)) {
+        this.showModalWindow("Ошибка!", `Измините, но "${key}" удалить нельзя! Можно изменить только значение!`);
+        return;
+      }
+
+      this.showModalWindow("Внимание!", "Вы действительно ходите удалить эти данные?").then((event) => {
+        if (event === "ok") {
+          this.$delete(this.contactData, key);
+        }
+      });
     },
 
     deleteContactData() {
@@ -192,12 +203,28 @@ export default {
       });
     },
 
+    editContactData() {
+      /// необходима проверка наличия изменений для оптимизации
+      if (!this.validationAllProperties()) {
+        this.showModalWindow("Ошибка!", "Пожалуйста, убедитесь, что вы ввели данные правильно!");
+        return;
+      }
+
+      this.showModalWindow("Внимание!", "Вы действительно ходите изменить данные?").then((event) => {
+        if (event === "ok") {
+          this.updatingResourceOnServer(this.contactData).then(() => {
+            this.redirectToContactListPage();
+          });
+        }
+      });
+    },
+
     handlerCreateButton() {
       this.createContactData();
     },
 
     handlerEditButton() {
-      console.log("handlerEditButton");
+      this.editContactData();
     },
 
     handlerDeleteButton() {
@@ -206,7 +233,11 @@ export default {
 
     // Обработчик нажатия "Отмена"
     handlerCancelButton() {
-      this.redirectToContactListPage();
+      this.showModalWindow("Внимание!", "Вы действительно ходите выйти? Все изменения будут утеряны!").then((event) => {
+        if (event === "ok") {
+          this.redirectToContactListPage();
+        }
+      });
     },
 
     // Создает данные на сервере
@@ -232,7 +263,7 @@ export default {
         throw "updatingResource >> некоректный ID";
       }
 
-      const response = await fetch(this.url, {
+      const response = await fetch(`${this.url}/${data.id}`, {
         method: "PUT",
         body: JSON.stringify(data),
         headers: {
@@ -292,18 +323,23 @@ export default {
 
     // Валидаця ключа свойства объекта
     validationKeyProperty(key) {
-      console.log("key", key);
-      return key && /^[\w]+$/.test(key);
+      return key && /^[()-+,.а-яА-ЯёЁ\s\w]+$/.test(key);
     },
 
     // Валидаця значения свойства объекта
     validationValueProperty(value) {
-      console.log("value", value);
-      return value && /^[\d\s\w]+$/.test(value);
+      return value && /^[()-+,.а-яА-ЯёЁ\s\w]+$/.test(value);
     },
 
     showModalWindow(title, message) {
       return this.$refs.modal.show(title, message);
+    },
+
+    resetNewProperty() {
+      this.newProperty = {
+        key: null,
+        value: null,
+      };
     },
   },
 };

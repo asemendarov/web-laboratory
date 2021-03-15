@@ -37,15 +37,15 @@
               </div>
             </td>
             <td class="table-col">
-              <input type="text" name="newName" id="newName" v-model="newContact.name" placeholder="Имя" />
+              <input type="text" name="newName" id="newName" v-model="newContact.name" placeholder="Имя" :pattern="patternName" />
             </td>
             <td class="table-col">
-              <input type="text" name="newPhone" id="newPhone" v-model="newContact.phone" placeholder="Телефон" />
+              <input type="text" name="newPhone" id="newPhone" v-model="newContact.phone" placeholder="Телефон" :pattern="patternPhone" />
             </td>
             <!-- Control -->
             <td class="table-col">
               <div class="icon-wrap icon-control" @dblclick.stop>
-                <icon-person-plus-fill @click.native="handlerAddContact" />
+                <icon-person-plus-fill @click.native="handlerCreateContact" />
               </div>
             </td>
           </tr>
@@ -84,7 +84,18 @@ export default {
         name: null,
         phone: null,
       },
+
+      regexForName: /^[()-+,.а-яА-ЯёЁ\s\w]+$/,
+      regexForPhone: /^[()-+,.а-яА-ЯёЁ\s\w]+$/,
     };
+  },
+  computed: {
+    patternName() {
+      return this.regexForName.toString().slice(1, -1);
+    },
+    patternPhone() {
+      return this.regexForPhone.toString().slice(1, -1);
+    },
   },
   mounted() {
     this.routerControl(this.$route);
@@ -134,41 +145,53 @@ export default {
       this.showEditContact(contactData, event);
     },
 
+    showCreateContact(contactData) {
+      console.log("showCreateContact", contactData);
+      this.redirectToContactInfoPage("create", contactData);
+    },
+
     showEditContact(contactData) {
       console.log("showEditContact", contactData);
-      this.$router.push({ name: "ContactInfo", params: { mode: "all", contactData } });
+      this.redirectToContactInfoPage("edit", contactData);
     },
 
     showDeleteContact(contactData) {
       console.log("showDeleteContact", contactData);
-      this.$router.push({ name: "ContactInfo", params: { mode: "delete", contactData } });
+      this.redirectToContactInfoPage("delete", contactData);
     },
 
-    handlerAddContact() {
-      if (!this.validationNewContact()) {
-        this.showModalWindow("Ошибка!", "Пожалуйста, введите имя и номер нового контакта");
+    handlerCreateContact() {
+      if (!this.validationContact(this.newContact)) {
+        this.showModalWindow("Ошибка!", "Пожалуйста, введите корректное имя и номер нового контакта");
         return;
       }
 
-      this.showEditContact(this.newContact);
+      // Проверки на уникальность отсутствует намеренно.
+      // В этом есть смысл.
+
+      this.showCreateContact(this.newContact);
     },
 
-    validationNewContact() {
-      // Валидаця имени
-      if (!this.newContact.name || !/^[\d\s\w]+$/.test(this.newContact.name)) {
-        return false;
-      }
+    validationContact(contactData) {
+      return this.validationNameContact(contactData.name) && this.validationPhoneContact(contactData.phone);
+    },
 
-      // Валидаця телефона
-      if (!this.newContact.phone || !/^[\d\s\w]+$/.test(this.newContact.phone)) {
-        return false;
-      }
+    validationNameContact(name) {
+      console.log("validationNameContact", name);
+      return name && this.regexForName.test(name);
+    },
 
-      return true;
+    validationPhoneContact(phone) {
+      console.log("validationPhoneContact", phone);
+      return phone && this.regexForPhone.test(phone);
     },
 
     showModalWindow(title, message) {
       return this.$refs.modal.show(title, message);
+    },
+
+    redirectToContactInfoPage(mode, contactData) {
+      this.$router.push({ name: "ContactInfo", params: { mode, contactData } });
     },
   },
 };
@@ -209,6 +232,11 @@ export default {
       &:focus {
         border-bottom-color: lighten($color-text, 20);
         cursor: text;
+      }
+
+      &:invalid {
+        outline: 2px solid $color-exception;
+        outline-offset: 4px;
       }
     }
 
