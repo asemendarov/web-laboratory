@@ -191,7 +191,13 @@ export default {
     },
 
     redirectToContactInfoPage(mode, contactData) {
-      this.$router.push({ name: "ContactInfo", params: { mode, contactData } });
+      this.$router.push({
+        name: "ContactInfo",
+        params: {
+          mode,
+          contactData: Object.entries(contactData),
+        },
+      });
     },
   },
 };

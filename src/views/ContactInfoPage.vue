@@ -12,24 +12,24 @@
         </tr>
       </thead>
       <tbody class="table-body">
-        <tr class="table-row" v-for="(value, key, idx) in contactData" :key="key">
-          <template v-if="key !== 'id'">
+        <template v-for="(item, idx) in contactData">
+          <tr v-if="item[0] !== 'id'" :key="idx">
             <td class="table-col col-center xs-d-none">{{ idx }}.</td>
             <td class="table-col">
-              <input type="text" :value="key" />
+              <input type="text" :value="item[0]" />
             </td>
             <td class="table-col">:</td>
             <td class="table-col">
-              <input type="text" :value="value" />
+              <input type="text" :value="item[1]" />
             </td>
             <!-- Control -->
             <td class="table-col">
               <div class="icon-wrap icon-control">
-                <icon-trash class="icon-delete" @click.native="handlerDeleteProperty(key)" />
+                <icon-trash class="icon-delete" @click.native="handlerDeleteProperty(idx)" />
               </div>
             </td>
-          </template>
-        </tr>
+          </tr>
+        </template>
         <!-- Add New Properties -->
         <tr class="table-row row-new-properties">
           <td class="table-col xs-d-none">
@@ -71,6 +71,8 @@
 </template>
 
 <script>
+import { isObject, isString, isInteger, isArray } from "@/assets/js/utilities.js";
+
 import IconTrash from "@/components/icons/IconTrash";
 import IconKeyboard from "@/components/icons/IconKeyboard";
 import IconNodePlus from "@/components/icons/IconNodePlus";
@@ -82,14 +84,18 @@ export default {
   props: {
     mode: {
       type: String,
+      default: "all",
       validator(value) {
-        return ~["all", "delete", "edit", "create"].indexOf(value);
+        console.log(value);
+        return ["all", "delete", "edit", "create"].includes(value);
       },
     },
     contactData: {
-      type: Object,
+      type: Array,
+      default: () => [],
       validator(value) {
-        return Object.prototype.toString.call(value) === "[object Object]";
+        console.log(value);
+        return value.length && value.every((arr) => isArray(arr) && arr.length == 2 && arr.every((subel) => isString(subel) || isInteger(subel)));
       },
     },
   },
@@ -102,30 +108,32 @@ export default {
     };
   },
   watch: {
+    // Обрабатываем маршрут
     $route: "routerControl",
-
-    contactData(to) {
-      console.log(to);
-    },
   },
   mounted() {
+    // Восстанавливаем реактивность входных данных намеренно игнорируя предупреждение Vue
+    this.contactData = [...this.contactData];
+
+    // Обрабатываем маршрут
     this.routerControl(this.$route);
   },
+
   computed: {
     url() {
       return `${this.$store.state.urlServer}/users`;
     },
 
     isEnabledCreateButton() {
-      return ~["all", "create"].indexOf(this.mode);
+      return ["all", "create"].includes(this.mode);
     },
 
     isEnabledEditButton() {
-      return ~["all", "edit"].indexOf(this.mode);
+      return ["all", "edit"].includes(this.mode);
     },
 
     isEnabledDeleteButton() {
-      return ~["all", "delete", "edit"].indexOf(this.mode);
+      return ["all", "delete", "edit"].includes(this.mode);
     },
   },
   methods: {
@@ -149,8 +157,10 @@ export default {
       }
     },
 
-    handlerDeleteProperty(key) {
-      this.deletePropertyFromContactData(key);
+    handlerDeleteProperty(idx) {
+      console.log("handlerDeleteProperty", this.contactData[idx]);
+
+      this.deletePropertyFromContactData(idx);
     },
 
     handlerAddProperty() {
@@ -159,37 +169,47 @@ export default {
 
     // Добавляет новое свойство в данные контакта
     addPropertyToContactData(property) {
-      if (!this.validationProperty(this.newProperty)) {
+      if (!this.validationProperty(property)) {
         this.showModalWindow("Ошибка!", "Пожалуйста, введите название и значение данных");
         return;
       }
 
-      if (~Object.keys(this.contactData).indexOf(property.key)) {
+      if (this.contactData.every((arr) => arr[0] === property.key)) {
         this.showModalWindow("Ошибка!", `Измините, но "${property.key}" уже существует, либо её добавление запрещено!`);
         return;
       }
 
-      this.$set(this.contactData, property.key, property.value);
+      this.contactData.push([property.key, property.value]);
+      // this.$set(this.contactData, this.contactData.length, [property.key, property.value]);
+
       this.resetNewProperty();
     },
 
-    deletePropertyFromContactData(key) {
-      if (~["id", "name", "phone"].indexOf(key)) {
+    deletePropertyFromContactData(idx) {
+      const key = this.contactData[idx][0];
+
+      if (["id", "name", "phone"].includes(key)) {
         this.showModalWindow("Ошибка!", `Измините, но "${key}" удалить нельзя! Можно изменить только значение!`);
         return;
       }
 
+      console.log("deletePropertyFromContactData1", this.contactData);
+
       this.showModalWindow("Внимание!", "Вы действительно ходите удалить эти данные?").then((event) => {
         if (event === "ok") {
-          this.$delete(this.contactData, key);
+          // this.contactData.splice(idx, 1);
+          this.$delete(this.contactData, idx);
+          console.log("deletePropertyFromContactData3", this.contactData);
         }
       });
+
+      console.log("deletePropertyFromContactData2", this.contactData);
     },
 
     deleteContactData() {
       this.showModalWindow("Внимание!", "Вы действительно ходите удалить данный контакт?").then((event) => {
         if (event === "ok") {
-          this.deletingResourceOnServer(this.contactData).then(() => {
+          this.deletingResourceOnServer(Object.fromEntries(this.contactData)).then(() => {
             this.redirectToContactListPage();
           });
         }
@@ -202,7 +222,7 @@ export default {
         return;
       }
 
-      this.creatingResourceOnServer(this.contactData).then(() => {
+      this.creatingResourceOnServer(Object.fromEntries(this.contactData)).then(() => {
         this.redirectToContactListPage();
       });
     },
@@ -216,7 +236,7 @@ export default {
 
       this.showModalWindow("Внимание!", "Вы действительно ходите изменить данные?").then((event) => {
         if (event === "ok") {
-          this.updatingResourceOnServer(this.contactData).then(() => {
+          this.updatingResourceOnServer(Object.fromEntries(this.contactData)).then(() => {
             this.redirectToContactListPage();
           });
         }
@@ -246,6 +266,10 @@ export default {
 
     // Создает данные на сервере
     async creatingResourceOnServer(data) {
+      if (!isObject(data)) {
+        throw "(ContactInfoPage) data is not [object Object]";
+      }
+
       delete data.id;
 
       const response = await fetch(this.url, {
@@ -263,6 +287,10 @@ export default {
 
     // Обновляет данные на сервере
     async updatingResourceOnServer(data) {
+      if (!isObject(data)) {
+        throw "(ContactInfoPage) data is not [object Object]";
+      }
+
       if (!data.id || !/^[1-9]\d*$/.test(data.id)) {
         throw "updatingResource >> некоректный ID";
       }
@@ -282,6 +310,10 @@ export default {
 
     // Удаляет данные на сервере
     async deletingResourceOnServer(data) {
+      if (!isObject(data)) {
+        throw "(ContactInfoPage) data is not [object Object]";
+      }
+
       if (!data.id || !/^[1-9]\d*$/.test(data.id)) {
         throw "deletingResource >> некоректный ID";
       }
@@ -303,12 +335,12 @@ export default {
 
     validatorMode() {
       console.log("validatorMode", this.mode);
-      return ~["all", "delete", "edit", "create"].indexOf(this.mode);
+      return ["all", "delete", "edit", "create"].includes(this.mode);
     },
 
     validatorContactData() {
       console.log("validatorContactData", this.contactData);
-      return Object.prototype.toString.call(this.contactData) === "[object Object]";
+      return this.contactData.length && this.contactData.every((arr) => isArray(arr) && arr.length == 2 && arr.every((subel) => isString(subel) || isInteger(subel)));
     },
 
     redirectToContactListPage() {
