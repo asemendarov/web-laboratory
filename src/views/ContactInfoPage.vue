@@ -16,11 +16,11 @@
           <tr v-if="item[0] !== 'id'" :key="idx">
             <td class="table-col col-center xs-d-none">{{ idx }}.</td>
             <td class="table-col">
-              <input-text-with-cancel v-model="item[0]" placeholder="Название" :disabled="['name', 'phone'].includes(item[0])" />
+              <input-text-with-cancel v-model="item[0]" @change="handlerChangeInput" placeholder="Название" :disabled="['name', 'phone'].includes(item[0])" />
             </td>
             <td class="table-col">:</td>
             <td class="table-col">
-              <input-text-with-cancel v-model="item[1]" placeholder="Значение" />
+              <input-text-with-cancel v-model="item[1]" @change="handlerChangeInput" placeholder="Значение" />
             </td>
             <!-- Control -->
             <td class="table-col">
@@ -97,7 +97,7 @@ export default {
   },
   data() {
     return {
-      historyChanges: new HistoryChanges(5),
+      historyChanges: new HistoryChanges(10),
       contactData: [],
       newProperty: {
         key: null,
@@ -106,81 +106,93 @@ export default {
     };
   },
   mounted() {
+    // Преобразовываем входной объект контактных данных в массив
     this.contactData = Object.entries(this.data ?? {});
 
-    // Обрабатываем маршрут
+    // Сохраняем начальное состояние данных
+    this.historyChanges.pushState(this.contactData);
+
+    // Вызываем обработчик маршрута
     this.routerControl(this.$route);
   },
 
   watch: {
-    // Обрабатываем маршрут
+    // При изменении маршрута вызываем его обработчик
     $route: "routerControl",
 
     // contactData
     contactData: {
-      handler(newData) {
-        this.historyChanges.pushState(newData);
+      handler() {
+        // pass
       },
       deep: true,
     },
 
-    // "historyChanges.state"(value) {
-    //   console.log(value);
-    // },
+    "historyChanges.state"(value) {
+      console.log(value);
+    },
   },
 
   computed: {
+    // Вычисляет URL json сервера
     url() {
       return `${this.$store.state.urlServer}/users`;
     },
 
+    // Вычисляет должна ли кнопка Create отображаться, основываясь на входном параметре Mode
     isEnabledCreateButton() {
       return ["all", "create"].includes(this.mode);
     },
 
+    // Вычисляет должна ли кнопка Edit отображаться, основываясь на входном параметре Mode
     isEnabledEditButton() {
       return ["all", "edit"].includes(this.mode);
     },
 
+    // Вычисляет должна ли кнопка Delete отображаться, основываясь на входном параметре Mode
     isEnabledDeleteButton() {
       return ["all", "delete", "edit"].includes(this.mode);
     },
   },
   methods: {
+    // Обрабатывает события Change на компоненте Input
+    handlerChangeInput() {
+      this.historyChanges.pushState(this.contactData);
+    },
+
+    // Обрабатывает события Click на кнопке Back
     handlerClickBack() {
       this.contactData = this.historyChanges.back();
     },
 
+    // Обрабатывает события Click на кнопке Forward
     handlerClickForward() {
       this.contactData = this.historyChanges.forward();
     },
 
+    // Обрабатывает маршрут учитывая состояние входных данных
     routerControl() {
       if (!this.validatorMode() || !this.validatorContactData()) {
         this.redirectToContactListPage();
+        return;
       }
 
       this.processingMode();
     },
 
+    // Обрабатывает режим запуска
     processingMode() {
       if (this.mode == "delete") {
-        console.log("processingMode", "delete");
         this.deleteContactData();
-      } else if (this.mode == "edit") {
-        console.log("processingMode", "edit");
-      } else {
-        // create mode
-        console.log("processingMode", "create");
       }
     },
 
+    // Обрабатывает события Click на кнопке Delete Property
     handlerDeleteProperty(idx) {
-      console.log("handlerDeleteProperty", this.contactData[idx]);
-
       this.deletePropertyFromContactData(idx);
     },
 
+    // Обрабатывает события Click на кнопке Add Property
     handlerAddProperty() {
       this.addPropertyToContactData(this.newProperty);
     },
@@ -198,11 +210,11 @@ export default {
       }
 
       this.contactData.push([property.key, property.value]);
-      // this.$set(this.contactData, this.contactData.length, [property.key, property.value]);
 
       this.resetNewProperty();
     },
 
+    // Удаляет по индексу свойство в данных контакта
     deletePropertyFromContactData(idx) {
       const key = this.contactData[idx][0];
 
@@ -211,17 +223,11 @@ export default {
         return;
       }
 
-      console.log("deletePropertyFromContactData1", this.contactData);
-
       this.showModalWindow("Внимание!", "Вы действительно ходите удалить эти данные?").then((event) => {
         if (event === "ok") {
-          // this.contactData.splice(idx, 1);
           this.$delete(this.contactData, idx);
-          console.log("deletePropertyFromContactData3", this.contactData);
         }
       });
-
-      console.log("deletePropertyFromContactData2", this.contactData);
     },
 
     deleteContactData() {
@@ -352,12 +358,10 @@ export default {
     },
 
     validatorMode() {
-      console.log("validatorMode", this.mode);
       return ["all", "delete", "edit", "create"].includes(this.mode);
     },
 
     validatorContactData() {
-      console.log("validatorContactData", this.contactData);
       return this.contactData.length && this.contactData.every((arr) => isArray(arr) && arr.length == 2 && arr.every((subel) => isString(subel) || isInteger(subel)));
     },
 
