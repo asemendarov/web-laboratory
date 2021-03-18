@@ -190,14 +190,8 @@ export default {
       return this.$refs.modal.show(title, message);
     },
 
-    redirectToContactInfoPage(mode, contactData) {
-      this.$router.push({
-        name: "ContactInfo",
-        params: {
-          mode,
-          contactData: Object.entries(contactData),
-        },
-      });
+    redirectToContactInfoPage(mode, data) {
+      this.$router.push({ name: "ContactInfo", params: { mode, data } });
     },
   },
 };
@@ -252,7 +246,7 @@ export default {
       justify-content: center;
       align-items: center;
 
-      & .icon {
+      & .icon-base {
         padding: 4px;
       }
     }

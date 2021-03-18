@@ -14,6 +14,7 @@
 import IconBase from "./IconBase.vue";
 
 export default {
+  name: "IconPencilSquare",
   components: { IconBase },
   props: {
     width: {

@@ -9,6 +9,7 @@
 import IconBase from "./IconBase.vue";
 
 export default {
+  name: "IconPersonDashFill",
   components: { IconBase },
   props: {
     width: {

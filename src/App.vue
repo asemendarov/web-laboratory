@@ -96,6 +96,10 @@ button {
   padding-right: 8px;
 }
 
+input {
+  text-overflow: ellipsis;
+}
+
 .icon-control {
   cursor: pointer;
 }

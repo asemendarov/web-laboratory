@@ -9,6 +9,7 @@
 import IconBase from "./IconBase.vue";
 
 export default {
+  name: "IconPersonPlusFill",
   components: { IconBase },
   props: {
     width: {

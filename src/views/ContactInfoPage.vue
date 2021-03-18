@@ -16,11 +16,11 @@
           <tr v-if="item[0] !== 'id'" :key="idx">
             <td class="table-col col-center xs-d-none">{{ idx }}.</td>
             <td class="table-col">
-              <input type="text" :value="item[0]" />
+              <input-text-with-cancel v-model="item[0]" placeholder="Название" :disabled="['name', 'phone'].includes(item[0])" />
             </td>
             <td class="table-col">:</td>
             <td class="table-col">
-              <input type="text" :value="item[1]" />
+              <input-text-with-cancel v-model="item[1]" placeholder="Значение" />
             </td>
             <!-- Control -->
             <td class="table-col">
@@ -38,11 +38,11 @@
             </div>
           </td>
           <td class="table-col">
-            <input type="text" v-model="newProperty.key" placeholder="Название" />
+            <input-text-with-cancel v-model="newProperty.key" placeholder="Название" />
           </td>
           <td class="table-col">:</td>
           <td class="table-col">
-            <input type="text" v-model="newProperty.value" placeholder="Значение" />
+            <input-text-with-cancel v-model="newProperty.value" placeholder="Значение" />
           </td>
           <!-- Control -->
           <td class="table-col">
@@ -62,6 +62,10 @@
     </div>
     <!-- Control -->
     <div class="button-control">
+      <div v-if="historyChanges">
+        <input v-if="!historyChanges.isBegin" type="button" value="Назад" class="button button-back" @click="handlerClickBack" />
+        <input v-if="!historyChanges.isEnd" type="button" value="Вперед" class="button button-forward" @click="handlerClickForward" />
+      </div>
       <input v-if="isEnabledCreateButton" class="button button-create" type="button" value="Создать контакт" @click="handlerCreateButton" />
       <input v-if="isEnabledEditButton" class="button button-edit" type="button" value="Применить изменения" @click="handlerEditButton" />
       <input v-if="isEnabledDeleteButton" class="button button-delete" type="button" value="Удалить контакт" @click="handlerDeleteButton" />
@@ -71,52 +75,58 @@
 </template>
 
 <script>
+// Import JS
 import { isObject, isString, isInteger, isArray } from "@/assets/js/utilities.js";
+import HistoryChanges from "@/assets/js/HistoryChanges.js";
 
+// Import Icon Components
 import IconTrash from "@/components/icons/IconTrash";
 import IconKeyboard from "@/components/icons/IconKeyboard";
 import IconNodePlus from "@/components/icons/IconNodePlus";
+// Import Modal Components
 import ModalWarning from "@/components/modals/ModalWarning";
+// Inport Input Components
+import InputTextWithCancel from "@/components/forms/inputs/InputTextWithCancel";
 
 export default {
   name: "ContactInfoPage",
-  components: { IconTrash, IconKeyboard, IconNodePlus, ModalWarning },
+  components: { IconTrash, IconKeyboard, IconNodePlus, ModalWarning, InputTextWithCancel },
   props: {
-    mode: {
-      type: String,
-      default: "all",
-      validator(value) {
-        console.log(value);
-        return ["all", "delete", "edit", "create"].includes(value);
-      },
-    },
-    contactData: {
-      type: Array,
-      default: () => [],
-      validator(value) {
-        console.log(value);
-        return value.length && value.every((arr) => isArray(arr) && arr.length == 2 && arr.every((subel) => isString(subel) || isInteger(subel)));
-      },
-    },
+    mode: { type: String },
+    data: { type: Object },
   },
   data() {
     return {
+      historyChanges: new HistoryChanges(5),
+      contactData: [],
       newProperty: {
         key: null,
         value: null,
       },
     };
   },
-  watch: {
-    // Обрабатываем маршрут
-    $route: "routerControl",
-  },
   mounted() {
-    // Восстанавливаем реактивность входных данных намеренно игнорируя предупреждение Vue
-    this.contactData = [...this.contactData];
+    this.contactData = Object.entries(this.data ?? {});
 
     // Обрабатываем маршрут
     this.routerControl(this.$route);
+  },
+
+  watch: {
+    // Обрабатываем маршрут
+    $route: "routerControl",
+
+    // contactData
+    contactData: {
+      handler(newData) {
+        this.historyChanges.pushState(newData);
+      },
+      deep: true,
+    },
+
+    // "historyChanges.state"(value) {
+    //   console.log(value);
+    // },
   },
 
   computed: {
@@ -137,6 +147,14 @@ export default {
     },
   },
   methods: {
+    handlerClickBack() {
+      this.contactData = this.historyChanges.back();
+    },
+
+    handlerClickForward() {
+      this.contactData = this.historyChanges.forward();
+    },
+
     routerControl() {
       if (!this.validatorMode() || !this.validatorContactData()) {
         this.redirectToContactListPage();
@@ -385,30 +403,20 @@ export default {
 @import "~@/assets/scss/variables";
 
 .contact-info-page {
-  & input {
-    width: 95%;
-    height: 32px;
+  & .input-text-with-cancel {
+    // pass
 
-    background: initial;
-
-    cursor: pointer;
-
-    border-bottom: 1px solid lighten($color-text, 65);
-
-    &:focus {
-      border-bottom-color: lighten($color-text, 20);
-      cursor: text;
+    &__input {
+      height: 32px;
     }
   }
 
-  & .icon-wrap {
-    margin: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  & .icon-delete {
+    cursor: pointer;
+    color: $color-exception;
 
-    & .icon {
-      padding: 4px;
+    &:hover {
+      color: red;
     }
   }
 
@@ -416,24 +424,18 @@ export default {
     & .icon:hover {
       color: $color-header;
     }
-
-    & .icon-delete {
-      color: $color-exception;
-
-      &:hover {
-        color: red;
-      }
-    }
   }
 
   & .button-control {
     display: flex;
     flex-direction: column;
+
     justify-content: center;
     align-items: center;
 
     & .button {
       max-width: 200px;
+      margin: 5px;
 
       &:hover {
         background: lighten($color-text, 72);

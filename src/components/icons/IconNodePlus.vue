@@ -11,6 +11,7 @@
 import IconBase from "./IconBase.vue";
 
 export default {
+  name: "IconNodePlus",
   components: { IconBase },
   props: {
     width: {

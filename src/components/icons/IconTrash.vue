@@ -12,6 +12,7 @@
 import IconBase from "./IconBase.vue";
 
 export default {
+  name: "IconTrash",
   components: { IconBase },
   props: {
     width: {

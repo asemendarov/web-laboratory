@@ -21,11 +21,11 @@
 import ModalBase from "./ModalBase.vue";
 
 export default {
+  name: "ModalWarning",
+  components: { ModalBase },
   props: {
     // pass
   },
-  components: { ModalBase },
-  name: "ModalWarning",
   data() {
     return {
       isEnabled: false,
