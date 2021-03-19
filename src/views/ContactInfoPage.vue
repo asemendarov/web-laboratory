@@ -1,6 +1,7 @@
 <template>
   <div class="contact-info-page">
     <h1 class="page-title xs-text-base">Контактная информация</h1>
+    <msg-exception ref="exception" />
     <table class="table">
       <thead class="table-header">
         <tr class="table-row">
@@ -25,7 +26,7 @@
             <!-- Control Block -->
             <td class="table-col">
               <div class="icon-wrap icon-control">
-                <icon-trash class="icon-delete" @click.native="handlerDeleteProperty(idx)" />
+                <icon-trash class="icon-delete" @click.native="handlerClickDeleteProperty(idx)" />
               </div>
             </td>
           </tr>
@@ -47,7 +48,7 @@
           <!-- Control -->
           <td class="table-col">
             <div class="icon-wrap icon-control">
-              <icon-node-plus width="22" height="22" @click.native="handlerAddProperty(newProperty)" />
+              <icon-node-plus width="22" height="22" @click.native="handlerClickAddProperty(newProperty)" />
             </div>
           </td>
         </tr>
@@ -66,31 +67,33 @@
         <input v-if="!historyChanges.isBegin" type="button" value="Назад" class="button button-back" @click="handlerClickBack" />
         <input v-if="!historyChanges.isEnd" type="button" value="Вперед" class="button button-forward" @click="handlerClickForward" />
       </div>
-      <input v-if="isEnabledCreateButton" class="button-create" type="button" value="Создать контакт" @click="handlerCreateButton" />
-      <input v-if="isEnabledEditButton" class="button-edit" type="button" value="Применить изменения" @click="handlerEditButton" />
-      <input v-if="isEnabledDeleteButton" class="button-delete" type="button" value="Удалить контакт" @click="handlerDeleteButton" />
-      <input class="button-cancel" type="button" value="Отмена" @click="handlerCancelButton" />
+      <input v-if="isEnabledCreateButton" class="button-create" type="button" value="Создать контакт" @click="handlerClickCreateContactData" />
+      <input v-if="isEnabledEditButton" class="button-edit" type="button" value="Применить изменения" @click="handlerClickUpdateContactData" />
+      <input v-if="isEnabledDeleteButton" class="button-delete" type="button" value="Удалить контакт" @click="handlerClickDeleteContactData" />
+      <input class="button-cancel" type="button" value="Отмена" @click="handlerClickCancel" />
     </div>
   </div>
 </template>
 
 <script>
 // Import JS
-import { isObject, isString, isInteger, isArray } from "@/assets/js/utilities.js";
+import { isString, isInteger, isArray } from "@/assets/js/utilities.js";
 import HistoryChanges from "@/assets/js/HistoryChanges.js";
+import APIJsonServer from "@/assets/js/APIJsonServer.js";
 
+// Import Basic Components
+import MsgException from "@/components/MsgException";
+import ModalWarning from "@/components/modals/ModalWarning";
+// Import Input Components
+import InputTextWithCancel from "@/components/forms/inputs/InputTextWithCancel";
 // Import Icon Components
 import IconTrash from "@/components/icons/IconTrash";
 import IconKeyboard from "@/components/icons/IconKeyboard";
 import IconNodePlus from "@/components/icons/IconNodePlus";
-// Import Modal Components
-import ModalWarning from "@/components/modals/ModalWarning";
-// Inport Input Components
-import InputTextWithCancel from "@/components/forms/inputs/InputTextWithCancel";
 
 export default {
   name: "ContactInfoPage",
-  components: { IconTrash, IconKeyboard, IconNodePlus, ModalWarning, InputTextWithCancel },
+  components: { MsgException, ModalWarning, InputTextWithCancel, IconTrash, IconKeyboard, IconNodePlus },
   props: {
     // Режим запуска страницы
     mode: { type: String },
@@ -100,7 +103,10 @@ export default {
   data() {
     return {
       // Объект хранящий историю изменений контактной информации
-      historyChanges: new HistoryChanges(10),
+      historyChanges: null,
+
+      // Объект хранящий интерфейс для взаимодействия с сервером
+      api: null,
 
       // Контактная информация
       contactData: [],
@@ -113,6 +119,12 @@ export default {
     };
   },
   mounted() {
+    // Создаем объект хранилища изменений контактной информации
+    this.historyChanges = new HistoryChanges(10);
+
+    // Создаем интерфейс для взаимодействия с сервером
+    this.api = new APIJsonServer(this.urlServer);
+
     // Преобразовываем входной объект контактных данных в массив
     this.contactData = Object.entries(this.data ?? {});
 
@@ -187,7 +199,7 @@ export default {
       this.processingMode();
     },
 
-    // Обрабатывает режим запуска
+    // Обрабатывает режим запуска страницы
     processingMode() {
       if (this.mode == "delete") {
         this.deleteContactData();
@@ -195,12 +207,12 @@ export default {
     },
 
     // Обрабатывает события Click на кнопке Delete Property
-    handlerDeleteProperty(idx) {
+    handlerClickDeleteProperty(idx) {
       this.deletePropertyFromContactData(idx);
     },
 
     // Обрабатывает события Click на кнопке Add Property
-    handlerAddProperty(property) {
+    handlerClickAddProperty(property) {
       this.addPropertyToContactData(property);
     },
 
@@ -239,30 +251,43 @@ export default {
       });
     },
 
+    // Запускает цепочку действий для удаления контакта на сервере
     deleteContactData() {
       this.showModalWindow("Внимание!", "Вы действительно ходите удалить данный контакт?").then((event) => {
         if (event === "ok") {
-          this.deletingResourceOnServer(Object.fromEntries(this.contactData)).then(() => {
-            this.redirectToContactListPage();
-          });
+          this.sleep()
+            .then(() => this.api.delete("/users", Object.fromEntries(this.contactData)))
+            .then(() => {
+              this.redirectToContactListPage();
+            })
+            .catch((ex) => {
+              this.$refs.exception.show(ex.name, ex.message);
+            });
         } else if (event === "cancel" && this.mode === "delete") {
           this.redirectToContactListPage();
         }
       });
     },
 
+    // Запускает цепочку действий для создания контакта на сервере
     createContactData() {
       if (!this.validationAllProperties()) {
         this.showModalWindow("Ошибка!", "Пожалуйста, убедитесь, что вы ввели данные правильно!");
         return;
       }
 
-      this.creatingResourceOnServer(Object.fromEntries(this.contactData)).then(() => {
-        this.redirectToContactListPage();
-      });
+      this.sleep()
+        .then(() => this.api.create("/users", Object.fromEntries(this.contactData)))
+        .then(() => {
+          this.redirectToContactListPage();
+        })
+        .catch((ex) => {
+          this.$refs.exception.show(ex.name, ex.message);
+        });
     },
 
-    editContactData() {
+    // Запускает цепочку действий для обновления контактной информации на сервере
+    updateContactData() {
       /// необходима проверка наличия изменений для оптимизации
       if (!this.validationAllProperties()) {
         this.showModalWindow("Ошибка!", "Пожалуйста, убедитесь, что вы ввели данные правильно!");
@@ -271,27 +296,35 @@ export default {
 
       this.showModalWindow("Внимание!", "Вы действительно ходите изменить данные?").then((event) => {
         if (event === "ok") {
-          this.updatingResourceOnServer(Object.fromEntries(this.contactData)).then(() => {
-            this.redirectToContactListPage();
-          });
+          this.sleep()
+            .then(() => this.api.update("/users", Object.fromEntries(this.contactData)))
+            .then(() => {
+              this.redirectToContactListPage();
+            })
+            .catch((ex) => {
+              this.$refs.exception.show(ex.name, ex.message);
+            });
         }
       });
     },
 
-    handlerCreateButton() {
+    // Обрабатывает события Click на кнопке "Create contact data"
+    handlerClickCreateContactData() {
       this.createContactData();
     },
 
-    handlerEditButton() {
-      this.editContactData();
+    // Обрабатывает события Click на кнопке "Update contact data"
+    handlerClickUpdateContactData() {
+      this.updateContactData();
     },
 
-    handlerDeleteButton() {
+    // Обрабатывает события Click на кнопке "Delete contact data"
+    handlerClickDeleteContactData() {
       this.deleteContactData();
     },
 
-    // Обработчик нажатия "Отмена"
-    handlerCancelButton() {
+    // Обрабатывает события Click на кнопке "Cancel"
+    handlerClickCancel() {
       this.showModalWindow("Внимание!", "Вы действительно ходите выйти? Все изменения будут утеряны!").then((event) => {
         if (event === "ok") {
           this.redirectToContactListPage();
@@ -299,75 +332,8 @@ export default {
       });
     },
 
-    // Создает данные на сервере
-    async creatingResourceOnServer(data) {
-      if (!isObject(data)) {
-        throw "(ContactInfoPage) data is not [object Object]";
-      }
-
-      delete data.id;
-
-      const response = await fetch(`${this.urlServer}/users`, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-
-      // !!!!!!!!!! calc response.status
-
-      const json = await response.json();
-
-      console.log("creatingResource", json);
-    },
-
-    // Обновляет данные на сервере
-    async updatingResourceOnServer(data) {
-      if (!isObject(data)) {
-        throw "(ContactInfoPage) data is not [object Object]";
-      }
-
-      if (!data.id || !/^[1-9]\d*$/.test(data.id)) {
-        throw "updatingResource >> некоректный ID";
-      }
-
-      const response = await fetch(`${this.urlServer}/users/${data.id}`, {
-        method: "PUT",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-
-      // !!!!!!!!!! calc response.status
-
-      const json = await response.json();
-
-      console.log("updatingResource", json);
-    },
-
-    // Удаляет данные на сервере
-    async deletingResourceOnServer(data) {
-      if (!isObject(data)) {
-        throw "(ContactInfoPage) data is not [object Object]";
-      }
-
-      if (!data.id || !/^[1-9]\d*$/.test(data.id)) {
-        throw "deletingResource >> некоректный ID";
-      }
-
-      const response = await fetch(`${this.urlServer}/users/${data.id}`, {
-        method: "DELETE",
-      });
-
-      // !!!!!!!!!! calc response.status
-
-      console.log("deletingResource", response.status);
-    },
-
     // Создает эмуляцию задержки взаимодействия с сервером
-    async sleep(ms) {
+    sleep(ms = 0) {
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve();

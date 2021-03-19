@@ -1,8 +1,8 @@
 <template>
   <div class="contact-list-page">
     <h1 class="page-title xs-text-base">Список контактов</h1>
+    <msg-exception ref="exception" />
     <loader v-if="statusLoad > 0" />
-    <msg-exception v-else-if="statusLoad < 0" msg="Error: Ошибка при подключении к серверу!" />
     <div v-else class="contact-list">
       <table class="table">
         <thead class="table-header">
@@ -21,7 +21,7 @@
             <td class="table-col">{{ contactData.phone || "Пусто" }}</td>
             <!-- Control Block -->
             <td class="table-col">
-              <div v-if="contactData.id && contactData.name && contactData.phone" class="icon-wrap icon-control">
+              <div v-if="contactData.id" class="icon-wrap icon-control">
                 <icon-pencil-square @click.native="handlerClickEditContact(contactData)" />
                 <icon-person-dash-fill @click.native="handlerClickDeleteContact(contactData)" />
               </div>
@@ -65,6 +65,8 @@ import Loader from "@/components/Loader";
 import MsgException from "@/components/MsgException";
 import ModalWarning from "@/components/modals/ModalWarning";
 
+import APIJsonServer from "@/assets/js/APIJsonServer.js";
+
 import IconPencilSquare from "@/components/icons/IconPencilSquare";
 import IconPersonDashFill from "@/components/icons/IconPersonDashFill";
 import IconPersonPlusFill from "@/components/icons/IconPersonPlusFill";
@@ -80,6 +82,9 @@ export default {
 
       // Список контактных данных
       contactDataList: [],
+
+      // Объект хранящий интерфейс для взаимодействия с сервером
+      api: null,
 
       // Объект хранящий имя и телефон нового контакта
       newContact: {
@@ -109,6 +114,9 @@ export default {
     },
   },
   mounted() {
+    // Создаем интерфейс для взаимодействия с сервером
+    this.api = new APIJsonServer(this.urlServer);
+
     // Вызываем обработчик маршрута
     this.routerControl(this.$route);
   },
@@ -125,35 +133,31 @@ export default {
     // Запускает цепочку действий для запуска загрузки данных с сервера
     loadData() {
       this.statusLoad++;
+      this.$refs.exception.hide();
 
-      this.fetchContactList()
+      this.sleep()
+        .then(() => this.api.get("/users"))
         .then((data) => {
           data.forEach((el) => {
             this.contactDataList.push(el);
           });
           this.statusLoad--;
         })
-        .catch((e) => {
-          this.statusLoad = -1;
-          console.error(e);
+        .catch((ex) => {
+          this.statusLoad = 0;
+          this.$refs.exception.show(ex.name, ex.message);
+          console.error(ex);
         });
     },
 
     // Загружает список контактов с сервера
     async fetchContactList() {
-      await this.sleep(0);
-
-      const response = await fetch(`${this.urlServer}/users`);
-
-      // !!!!!!!!!! calc response.status
-
-      const data = await response.json();
-
-      return data;
+      await this.sleep();
+      return;
     },
 
     // Создает эмуляцию задержки взаимодействия с сервером
-    async sleep(ms) {
+    sleep(ms = 0) {
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve();
