@@ -2,7 +2,7 @@
   <div class="contact-list-page">
     <h1 class="page-title xs-text-base">Список контактов</h1>
     <msg-exception ref="exception" />
-    <loader v-if="statusLoad > 0" />
+    <loader v-if="statusLoad" />
     <div v-else class="contact-list">
       <table class="table">
         <thead class="table-header">
@@ -21,7 +21,7 @@
             <td class="table-col">{{ contactData.phone || "Пусто" }}</td>
             <!-- Control Block -->
             <td class="table-col">
-              <div v-if="contactData.id" class="icon-wrap icon-control">
+              <div v-show="contactData.id" class="icon-wrap icon-control">
                 <icon-pencil-square @click.native="handlerClickEditContact(contactData)" />
                 <icon-person-dash-fill @click.native="handlerClickDeleteContact(contactData)" />
               </div>
@@ -35,10 +35,10 @@
               </div>
             </td>
             <td class="table-col">
-              <input type="text" v-model="newContact.name" placeholder="Имя" :pattern="patternName" />
+              <input-text-with-cancel v-model="newContact.name" placeholder="Имя" :pattern="patternName" />
             </td>
             <td class="table-col">
-              <input type="text" v-model="newContact.phone" placeholder="Телефон" :pattern="patternPhone" />
+              <input-text-with-cancel v-model="newContact.phone" placeholder="Телефон" :pattern="patternPhone" />
             </td>
             <!-- Control Block -->
             <td class="table-col">
@@ -61,24 +61,27 @@
 </template>
 
 <script>
+// Import JS
+import APIJsonServer from "@/assets/js/APIJsonServer.js";
+// Import Basic Components
 import Loader from "@/components/Loader";
 import MsgException from "@/components/MsgException";
 import ModalWarning from "@/components/modals/ModalWarning";
-
-import APIJsonServer from "@/assets/js/APIJsonServer.js";
-
+// Import Input Components
+import InputTextWithCancel from "@/components/forms/inputs/InputTextWithCancel";
+// Import Icon Components
 import IconPencilSquare from "@/components/icons/IconPencilSquare";
 import IconPersonDashFill from "@/components/icons/IconPersonDashFill";
 import IconPersonPlusFill from "@/components/icons/IconPersonPlusFill";
 import IconKeyboard from "@/components/icons/IconKeyboard";
 
 export default {
-  components: { Loader, MsgException, ModalWarning, IconPencilSquare, IconPersonDashFill, IconPersonPlusFill, IconKeyboard },
+  components: { Loader, MsgException, InputTextWithCancel, ModalWarning, IconPencilSquare, IconPersonDashFill, IconPersonPlusFill, IconKeyboard },
   name: "ContactListPage",
   data() {
     return {
       // Состояние загрузки контактных данных с сервера
-      statusLoad: 0,
+      statusLoad: null,
 
       // Список контактных данных
       contactDataList: [],
@@ -141,12 +144,13 @@ export default {
           data.forEach((el) => {
             this.contactDataList.push(el);
           });
-          this.statusLoad--;
         })
         .catch((ex) => {
-          this.statusLoad = 0;
           this.$refs.exception.show(ex.name, ex.message);
           console.error(ex);
+        })
+        .finally(() => {
+          this.statusLoad--;
         });
     },
 
@@ -157,7 +161,7 @@ export default {
     },
 
     // Создает эмуляцию задержки взаимодействия с сервером
-    sleep(ms = 0) {
+    sleep(ms = 1000) {
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve();
@@ -247,41 +251,20 @@ export default {
     justify-content: flex-start;
 
     & input {
-      padding: 0;
-
-      width: 80%;
       height: 32px;
+    }
 
-      cursor: pointer;
-
-      border-bottom: 1px solid lighten($color-text, 65);
-
-      &:focus {
-        border-bottom-color: lighten($color-text, 20);
-        cursor: text;
-      }
-
-      &:invalid {
-        outline: 2px solid $color-exception;
-        outline-offset: 4px;
+    & .table {
+      & .table-col {
+        height: 45px;
+        min-height: 45px;
       }
     }
 
     & .icon-wrap {
-      margin: 4px;
       display: flex;
       justify-content: center;
       align-items: center;
-
-      & .icon-base {
-        padding: 4px;
-      }
-    }
-
-    & .icon-control {
-      & .icon:hover {
-        color: $color-header;
-      }
     }
   }
 }

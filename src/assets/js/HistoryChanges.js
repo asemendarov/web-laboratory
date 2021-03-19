@@ -15,7 +15,7 @@ export default class HistoryChanges {
     this.state = [];
 
     // Private
-    this._index = 0;
+    this._index = null;
     this._maxLength = maxLength;
   }
 

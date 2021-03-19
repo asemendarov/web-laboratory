@@ -2,7 +2,8 @@
   <div class="contact-info-page">
     <h1 class="page-title xs-text-base">Контактная информация</h1>
     <msg-exception ref="exception" />
-    <table class="table">
+    <loader v-if="statusLoad" />
+    <table v-else class="table">
       <thead class="table-header">
         <tr class="table-row">
           <th class="table-col xs-d-none"></th>
@@ -57,20 +58,20 @@
         <!-- pass -->
       </tfoot>
     </table>
+    <!-- Control Block -->
+    <div v-show="!statusLoad" class="button-control">
+      <div class="control-history">
+        <input v-show="isEnabledBackButton" class="button button-back" type="button" value="Назад" @click="handlerClickBack" />
+        <input v-show="isEnabledForwardButton" class="button button-forward" type="button" value="Вперед" @click="handlerClickForward" />
+      </div>
+      <input v-show="isEnabledCreateButton" class="button button-create" type="button" value="Создать контакт" @click="handlerClickCreateContactData" />
+      <input v-show="isEnabledEditButton" class="button button-update" type="button" value="Применить изменения" @click="handlerClickUpdateContactData" />
+      <input v-show="isEnabledDeleteButton" class="button button-delete" type="button" value="Удалить контакт" @click="handlerClickDeleteContactData" />
+      <input class="button button-cancel" type="button" value="Отмена" @click="handlerClickCancel" />
+    </div>
     <!-- Modal Window -->
     <div class="modal-window">
       <modal-warning ref="modal" />
-    </div>
-    <!-- Control Block -->
-    <div class="button-control">
-      <div v-if="historyChanges">
-        <input v-if="!historyChanges.isBegin" type="button" value="Назад" class="button button-back" @click="handlerClickBack" />
-        <input v-if="!historyChanges.isEnd" type="button" value="Вперед" class="button button-forward" @click="handlerClickForward" />
-      </div>
-      <input v-if="isEnabledCreateButton" class="button-create" type="button" value="Создать контакт" @click="handlerClickCreateContactData" />
-      <input v-if="isEnabledEditButton" class="button-edit" type="button" value="Применить изменения" @click="handlerClickUpdateContactData" />
-      <input v-if="isEnabledDeleteButton" class="button-delete" type="button" value="Удалить контакт" @click="handlerClickDeleteContactData" />
-      <input class="button-cancel" type="button" value="Отмена" @click="handlerClickCancel" />
     </div>
   </div>
 </template>
@@ -80,8 +81,8 @@
 import { isString, isInteger, isArray } from "@/assets/js/utilities.js";
 import HistoryChanges from "@/assets/js/HistoryChanges.js";
 import APIJsonServer from "@/assets/js/APIJsonServer.js";
-
 // Import Basic Components
+import Loader from "@/components/Loader";
 import MsgException from "@/components/MsgException";
 import ModalWarning from "@/components/modals/ModalWarning";
 // Import Input Components
@@ -93,7 +94,7 @@ import IconNodePlus from "@/components/icons/IconNodePlus";
 
 export default {
   name: "ContactInfoPage",
-  components: { MsgException, ModalWarning, InputTextWithCancel, IconTrash, IconKeyboard, IconNodePlus },
+  components: { Loader, MsgException, ModalWarning, InputTextWithCancel, IconTrash, IconKeyboard, IconNodePlus },
   props: {
     // Режим запуска страницы
     mode: { type: String },
@@ -102,6 +103,9 @@ export default {
   },
   data() {
     return {
+      // Состояние загрузки данных
+      statusLoad: null,
+
       // Объект хранящий историю изменений контактной информации
       historyChanges: null,
 
@@ -138,24 +142,20 @@ export default {
   watch: {
     // При изменении маршрута вызываем его обработчик
     $route: "routerControl",
-
-    // contactData
-    contactData: {
-      handler() {
-        // pass
-      },
-      deep: true,
-    },
-
-    "historyChanges.state"(value) {
-      console.log(value);
-    },
   },
 
   computed: {
     // Адрес сервера
     urlServer() {
       return this.$store.state.urlServer;
+    },
+
+    isEnabledBackButton() {
+      return this.historyChanges && !this.historyChanges.isBegin;
+    },
+
+    isEnabledForwardButton() {
+      return this.historyChanges && !this.historyChanges.isEnd;
     },
 
     // Вычисляет должна ли кнопка Create отображаться, основываясь на входном параметре Mode
@@ -253,16 +253,27 @@ export default {
 
     // Запускает цепочку действий для удаления контакта на сервере
     deleteContactData() {
+      // Просим подтверждения у пользователя и отправляем запрос на удаление данных
       this.showModalWindow("Внимание!", "Вы действительно ходите удалить данный контакт?").then((event) => {
         if (event === "ok") {
+          // Включаем визуальное представление загрузки
+          this.statusLoad++;
+
           this.sleep()
             .then(() => this.api.delete("/users", Object.fromEntries(this.contactData)))
             .then(() => {
+              // Выполняем перебрас на страницу списка контактов в случаи успеха
               this.redirectToContactListPage();
             })
             .catch((ex) => {
+              // Выводим сообщение об ошибке
               this.$refs.exception.show(ex.name, ex.message);
+            })
+            .finally(() => {
+              // Отключаем визуальное представление загрузки
+              this.statusLoad--;
             });
+          // Если страница открыта в режиме удаления, то при отмене выполняем перебрас на страницу списка контактов
         } else if (event === "cancel" && this.mode === "delete") {
           this.redirectToContactListPage();
         }
@@ -271,38 +282,64 @@ export default {
 
     // Запускает цепочку действий для создания контакта на сервере
     createContactData() {
+      // Проверяем валидность данных перед отправкой на сервер
       if (!this.validationAllProperties()) {
         this.showModalWindow("Ошибка!", "Пожалуйста, убедитесь, что вы ввели данные правильно!");
         return;
       }
 
+      // Включаем визуальное представление загрузки
+      this.statusLoad++;
+
+      // Отправляем запрос на создание данных
       this.sleep()
         .then(() => this.api.create("/users", Object.fromEntries(this.contactData)))
         .then(() => {
+          // Выполняем перебрас на страницу списка контактов в случаи успеха
           this.redirectToContactListPage();
         })
         .catch((ex) => {
+          // Выводим сообщение об ошибке
           this.$refs.exception.show(ex.name, ex.message);
+        })
+        .finally(() => {
+          // Отключаем визуальное представление загрузки
+          this.statusLoad--;
         });
     },
 
     // Запускает цепочку действий для обновления контактной информации на сервере
     updateContactData() {
-      /// необходима проверка наличия изменений для оптимизации
+      // Проверяем были ли какие-то изменения, нет - redirect
+      if (this.historyChanges && !this.historyChanges.isEmpty && !this.historyChanges.index) {
+        this.redirectToContactListPage();
+      }
+
+      // Проверяем валидность данных перед отправкой на сервер
       if (!this.validationAllProperties()) {
         this.showModalWindow("Ошибка!", "Пожалуйста, убедитесь, что вы ввели данные правильно!");
         return;
       }
 
+      // Просим подтверждения у пользователя и отправляем запрос на обновление данных
       this.showModalWindow("Внимание!", "Вы действительно ходите изменить данные?").then((event) => {
         if (event === "ok") {
+          // Включаем визуальное представление загрузки
+          this.statusLoad++;
+
           this.sleep()
             .then(() => this.api.update("/users", Object.fromEntries(this.contactData)))
             .then(() => {
+              // Выполняем перебрас на страницу списка контактов в случаи успеха
               this.redirectToContactListPage();
             })
             .catch((ex) => {
+              // Выводим сообщение об ошибке
               this.$refs.exception.show(ex.name, ex.message);
+            })
+            .finally(() => {
+              // Отключаем визуальное представление загрузки
+              this.statusLoad--;
             });
         }
       });
@@ -325,6 +362,7 @@ export default {
 
     // Обрабатывает события Click на кнопке "Cancel"
     handlerClickCancel() {
+      // Просим подтверждения у пользователя и выполняем перебрас на страницу списка контактов
       this.showModalWindow("Внимание!", "Вы действительно ходите выйти? Все изменения будут утеряны!").then((event) => {
         if (event === "ok") {
           this.redirectToContactListPage();
@@ -333,7 +371,7 @@ export default {
     },
 
     // Создает эмуляцию задержки взаимодействия с сервером
-    sleep(ms = 0) {
+    sleep(ms = 1000) {
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve();
@@ -395,37 +433,24 @@ export default {
 @import "~@/assets/scss/variables";
 
 .contact-info-page {
-  & .input-text-with-cancel {
-    // pass
-
-    &__input {
-      height: 32px;
-    }
+  & input {
+    height: 32px;
   }
 
-  & .icon-delete {
-    cursor: pointer;
-    color: $color-exception;
-
-    &:hover {
-      color: red;
-    }
-  }
-
-  & .icon-control {
-    & .icon:hover {
-      color: $color-header;
+  & .table {
+    & .table-col {
+      height: 45px;
+      min-height: 45px;
     }
   }
 
   & .button-control {
     display: flex;
     flex-direction: column;
-
     justify-content: center;
     align-items: center;
 
-    & .button {
+    & input[type] {
       max-width: 200px;
       margin: 5px;
 
@@ -433,6 +458,12 @@ export default {
         background: lighten($color-text, 72);
       }
     }
+  }
+
+  & .control-history {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>
