@@ -13,16 +13,16 @@
       </thead>
       <tbody class="table-body">
         <template v-for="(item, idx) in contactData">
-          <tr v-if="item[0] !== 'id'" :key="idx">
+          <tr class="table-row" v-if="item[0] !== 'id'" :key="idx">
             <td class="table-col col-center xs-d-none">{{ idx }}.</td>
             <td class="table-col">
-              <input-text-with-cancel v-model="item[0]" @change="handlerChangeInput" placeholder="Название" :disabled="['name', 'phone'].includes(item[0])" />
+              <input-text-with-cancel v-model="item[0]" @change="handlerChangeInput" placeholder="Название" :disabled="['id', 'name', 'phone']" />
             </td>
             <td class="table-col">:</td>
             <td class="table-col">
               <input-text-with-cancel v-model="item[1]" @change="handlerChangeInput" placeholder="Значение" />
             </td>
-            <!-- Control -->
+            <!-- Control Block -->
             <td class="table-col">
               <div class="icon-wrap icon-control">
                 <icon-trash class="icon-delete" @click.native="handlerDeleteProperty(idx)" />
@@ -47,7 +47,7 @@
           <!-- Control -->
           <td class="table-col">
             <div class="icon-wrap icon-control">
-              <icon-node-plus width="22" height="22" @click.native="handlerAddProperty" />
+              <icon-node-plus width="22" height="22" @click.native="handlerAddProperty(newProperty)" />
             </div>
           </td>
         </tr>
@@ -60,16 +60,16 @@
     <div class="modal-window">
       <modal-warning ref="modal" />
     </div>
-    <!-- Control -->
+    <!-- Control Block -->
     <div class="button-control">
       <div v-if="historyChanges">
         <input v-if="!historyChanges.isBegin" type="button" value="Назад" class="button button-back" @click="handlerClickBack" />
         <input v-if="!historyChanges.isEnd" type="button" value="Вперед" class="button button-forward" @click="handlerClickForward" />
       </div>
-      <input v-if="isEnabledCreateButton" class="button button-create" type="button" value="Создать контакт" @click="handlerCreateButton" />
-      <input v-if="isEnabledEditButton" class="button button-edit" type="button" value="Применить изменения" @click="handlerEditButton" />
-      <input v-if="isEnabledDeleteButton" class="button button-delete" type="button" value="Удалить контакт" @click="handlerDeleteButton" />
-      <input class="button button-cancel" type="button" value="Отмена" @click="handlerCancelButton" />
+      <input v-if="isEnabledCreateButton" class="button-create" type="button" value="Создать контакт" @click="handlerCreateButton" />
+      <input v-if="isEnabledEditButton" class="button-edit" type="button" value="Применить изменения" @click="handlerEditButton" />
+      <input v-if="isEnabledDeleteButton" class="button-delete" type="button" value="Удалить контакт" @click="handlerDeleteButton" />
+      <input class="button-cancel" type="button" value="Отмена" @click="handlerCancelButton" />
     </div>
   </div>
 </template>
@@ -92,13 +92,20 @@ export default {
   name: "ContactInfoPage",
   components: { IconTrash, IconKeyboard, IconNodePlus, ModalWarning, InputTextWithCancel },
   props: {
+    // Режим запуска страницы
     mode: { type: String },
+    // Начальные данные контакта
     data: { type: Object },
   },
   data() {
     return {
+      // Объект хранящий историю изменений контактной информации
       historyChanges: new HistoryChanges(10),
+
+      // Контактная информация
       contactData: [],
+
+      // Объект хранящий название и значение новой контактной информации
       newProperty: {
         key: null,
         value: null,
@@ -134,9 +141,9 @@ export default {
   },
 
   computed: {
-    // Вычисляет URL json сервера
-    url() {
-      return `${this.$store.state.urlServer}/users`;
+    // Адрес сервера
+    urlServer() {
+      return this.$store.state.urlServer;
     },
 
     // Вычисляет должна ли кнопка Create отображаться, основываясь на входном параметре Mode
@@ -172,7 +179,7 @@ export default {
 
     // Обрабатывает маршрут учитывая состояние входных данных
     routerControl() {
-      if (!this.validatorMode() || !this.validatorContactData()) {
+      if (!this.validatorMode(this.mode) || !this.validatorContactData(this.contactData)) {
         this.redirectToContactListPage();
         return;
       }
@@ -193,13 +200,13 @@ export default {
     },
 
     // Обрабатывает события Click на кнопке Add Property
-    handlerAddProperty() {
-      this.addPropertyToContactData(this.newProperty);
+    handlerAddProperty(property) {
+      this.addPropertyToContactData(property);
     },
 
     // Добавляет новое свойство в данные контакта
     addPropertyToContactData(property) {
-      if (!this.validationProperty(property)) {
+      if (!this.validationKeyAndValueProperty(property)) {
         this.showModalWindow("Ошибка!", "Пожалуйста, введите название и значение данных");
         return;
       }
@@ -210,6 +217,8 @@ export default {
       }
 
       this.contactData.push([property.key, property.value]);
+
+      this.historyChanges.pushState(this.contactData);
 
       this.resetNewProperty();
     },
@@ -236,6 +245,8 @@ export default {
           this.deletingResourceOnServer(Object.fromEntries(this.contactData)).then(() => {
             this.redirectToContactListPage();
           });
+        } else if (event === "cancel" && this.mode === "delete") {
+          this.redirectToContactListPage();
         }
       });
     },
@@ -296,13 +307,15 @@ export default {
 
       delete data.id;
 
-      const response = await fetch(this.url, {
+      const response = await fetch(`${this.urlServer}/users`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
       });
+
+      // !!!!!!!!!! calc response.status
 
       const json = await response.json();
 
@@ -319,13 +332,15 @@ export default {
         throw "updatingResource >> некоректный ID";
       }
 
-      const response = await fetch(`${this.url}/${data.id}`, {
+      const response = await fetch(`${this.urlServer}/users/${data.id}`, {
         method: "PUT",
         body: JSON.stringify(data),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
       });
+
+      // !!!!!!!!!! calc response.status
 
       const json = await response.json();
 
@@ -342,13 +357,16 @@ export default {
         throw "deletingResource >> некоректный ID";
       }
 
-      const response = await fetch(`${this.url}/${data.id}`, {
+      const response = await fetch(`${this.urlServer}/users/${data.id}`, {
         method: "DELETE",
       });
+
+      // !!!!!!!!!! calc response.status
 
       console.log("deletingResource", response.status);
     },
 
+    // Создает эмуляцию задержки взаимодействия с сервером
     async sleep(ms) {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -357,47 +375,51 @@ export default {
       });
     },
 
-    validatorMode() {
-      return ["all", "delete", "edit", "create"].includes(this.mode);
+    // Выполняет валидацию режима запуска
+    validatorMode(mode) {
+      return ["all", "delete", "edit", "create"].includes(mode);
     },
 
-    validatorContactData() {
-      return this.contactData.length && this.contactData.every((arr) => isArray(arr) && arr.length == 2 && arr.every((subel) => isString(subel) || isInteger(subel)));
+    // Выполняет валидацию структуры данных контактной информации // !!! необходим RENAME
+    validatorContactData(data) {
+      return data && data.every((arr) => isArray(arr) && arr.length == 2 && arr.every((subel) => isString(subel) || isInteger(subel)));
     },
 
-    redirectToContactListPage() {
-      this.$router.push({ name: "ContactList" });
-    },
-
-    // Валидация всех свойств
+    // Выполняет валидацию всех свойств
     validationAllProperties() {
       return true; // !!!!!!!!!!!!!!!!!!!!!! Реализация
     },
 
-    // Валидация ключа и значения свойства
-    validationProperty(property) {
-      return this.validationKeyProperty(property.key) && this.validationValueProperty(property.value);
+    // Выполняет валидацию ключа и значения свойства
+    validationKeyAndValueProperty(property) {
+      return this.validation(/^[()-+,.а-яА-ЯёЁ\s\w]+$/, property.key) && this.validation(/^[()-+,.а-яА-ЯёЁ\s\w]+$/, property.value);
     },
 
-    // Валидаця ключа свойства объекта
-    validationKeyProperty(key) {
-      return key && /^[()-+,.а-яА-ЯёЁ\s\w]+$/.test(key);
+    // Выполняет валидацию данных
+    validation(regex, value) {
+      if (!(regex instanceof RegExp)) {
+        throw `(${this.$options.name}) input param Regex is not RegExp`;
+      }
+
+      return value && regex.test(value);
     },
 
-    // Валидаця значения свойства объекта
-    validationValueProperty(value) {
-      return value && /^[()-+,.а-яА-ЯёЁ\s\w]+$/.test(value);
-    },
-
-    showModalWindow(title, message) {
-      return this.$refs.modal.show(title, message);
-    },
-
+    // Сбрасывает поля новой контактной информации
     resetNewProperty() {
       this.newProperty = {
         key: null,
         value: null,
       };
+    },
+
+    // Открывает модальное окно
+    showModalWindow(title, message) {
+      return this.$refs.modal.show(title, message);
+    },
+
+    // Перебрасывает на страницу списка контактов
+    redirectToContactListPage() {
+      this.$router.push({ name: "ContactList" });
     },
   },
 };

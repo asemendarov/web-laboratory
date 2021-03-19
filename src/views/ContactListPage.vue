@@ -10,22 +10,20 @@
             <th class="table-col xs-d-none">ID</th>
             <th class="table-col">Name</th>
             <th class="table-col">Phone</th>
-            <th>
-              <!-- pass -->
-            </th>
+            <th></th>
           </tr>
         </thead>
         <tbody class="table-body">
           <!-- Contact List -->
-          <tr class="table-row" v-for="(contactData, idx) in contactDataList" :key="idx" @dblclick="showContact(contactData, $event)">
+          <tr class="table-row" v-for="(contactData, idx) in contactDataList" :key="idx">
             <td class="table-col col-center xs-d-none">#{{ contactData.id || "?" }}</td>
             <td class="table-col">{{ contactData.name || "Пусто" }}</td>
             <td class="table-col">{{ contactData.phone || "Пусто" }}</td>
-            <!-- Control -->
+            <!-- Control Block -->
             <td class="table-col">
-              <div v-if="contactData.id && contactData.name && contactData.phone" class="icon-wrap icon-control" @dblclick.stop>
-                <icon-pencil-square @click.native="showEditContact(contactData)" />
-                <icon-person-dash-fill @click.native="showDeleteContact(contactData)" />
+              <div v-if="contactData.id && contactData.name && contactData.phone" class="icon-wrap icon-control">
+                <icon-pencil-square @click.native="handlerClickEditContact(contactData)" />
+                <icon-person-dash-fill @click.native="handlerClickDeleteContact(contactData)" />
               </div>
             </td>
           </tr>
@@ -42,10 +40,10 @@
             <td class="table-col">
               <input type="text" v-model="newContact.phone" placeholder="Телефон" :pattern="patternPhone" />
             </td>
-            <!-- Control -->
+            <!-- Control Block -->
             <td class="table-col">
-              <div class="icon-wrap icon-control" @dblclick.stop>
-                <icon-person-plus-fill @click.native="handlerCreateContact" />
+              <div class="icon-wrap icon-control">
+                <icon-person-plus-fill @click.native="handlerClickCreateContact(newContact)" />
               </div>
             </td>
           </tr>
@@ -77,37 +75,54 @@ export default {
   name: "ContactListPage",
   data() {
     return {
+      // Состояние загрузки контактных данных с сервера
       statusLoad: 0,
+
+      // Список контактных данных
       contactDataList: [],
 
+      // Объект хранящий имя и телефон нового контакта
       newContact: {
         name: null,
         phone: null,
       },
 
+      // Условное регулярное выражение, которое мы могли бы применять для валидации имени
       regexForName: /^[()-+,.а-яА-ЯёЁ\s\w]+$/,
+
+      // Условное регулярное выражение, которое мы могли бы применять для валидации номера телефона
       regexForPhone: /^[()-+,.а-яА-ЯёЁ\s\w]+$/,
     };
   },
   computed: {
+    // Адрес сервера
+    urlServer() {
+      return this.$store.state.urlServer;
+    },
+    // Вычисляет pattern из regex для поля name
     patternName() {
       return this.regexForName.toString().slice(1, -1);
     },
+    // Вычисляет pattern из regex для поля phone
     patternPhone() {
       return this.regexForPhone.toString().slice(1, -1);
     },
   },
   mounted() {
+    // Вызываем обработчик маршрута
     this.routerControl(this.$route);
   },
   watch: {
+    // При изменении маршрута вызываем его обработчик
     $route: "routerControl",
   },
   methods: {
+    // Обрабатывает маршрут
     routerControl() {
       this.loadData();
     },
 
+    // Запускает цепочку действий для запуска загрузки данных с сервера
     loadData() {
       this.statusLoad++;
 
@@ -124,15 +139,20 @@ export default {
         });
     },
 
+    // Загружает список контактов с сервера
     async fetchContactList() {
       await this.sleep(0);
 
-      const response = await fetch(`${this.$store.state.urlServer}/users`);
+      const response = await fetch(`${this.urlServer}/users`);
+
+      // !!!!!!!!!! calc response.status
+
       const data = await response.json();
 
       return data;
     },
 
+    // Создает эмуляцию задержки взаимодействия с сервером
     async sleep(ms) {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -141,27 +161,24 @@ export default {
       });
     },
 
-    showContact(contactData, event) {
-      this.showEditContact(contactData, event);
+    // Обрабатывает события Click на кнопке Create Contact
+    handlerClickCreateContact(contactData) {
+      this.showCreateContact(contactData);
     },
 
+    // Обрабатывает события Click на кнопке Edit Contact
+    handlerClickEditContact(contactData) {
+      this.showEditContact(contactData);
+    },
+
+    // Обрабатывает события Click на кнопке Delete Contact
+    handlerClickDeleteContact(contactData) {
+      this.showDeleteContact(contactData);
+    },
+
+    // Открывает страницу для создания нового контакта в списке контактов
     showCreateContact(contactData) {
-      console.log("showCreateContact", contactData);
-      this.redirectToContactInfoPage("create", contactData);
-    },
-
-    showEditContact(contactData) {
-      console.log("showEditContact", contactData);
-      this.redirectToContactInfoPage("edit", contactData);
-    },
-
-    showDeleteContact(contactData) {
-      console.log("showDeleteContact", contactData);
-      this.redirectToContactInfoPage("delete", contactData);
-    },
-
-    handlerCreateContact() {
-      if (!this.validationContact(this.newContact)) {
+      if (!this.validationNameAndPhoneContact(contactData)) {
         this.showModalWindow("Ошибка!", "Пожалуйста, введите корректное имя и номер нового контакта");
         return;
       }
@@ -169,27 +186,47 @@ export default {
       // Проверки на уникальность отсутствует намеренно.
       // В этом есть смысл.
 
-      this.showCreateContact(this.newContact);
+      this.redirectToContactInfoPage("create", contactData);
     },
 
-    validationContact(contactData) {
-      return this.validationNameContact(contactData.name) && this.validationPhoneContact(contactData.phone);
+    // Открывает страницу для изменения контактной информации
+    showEditContact(contactData) {
+      this.redirectToContactInfoPage("edit", contactData);
     },
 
-    validationNameContact(name) {
-      console.log("validationNameContact", name);
-      return name && this.regexForName.test(name);
+    // Открывает страницу для удаления контакта из списка контактов
+    showDeleteContact(contactData) {
+      this.redirectToContactInfoPage("delete", contactData);
     },
 
-    validationPhoneContact(phone) {
-      console.log("validationPhoneContact", phone);
-      return phone && this.regexForPhone.test(phone);
+    // Выполняет валидацию имени и номера телефона контакта
+    validationNameAndPhoneContact(contactData) {
+      return this.validation(this.regexForName, contactData.name) && this.validation(this.regexForPhone, contactData.phone);
     },
 
+    // Выполняет валидацию данных
+    validation(regex, value) {
+      if (!(regex instanceof RegExp)) {
+        throw `(${this.$options.name}) input param Regex is not RegExp`;
+      }
+
+      return value && regex.test(value);
+    },
+
+    // Сбрасывает поля нового контакта
+    resetNewContact() {
+      this.newContact = {
+        name: null,
+        phone: null,
+      };
+    },
+
+    // Открывает модальное окно
     showModalWindow(title, message) {
       return this.$refs.modal.show(title, message);
     },
 
+    // Перебрасывает на страницу контактной информации
     redirectToContactInfoPage(mode, data) {
       this.$router.push({ name: "ContactInfo", params: { mode, data } });
     },
@@ -205,25 +242,11 @@ export default {
     display: flex;
     justify-content: flex-start;
 
-    & .table-body {
-      & .table-row {
-        &:hover {
-          outline: 1px solid lighten($color-text, 40);
-        }
-
-        &:active {
-          outline-color: lighten($color-text, 20);
-        }
-      }
-    }
-
     & input {
       padding: 0;
 
       width: 80%;
       height: 32px;
-
-      background: initial;
 
       cursor: pointer;
 

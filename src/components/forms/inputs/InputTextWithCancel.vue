@@ -1,7 +1,7 @@
 <template>
   <div class="input-text-with-cancel">
     <label class="input-text-with-cancel__label">
-      <input class="input-text-with-cancel__input" type="text" :value="value" @change="handlerChangeInput" v-bind="$attrs" />
+      <input class="input-text-with-cancel__input" type="text" :value="value" :disabled="isDisabled" @change="handlerChangeInput" v-bind="$attrs" />
       <div class="input-text-with-cancel__icon-control icon-wrap">
         <icon-x-circle class="icon-cancel" @click.native="handlerClickCancel" />
       </div>
@@ -21,6 +21,7 @@ export default {
   },
   props: {
     value: { type: String },
+    disabled: { type: [Boolean, Array] },
   },
   data() {
     return {
@@ -30,11 +31,18 @@ export default {
   mounted() {
     this.backupValue = this.value;
   },
+  computed: {
+    isDisabled() {
+      return Array.isArray(this.disabled) ? this.disabled.includes(this.value) : this.disabled;
+    },
+  },
   methods: {
     handlerChangeInput(event) {
       this.$emit("change", event.target.value);
     },
     handlerClickCancel() {
+      if (this.value === this.backupValue) return;
+
       this.$emit("change", this.backupValue);
     },
   },

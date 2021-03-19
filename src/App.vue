@@ -98,6 +98,7 @@ button {
 
 input {
   text-overflow: ellipsis;
+  background: initial;
 }
 
 .icon-control {
