@@ -86,7 +86,7 @@ import Loader from "@/components/Loader";
 import MsgException from "@/components/MsgException";
 import ModalWarning from "@/components/modals/ModalWarning";
 // Import Input Components
-import InputTextWithCancel from "@/components/forms/inputs/InputTextWithCancel";
+import InputTextWithCancel from "@/components/InputTextWithCancel";
 // Import Icon Components
 import IconTrash from "@/components/icons/IconTrash";
 import IconKeyboard from "@/components/icons/IconKeyboard";
@@ -106,10 +106,10 @@ export default {
       // Состояние загрузки данных
       statusLoad: null,
 
-      // Объект хранящий историю изменений контактной информации
+      // Объект хранилище истории изменений контактной информации
       historyChanges: null,
 
-      // Объект хранящий интерфейс для взаимодействия с сервером
+      // Объект интерфейс для взаимодействия с сервером
       api: null,
 
       // Контактная информация
@@ -191,7 +191,7 @@ export default {
 
     // Обрабатывает маршрут учитывая состояние входных данных
     routerControl() {
-      if (!this.validatorMode(this.mode) || !this.validatorContactData(this.contactData)) {
+      if (!this.validatorMode(this.mode) || !this.validatinStructureContactData(this.contactData)) {
         this.redirectToContactListPage();
         return;
       }
@@ -218,12 +218,12 @@ export default {
 
     // Добавляет новое свойство в данные контакта
     addPropertyToContactData(property) {
-      if (!this.validationKeyAndValueProperty(property)) {
-        this.showModalWindow("Ошибка!", "Пожалуйста, введите название и значение данных");
+      if (this.emptyStringValidator(property.key) || this.emptyStringValidator(property.value)) {
+        this.showModalWindow("Ошибка!", "Название и значение данных не должны быть пустыми!");
         return;
       }
 
-      if (this.contactData.every((arr) => arr[0] === property.key)) {
+      if (~this.contactData.findIndex((arr) => arr[0] === property.key)) {
         this.showModalWindow("Ошибка!", `Измините, но "${property.key}" уже существует, либо её добавление запрещено!`);
         return;
       }
@@ -384,28 +384,41 @@ export default {
       return ["all", "delete", "edit", "create"].includes(mode);
     },
 
-    // Выполняет валидацию структуры данных контактной информации // !!! необходим RENAME
-    validatorContactData(data) {
-      return data && data.every((arr) => isArray(arr) && arr.length == 2 && arr.every((subel) => isString(subel) || isInteger(subel)));
+    // Выполняет валидацию структуры данных контактной информации
+    validatinStructureContactData(data) {
+      // Проверяем структуру данных на принадлежность вида [['...', '...'], ['...', 1]]
+      return (
+        isArray(data) && // объект должен быть массивом
+        data.length && // массив должен быть не пустым
+        data.every(
+          // все элементы
+          (arr) =>
+            isArray(arr) && // должены быть массивами
+            arr.length == 2 && // массивы должены иметь длину 2 элемента
+            arr.every(
+              // все субэелементы
+              (subel) => isString(subel) || isInteger(subel) // должны быть либо строкой, либо целы числом
+            )
+        )
+      );
     },
 
     // Выполняет валидацию всех свойств
     validationAllProperties() {
-      return true; // !!!!!!!!!!!!!!!!!!!!!! Реализация
-    },
-
-    // Выполняет валидацию ключа и значения свойства
-    validationKeyAndValueProperty(property) {
-      return this.validation(/^[()-+,.а-яА-ЯёЁ\s\w]+$/, property.key) && this.validation(/^[()-+,.а-яА-ЯёЁ\s\w]+$/, property.value);
-    },
-
-    // Выполняет валидацию данных
-    validation(regex, value) {
-      if (!(regex instanceof RegExp)) {
-        throw `(${this.$options.name}) input param Regex is not RegExp`;
+      if (!this.validatinStructureContactData(this.contactData)) {
+        throw "Error. Структура данных нарушена.";
       }
 
-      return value && regex.test(value);
+      // Создаем стрелочную функцию для удобства
+      const esv = (str) => this.emptyStringValidator(str);
+
+      // Выполняем базовую проверку на пустую строку и одаем результат
+      return !~this.contactData.findIndex((prop) => esv(prop[0]) || esv(prop[1]));
+    },
+
+    // Проверяет является ли строка пустой
+    emptyStringValidator(str) {
+      return /^[\s]*$/.test(str ?? "");
     },
 
     // Сбрасывает поля новой контактной информации
@@ -450,7 +463,7 @@ export default {
     justify-content: center;
     align-items: center;
 
-    & input[type] {
+    & input {
       max-width: 200px;
       margin: 5px;
 

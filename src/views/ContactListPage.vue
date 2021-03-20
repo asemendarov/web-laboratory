@@ -35,10 +35,10 @@
               </div>
             </td>
             <td class="table-col">
-              <input-text-with-cancel v-model="newContact.name" placeholder="Имя" :pattern="patternName" />
+              <input-text-with-cancel v-model="newContact.name" placeholder="Имя" />
             </td>
             <td class="table-col">
-              <input-text-with-cancel v-model="newContact.phone" placeholder="Телефон" :pattern="patternPhone" />
+              <input-text-with-cancel v-model="newContact.phone" placeholder="Телефон" />
             </td>
             <!-- Control Block -->
             <td class="table-col">
@@ -68,7 +68,7 @@ import Loader from "@/components/Loader";
 import MsgException from "@/components/MsgException";
 import ModalWarning from "@/components/modals/ModalWarning";
 // Import Input Components
-import InputTextWithCancel from "@/components/forms/inputs/InputTextWithCancel";
+import InputTextWithCancel from "@/components/InputTextWithCancel";
 // Import Icon Components
 import IconPencilSquare from "@/components/icons/IconPencilSquare";
 import IconPersonDashFill from "@/components/icons/IconPersonDashFill";
@@ -94,12 +94,6 @@ export default {
         name: null,
         phone: null,
       },
-
-      // Условное регулярное выражение, которое мы могли бы применять для валидации имени
-      regexForName: /^[()-+,.а-яА-ЯёЁ\s\w]+$/,
-
-      // Условное регулярное выражение, которое мы могли бы применять для валидации номера телефона
-      regexForPhone: /^[()-+,.а-яА-ЯёЁ\s\w]+$/,
     };
   },
   computed: {
@@ -186,8 +180,9 @@ export default {
 
     // Открывает страницу для создания нового контакта в списке контактов
     showCreateContact(contactData) {
-      if (!this.validationNameAndPhoneContact(contactData)) {
-        this.showModalWindow("Ошибка!", "Пожалуйста, введите корректное имя и номер нового контакта");
+      // Выполняем базовую проверку на пустую строку.
+      if (this.emptyStringValidator(contactData.name) || this.emptyStringValidator(contactData.phone)) {
+        this.showModalWindow("Ошибка!", "Имя контакта и номер телефона не должны быть пустыми!");
         return;
       }
 
@@ -207,18 +202,9 @@ export default {
       this.redirectToContactInfoPage("delete", contactData);
     },
 
-    // Выполняет валидацию имени и номера телефона контакта
-    validationNameAndPhoneContact(contactData) {
-      return this.validation(this.regexForName, contactData.name) && this.validation(this.regexForPhone, contactData.phone);
-    },
-
-    // Выполняет валидацию данных
-    validation(regex, value) {
-      if (!(regex instanceof RegExp)) {
-        throw `(${this.$options.name}) input param Regex is not RegExp`;
-      }
-
-      return value && regex.test(value);
+    // Проверяет является ли строка пустой
+    emptyStringValidator(str) {
+      return /^[\s]*$/.test(str ?? "");
     },
 
     // Сбрасывает поля нового контакта
