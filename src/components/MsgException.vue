@@ -2,7 +2,7 @@
   <div class="msg-exception" v-show="enabled">
     <div class="msg-exception__body">
       <strong class="msg-exception__message" v-text="msg"></strong>
-      <div class="msg-exception__control icon-control">
+      <div class="msg-exception__control icon-control icon-wrap">
         <icon-x-circle class="icon-close" @click.native="handlerClickClose" />
       </div>
     </div>

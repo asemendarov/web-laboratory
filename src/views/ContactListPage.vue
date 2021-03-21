@@ -21,7 +21,8 @@
             <td class="table-col">{{ contactData.phone || "Пусто" }}</td>
             <!-- Control Block -->
             <td class="table-col">
-              <div v-show="contactData.id" class="icon-wrap icon-control">
+              <!-- Отключаем блок управления для контакта, у которого могло бы отсутствовать ID -->
+              <div v-show="contactData.id" class="icon-control icon-wrap">
                 <icon-pencil-square @click.native="handlerClickEditContact(contactData)" />
                 <icon-person-dash-fill @click.native="handlerClickDeleteContact(contactData)" />
               </div>
@@ -30,7 +31,7 @@
           <!-- Add New Contact -->
           <tr class="table-row row-new-contact">
             <td class="table-col xs-d-none">
-              <div class="icon-wrap icon-none">
+              <div class="icon-none icon-wrap">
                 <icon-keyboard />
               </div>
             </td>
@@ -42,7 +43,7 @@
             </td>
             <!-- Control Block -->
             <td class="table-col">
-              <div class="icon-wrap icon-control">
+              <div class="icon-control icon-wrap">
                 <icon-person-plus-fill @click.native="handlerClickCreateContact(newContact)" />
               </div>
             </td>
@@ -80,7 +81,7 @@ export default {
   name: "ContactListPage",
   data() {
     return {
-      // Состояние загрузки контактных данных с сервера
+      // Состояние загрузки контактных данных
       statusLoad: null,
 
       // Список контактных данных
@@ -101,14 +102,6 @@ export default {
     urlServer() {
       return this.$store.state.urlServer;
     },
-    // Вычисляет pattern из regex для поля name
-    patternName() {
-      return this.regexForName.toString().slice(1, -1);
-    },
-    // Вычисляет pattern из regex для поля phone
-    patternPhone() {
-      return this.regexForPhone.toString().slice(1, -1);
-    },
   },
   mounted() {
     // Создаем интерфейс для взаимодействия с сервером
@@ -124,34 +117,36 @@ export default {
   methods: {
     // Обрабатывает маршрут
     routerControl() {
+      // Запускаем загрузку данных
       this.loadData();
     },
 
     // Запускает цепочку действий для запуска загрузки данных с сервера
     loadData() {
+      // Включаем визуальное представление загрузки
       this.statusLoad++;
+
+      // Принудительно отключаем старое сообщение об ошибке
       this.$refs.exception.hide();
 
+      // Отправляем запрос на получение списка контактов
       this.sleep()
         .then(() => this.api.get("/users"))
         .then((data) => {
+          // Фиксируем данные на стороне клиента в случаи успешной загрузки
           data.forEach((el) => {
             this.contactDataList.push(el);
           });
         })
         .catch((ex) => {
+          // Выводим сообщение об ошибке в случаи отказа
           this.$refs.exception.show(ex.name, ex.message);
           console.error(ex);
         })
         .finally(() => {
+          // Отключаем визуальное представление загрузки
           this.statusLoad--;
         });
-    },
-
-    // Загружает список контактов с сервера
-    async fetchContactList() {
-      await this.sleep();
-      return;
     },
 
     // Создает эмуляцию задержки взаимодействия с сервером
@@ -165,16 +160,19 @@ export default {
 
     // Обрабатывает события Click на кнопке Create Contact
     handlerClickCreateContact(contactData) {
+      // Вызываем метод открытия страницы для создания нового контакта
       this.showCreateContact(contactData);
     },
 
     // Обрабатывает события Click на кнопке Edit Contact
     handlerClickEditContact(contactData) {
+      // Вызываем метод открытия страницы для изменения контакта
       this.showEditContact(contactData);
     },
 
     // Обрабатывает события Click на кнопке Delete Contact
     handlerClickDeleteContact(contactData) {
+      // Вызываем метод открытия страницы для удаления контакта
       this.showDeleteContact(contactData);
     },
 
@@ -186,19 +184,24 @@ export default {
         return;
       }
 
-      // Проверки на уникальность отсутствует намеренно.
-      // В этом есть смысл.
+      /*
+       ** Проверки на уникальность отсутствует намеренно.
+       ** В этом есть смысл.
+       */
 
+      // Перебрасываем на страницу контактной информации в режиме create
       this.redirectToContactInfoPage("create", contactData);
     },
 
     // Открывает страницу для изменения контактной информации
     showEditContact(contactData) {
+      // Перебрасываем на страницу контактной информации в режиме edit
       this.redirectToContactInfoPage("edit", contactData);
     },
 
     // Открывает страницу для удаления контакта из списка контактов
     showDeleteContact(contactData) {
+      // Перебрасываем на страницу контактной информации в режиме delete
       this.redirectToContactInfoPage("delete", contactData);
     },
 
@@ -247,10 +250,12 @@ export default {
       }
     }
 
-    & .icon-wrap {
+    & .icon-control {
       display: flex;
       justify-content: center;
       align-items: center;
+
+      cursor: pointer;
     }
   }
 }

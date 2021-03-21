@@ -2,7 +2,7 @@
   <div class="input-text-with-cancel">
     <label class="input-text-with-cancel__label">
       <input class="input-text-with-cancel__input" type="text" :value="value" :disabled="isDisabled" @change="handlerChangeInput" v-bind="$attrs" />
-      <div class="input-text-with-cancel__icon-control icon-wrap">
+      <div class="input-text-with-cancel__control icon-control icon-wrap">
         <icon-x-circle class="icon-cancel" @click.native="handlerClickCancel" />
       </div>
     </label>
@@ -20,7 +20,7 @@ export default {
     event: "change",
   },
   props: {
-    value: { type: String },
+    value: { type: [String] },
     disabled: { type: [Boolean, Array] },
   },
   data() {
@@ -77,8 +77,6 @@ export default {
     }
 
     & ~ .icon-wrap {
-      cursor: pointer;
-
       color: lighten($color-text, 65);
 
       & .icon-cancel:hover {
