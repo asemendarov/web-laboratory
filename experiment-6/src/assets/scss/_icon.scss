@@ -1,0 +1,17 @@
+.icon-base {
+  margin: 4px;
+}
+
+.icon-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-control {
+  cursor: pointer;
+}
+
+.icon-none {
+  cursor: inherit;
+}

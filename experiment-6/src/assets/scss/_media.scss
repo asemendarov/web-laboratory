@@ -1,0 +1,20 @@
+// '2xl': => @media (max-width: 1535px) { ... }
+// 'xl': => @media (max-width: 1279px) { ... }
+// 'lg': => @media (max-width: 1023px) { ... }
+// 'md': => @media (max-width: 767px) { ... }
+// 'sm': => @media (max-width: 639px) { ... }
+// 'xs': => @media (max-width: 400px) { ... }
+
+:root {
+  font-size: 62.5%; /* 1rem = 10px */
+}
+
+@media (max-width: 400px) {
+  .xs-d-none {
+    display: none;
+  }
+
+  .xs-text-base {
+    font-size: 2.4rem;
+  }
+}
