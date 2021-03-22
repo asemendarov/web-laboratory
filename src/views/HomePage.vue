@@ -1,9 +1,8 @@
 <template>
   <div class="home-page">
-    <!-- <div class="logo"><img alt="logo" src="" /></div> -->
     <div class="task">
-      <h1 class="task-title">Задание:</h1>
-      <div class="task-text">
+      <h1 class="task__title">Задание:</h1>
+      <div class="task__text">
         <p>Cредствами Vue.js реализуйте примитивное SPA приложение - Книгу контактов</p>
         <p>Страница 1 - Список контактов</p>
         <p>Страница 2 - Контактная информация выбранного контакта</p>
@@ -27,6 +26,16 @@
         </p>
       </div>
     </div>
+    <div class="author-message">
+      <h1 class="author-message__title">Комментарии от автора:</h1>
+      <p>
+        Здравствуйте. Меня зовут Андрей. Если вы оцениваете качество реализации моей работы, то, пожалуйста, по результаты оценки дайте какой-нибудь feedback. Я буду вам очень-очень благодарен: любая
+        критика мне будут крайне полезна.
+      </p>
+      <p>Telegram: <a href="tg://asemendarov2">@asemendarov2</a></p>
+      <p>Whatsapp: <a href="whatsapp://send?phone=89852434553">89852434553</a></p>
+      <p>Mail: <a href="mailto:asemendarov@yandex.ru">asemendarov@yandex.ru</a></p>
+    </div>
   </div>
 </template>
 
@@ -35,3 +44,12 @@ export default {
   name: "HomePage",
 };
 </script>
+
+<style lang="scss">
+.author-message {
+  & a {
+    color: blue;
+    text-decoration: underline;
+  }
+}
+</style>

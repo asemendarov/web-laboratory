@@ -1,3 +1,7 @@
+.icon-base {
+  margin: 4px;
+}
+
 .icon-wrap {
   display: flex;
   justify-content: center;
@@ -9,5 +13,5 @@
 }
 
 .icon-none {
-  cursor: none;
+  cursor: inherit;
 }

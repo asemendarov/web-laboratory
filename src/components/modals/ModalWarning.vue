@@ -9,8 +9,8 @@
       </div>
       <div slot="footer">
         <div class="modal-warning__button-control">
-          <button class="button modal-warning__button-ok" type="button" @click="emitEventModal('ok')">OK</button>
-          <button class="button modal-warning__button-cancel" type="button" @click="emitEventModal('cancel')">Cancel</button>
+          <button class="btn btn-ok" type="button" @click="emitEventModal('ok')">OK</button>
+          <button class="btn btn-cancel" type="button" @click="emitEventModal('cancel')">Cancel</button>
         </div>
       </div>
     </modal-base>
@@ -61,6 +61,8 @@ export default {
 <style lang="scss">
 @import "~@/assets/scss/variables";
 
+// 1rem - 10px
+
 .modal-warning {
   &__title {
     font-size: 1.8rem;
@@ -69,17 +71,17 @@ export default {
   }
 
   &__button-control {
-    margin-top: 15px;
+    margin-top: 1.5rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
-
     align-items: center;
     justify-content: space-around;
 
-    & .button {
-      padding: 4px;
-      flex: 0 1 100px;
+    & .btn {
+      padding: 2px;
+      margin: 4px;
+
+      flex: 0 1 110px;
       border: 1px solid black;
     }
   }

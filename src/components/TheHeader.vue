@@ -1,10 +1,12 @@
 <template>
   <header class="the-header">
-    <nav class="header-container">
-      <router-link :to="{ name: 'Home' }">Главная</router-link>
-      <router-link :to="{ name: 'ContactList' }">Список контактов</router-link>
-      <router-link :to="{ name: 'ContactInfo' }">Контактная информация</router-link>
-    </nav>
+    <div class="the-header__container">
+      <nav class="the-header__navigation">
+        <router-link class="link" :to="{ name: 'Home' }">Главная</router-link>
+        <router-link class="link" :to="{ name: 'ContactList' }">Список контактов</router-link>
+        <!-- <router-link class="link" :to="{ name: 'ContactInfo' }">Контактная информация</router-link> -->
+      </nav>
+    </div>
   </header>
 </template>
 <script>
@@ -21,28 +23,30 @@ export default {
 <style lang="scss">
 @import "~@/assets/scss/variables";
 
+// 1rem = 10px
+
 .the-header {
-  padding: 18px;
+  padding: 1.8rem;
 
   display: flex;
   justify-content: center;
 
-  & .header-container {
-    flex: 0 1 800px;
-  }
-}
-
-.the-header {
   background-color: $color-header;
 
-  & nav {
+  &__container {
+    flex: 0 1 800px;
+  }
+
+  &__navigation {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    gap: 20px;
   }
 
-  & a {
+  & .link {
+    padding: 0.4rem;
+    margin: 0.8rem;
+
     border-bottom: 1px solid darken($color-header, 10);
 
     &:hover {

@@ -1,6 +1,6 @@
 <template>
   <footer class="the-footer">
-    <div class="footer-container">
+    <div class="the-footer__container">
       <slot></slot>
     </div>
   </footer>
@@ -17,20 +17,17 @@ export default {
 </script>
 
 <style lang="scss">
-// @import
+// 1rem - 10px
 
 .the-footer {
-  padding: 18px;
+  margin-top: 3.6rem;
+  padding: 1.8rem;
 
   display: flex;
   justify-content: center;
 
-  & .footer-container {
+  &__container {
     flex: 0 1 800px;
   }
-}
-
-.the-footer {
-  margin-top: 36px;
 }
 </style>

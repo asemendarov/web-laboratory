@@ -1,23 +1,20 @@
 <template>
   <div class="loader">
-    <div class="lds-ring">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+    <div class="loader__wrap">
+      <div class="loader__spin" :style="[width, height]"></div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  name: "Loader",
   props: {
     size: {
       type: Number,
       default: 80,
     },
   },
-  name: "loader",
   data() {
     return {
       // pass
@@ -25,10 +22,10 @@ export default {
   },
   computed: {
     width() {
-      return `width: ${this.size}px`;
+      return { width: `${this.size}px` };
     },
     height() {
-      return `height: ${this.size}px`;
+      return { height: `${this.size}px` };
     },
   },
 };
@@ -37,44 +34,27 @@ export default {
 <style lang="scss">
 @import "~@/assets/scss/variables";
 
+// 1rem = 10px
+
 .loader {
-  display: flex;
-  justify-content: center;
-}
+  margin-top: 2rem; /*20px*/
+  margin-bottom: 2rem; /*20px*/
 
-.lds-ring {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
+  &__wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-  & div {
-    box-sizing: border-box;
-    display: block;
-    position: absolute;
-    width: 64px;
-    height: 64px;
-    margin: 8px;
-    border: 8px solid $color-loader;
+  &__spin {
+    border: 10px solid lighten($color-loader, 40);
+    border-top: 10px solid $color-loader;
     border-radius: 50%;
-    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: $color-loader transparent transparent transparent;
-  }
-
-  & div:nth-child(1) {
-    animation-delay: -0.45s;
-  }
-
-  & div:nth-child(2) {
-    animation-delay: -0.3s;
-  }
-
-  & div:nth-child(3) {
-    animation-delay: -0.15s;
+    animation: spin 2s linear infinite;
   }
 }
 
-@keyframes lds-ring {
+@keyframes spin {
   0% {
     transform: rotate(0deg);
   }

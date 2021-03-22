@@ -1,7 +1,9 @@
 @import "./variables";
 
+// 1rem = 10px
+
 .table {
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 
   width: 100%;
 
@@ -28,7 +30,7 @@
     }
 
     & .table-col {
-      padding: 4px;
+      padding: 0.4rem;
     }
 
     & .col-center {

@@ -112,7 +112,7 @@ export default {
       // Объект интерфейс для взаимодействия с сервером
       api: null,
 
-      // Значения, которые будут заблокированы от зменений
+      // Названия значений, которые будут заблокированы от зменений
       blockedKey: ["id", "name", "phone"],
 
       // Контактная информация
@@ -186,22 +186,36 @@ export default {
     },
   },
   methods: {
-    // Возвращает индекс первого вхождения контактной информации, которая удовлетворила условию. Если нет, то -1.
+    /**
+     * Метод findContact вызывает переданную функцию callback один раз для каждого элемента контактной информации, 
+     * присутствующего в массиве, до тех пор, пока она не вернёт true.
+     * @param {Function} callback - функция, вызывающаяся для каждого элемента информации
+     * @returns {Number} dозвращает индекс первого вхождения контактной информации, которая удовлетворила условию. Если нет, то -1.
+     */
     findContact(callback) {
       return this.contactData.findIndex(callback);
     },
 
-    // Обрабатывает события Click на кнопке Back
+    /**
+     * Обрабатывает события Click на кнопке Back
+     * @returns void
+     */
     handlerClickBack() {
       this.contactData = this.historyChanges.back();
     },
 
-    // Обрабатывает события Click на кнопке Forward
+    /**
+     * Обрабатывает события Click на кнопке Forward
+     * @returns void
+     */
     handlerClickForward() {
       this.contactData = this.historyChanges.forward();
     },
 
-    // Обрабатывает маршрут учитывая состояние входных данных
+    /**
+     * Обрабатывает маршрут учитывая состояние входных данных
+     * @returns void
+     */
     routerControl() {
       // Проверяем валидность входных данных компонента.
       if (!this.validationMode(this.mode) || !this.validationStructureContactData(this.contactData)) {
@@ -213,24 +227,40 @@ export default {
       this.processingMode();
     },
 
-    // Обрабатывает режим запуска страницы
+    /**
+     * Обрабатывает режим запуска страницы
+     * @returns void
+     */
     processingMode() {
       if (this.mode == "delete") {
         this.deleteContactData();
       }
     },
 
-    // Обрабатывает события Click на кнопке Delete Property
+    /**
+     * Обрабатывает события Click на кнопке Delete Property
+     * @returns void
+     */
     handlerClickDeleteProperty(idx) {
       this.deletePropertyFromContactData(idx);
     },
 
-    // Обрабатывает события Click на кнопке Add Property
+    /**
+     * Обрабатывает события Click на кнопке Add Property
+     * @param {object} property - элемент контактной информации
+     * @returns void
+     */
     handlerClickAddProperty(property) {
       this.addPropertyToContactData(property);
     },
 
-    // Обрабатывает события Change на компоненте Input
+    /**
+     * Обрабатывает события Change на компоненте Input
+     * @param {object} value - новойе значение
+     * @param {object} idx_i - индекс элемента контактной информации, где произашло изменение
+     * @param {object} idx_j - индекс субэлемента контактной информации, где произашло изменение
+     * @returns void
+     */
     handlerChangeInput(value, idx_i, idx_j) {
       // Если изменение произошло через v-model, то выходим фиксируя результат
       if (arguments.length === 1) {
@@ -238,24 +268,38 @@ export default {
         return;
       }
 
-      // Иначе выполняем проверку
-      const isKey = idx_j === 0;
+      // Иначе запускаем метод точечного изменения контактной информации
+      this.changeItemToContactData(value, idx_i, idx_j);
+    },
 
+    /**
+     * Точечно изменяет данные в контактной информации
+     * @param {object} value - новойе значение
+     * @param {object} idx_i - индекс элемента контактной информации, где произашло изменение
+     * @param {object} idx_j - индекс субэлемента контактной информации, где произашло изменение
+     * @returns void
+     */
+    changeItemToContactData(value, idx_i, idx_j) {
+      // Выполняем проверку
       // Если это ключ свойства и оно уже существует или в списке заблокированных, то отменяем изменения и выходим
-      if (isKey && !this.keyPropertyValidator(value, idx_i)) {
+      if (idx_j === 0 && !this.keyPropertyValidator(value, idx_i)) {
         this.showModalWindow("Ошибка!", `Измините, но "${value}" уже существует, либо её добавление запрещено!`);
-        this.contactData = this.historyChanges.current;
+        this.$set(this.contactData[idx_i], idx_j, this.historyChanges.current[idx_i][idx_j]);
         return;
       }
 
-      // Если произошло событие Change, где новое значение отличается от текущего, то фиксируем это изменение
+      // Если изменяем данные, где новое значение отличается от текущего, то фиксируем это изменение, иначе изменение игнорируем
       if (this.contactData[idx_i][idx_j] !== value) {
         this.$set(this.contactData[idx_i], idx_j, value);
         this.historyChanges.pushState(this.contactData);
       }
     },
-
-    // Добавляет новое свойство в данные контакта
+ 
+    /**
+     * Добавляет новое свойство в данные контакта
+     * @param {object} property - элемент контактной информации
+     * @returns void
+     */
     addPropertyToContactData(property) {
       // Проверяет являютя ли название и значение пустой стракой
       if (this.emptyStringValidator(property.key) || this.emptyStringValidator(property.value)) {
@@ -277,7 +321,11 @@ export default {
       this.resetNewProperty();
     },
 
-    // Удаляет по индексу контактную информацию
+    /**
+     * Удаляет по индексу контактную информацию
+     * @param {object} idx - индекс элемента контактной информации, которую необходимо удалить
+     * @returns void
+     */
     deletePropertyFromContactData(idx) {
       const key = this.contactData[idx][0];
 
@@ -295,7 +343,10 @@ export default {
       });
     },
 
-    // Запускает цепочку действий для удаления контакта на сервере
+    /**
+     * Запускает цепочку действий для удаления контакта на сервере
+     * @returns void
+     */
     deleteContactData() {
       // Просим подтверждения у пользователя и отправляем запрос на удаление данных
       this.showModalWindow("Внимание!", "Вы действительно ходите удалить данный контакт?").then((event) => {
@@ -325,8 +376,11 @@ export default {
         }
       });
     },
-
-    // Запускает цепочку действий для создания контакта на сервере
+ 
+    /**
+     * Запускает цепочку действий для создания контакта на сервере
+     * @returns void
+     */
     createContactData() {
       // Проверяем валидность данных перед отправкой на сервер
       if (!this.allPropertiesValidator()) {
@@ -355,7 +409,10 @@ export default {
         });
     },
 
-    // Запускает цепочку действий для обновления контактной информации на сервере
+    /**
+     * Запускает цепочку действий для обновления контактной информации на сервере
+     * @returns void
+     */
     updateContactData() {
       // Проверяем были ли какие-то изменения, нет - redirect
       if (this.historyChanges && !this.historyChanges.isEmpty && !this.historyChanges.index) {
@@ -394,22 +451,34 @@ export default {
       });
     },
 
-    // Обрабатывает события Click на кнопке "Create contact data"
+    /**
+     * Обрабатывает события Click на кнопке "Create contact data"
+     * @returns void
+     */
     handlerClickCreateContactData() {
       this.createContactData();
     },
 
-    // Обрабатывает события Click на кнопке "Update contact data"
+    /**
+     * Обрабатывает события Click на кнопке "Update contact data"
+     * @returns void
+     */
     handlerClickUpdateContactData() {
       this.updateContactData();
     },
 
-    // Обрабатывает события Click на кнопке "Delete contact data"
+    /**
+     * Обрабатывает события Click на кнопке "Delete contact data"
+     * @returns void
+     */
     handlerClickDeleteContactData() {
       this.deleteContactData();
     },
 
-    // Обрабатывает события Click на кнопке "Cancel"
+    /**
+     * Обрабатывает события Click на кнопке "Cancel"
+     * @returns void
+     */
     handlerClickCancel() {
       // Просим подтверждения у пользователя и выполняем перебрас на страницу списка контактов
       this.showModalWindow("Внимание!", "Вы действительно ходите выйти? Все изменения будут утеряны!").then((event) => {
@@ -419,7 +488,11 @@ export default {
       });
     },
 
-    // Создает эмуляцию задержки взаимодействия с сервером
+    /**
+     * Создает эмуляцию задержки взаимодействия с сервером
+     * @param {Number} ms - задержка
+     * @returns {Promise} new Promise
+     */
     sleep(ms = 1000) {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -428,14 +501,21 @@ export default {
       });
     },
 
-    // Выполняет валидацию режима запуска
+    /**
+     * Выполняет валидацию режима запуска
+     * @param {String} mode - режим запуска
+     * @returns {Boolean} возвращает логическое значение, указывающее, доступен ли данный режим запуска
+     */
     validationMode(mode) {
       return ["all", "delete", "edit", "create"].includes(mode);
     },
-
-    // Выполняет валидацию структуры данных контактной информации
+ 
+    /**
+     * Выполняет валидацию структуры данных контактной информации на принадлежность вида [['...', '...'], ['...', 1]]
+     * @param {Array} data - контактная информация
+     * @returns {Boolean} - возвращает логическое значение, указывающее, соответствует ли контактная информация заданной структуре 
+     */
     validationStructureContactData(data) {
-      // Проверяем структуру данных на принадлежность вида [['...', '...'], ['...', 1]]
       return (
         isArray(data) && // объект должен быть массивом
         data.length && // массив должен быть не пустым
@@ -452,7 +532,11 @@ export default {
       );
     },
 
-    // Выполняет общую валидацию всех свойств
+    /**
+     * Выполняет общую валидацию всех свойств
+     * @returns {Boolean} - валидность всех свойств контактной информации
+     * @throws Выдает ошибку, если структура контактной информации нарушена
+     */
     allPropertiesValidator() {
       // Проверяем структуру данных контактной информации
       if (!this.validationStructureContactData(this.contactData)) {
@@ -466,24 +550,41 @@ export default {
       return !~this.findContact((prop) => valid(prop[0]) || valid(prop[1]));
     },
 
-    // Проверяет является ли строка пустой
+    /**
+     * Проверяет является ли строка пустой
+     * @param {String} str - строка
+     * @returns {Boolean} возвращает логическое значение, указывающее, существует входной параметр пустой строке.
+     */
     emptyStringValidator(str) {
       return /^[\s]*$/.test(str ?? "");
     },
 
-    // Выполняет полную валидацию ключа на уникальность и доступность
-    keyPropertyValidator(value, indexKeyProperty = -1) {
+    /**
+     * Выполняет полную валидацию ключа на уникальность и доступность в контактной информации
+     * @param {String} keyProperty - значение ключа
+     * @param {String} [indexKeyProperty=-1] - индекс значение ключа в контактной информации. -1 - если его нет.
+     * @returns {Boolean} возвращает логическое значение, указывающее, уникальность и доступность заданного значения.
+     */
+    keyPropertyValidator(keyProperty, indexKeyProperty = -1) {
       const isCurrentProperty = (idx) => idx === indexKeyProperty;
 
-      return !~this.findContact((item, idx) => !isCurrentProperty(idx) && !this.blockedKeyValidator(value, item[0]));
+      return !~this.findContact((item, idx) => !isCurrentProperty(idx) && !this.blockedKeyValidator(keyProperty, item[0]));
     },
 
-    // Выполняет точечную валидацию на доступность
-    blockedKeyValidator(value, item) {
-      return !this.blockedKey.includes(value) && value !== item;
+    /**
+     * Выполняет точечную валидацию на доступность
+     * @param {String} keyProperty - значение ключа
+     * @param {String} [keyItem] - значение ключа другого элемента.
+     * @returns {Boolean} возвращает логическое значение, указывающее, доступность заданного значения.
+     */
+    blockedKeyValidator(keyProperty, keyItem) {
+      return !this.blockedKey.includes(keyProperty) && keyProperty !== keyItem;
     },
 
-    // Сбрасывает поля для добавления новой контактной информации
+    /**
+     * Сбрасывает поля для добавления новой контактной информации
+     * @returns void
+     */
     resetNewProperty() {
       this.newProperty = {
         key: null,
@@ -491,12 +592,20 @@ export default {
       };
     },
 
-    // Открывает модальное окно
+    /**
+     * Открывает модальное окно
+     * @param {String} title - заголовок
+     * @param {String} message - тело сообщения
+     * @returns {Promise} new Promise
+     */
     showModalWindow(title, message) {
       return this.$refs.modal.show(title, message);
     },
 
-    // Перебрасывает на страницу списка контактов
+    /**
+     * Перебрасывает на страницу списка контактов
+     * @returns void
+     */
     redirectToContactListPage() {
       this.$router.push({ name: "ContactList" });
     },

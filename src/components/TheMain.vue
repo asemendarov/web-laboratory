@@ -1,6 +1,6 @@
 <template>
   <main class="the-main">
-    <div class="main-container">
+    <div class="the-main__container">
       <slot></slot>
     </div>
   </main>
@@ -17,15 +17,15 @@ export default {
 </script>
 
 <style lang="scss">
-// @import
+// 1rem - 10px
 
 .the-main {
-  padding: 18px;
+  padding: 1.8rem;
 
   display: flex;
   justify-content: center;
 
-  & .main-container {
+  &__container {
     flex: 0 1 800px;
   }
 }

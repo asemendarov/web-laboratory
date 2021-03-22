@@ -1,13 +1,13 @@
+:root {
+  font-size: 62.5%; /* 1rem = 10px */
+}
+
 *,
 ::after,
 ::before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-:root {
-  font-size: 10px;
 }
 
 html,
@@ -35,8 +35,8 @@ h1 {
 
 input,
 button {
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
 }
 
 input {

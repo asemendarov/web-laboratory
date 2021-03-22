@@ -35,6 +35,8 @@ export default {
 <style lang="scss">
 @import "~@/assets/scss/variables";
 
+// 1rem - 10px
+
 .modal-base {
   &__mask {
     display: table;
@@ -58,14 +60,14 @@ export default {
   &__container {
     max-width: 300px;
     margin: 0px auto;
-    padding: 20px 30px;
+    padding: 2rem 3rem;
     background-color: #fff;
-    border-radius: 2px;
-    box-shadow: 0 2px 8px $color-shadow;
+    border-radius: 0.2rem;
+    box-shadow: 0 0.2rem 0.8rem $color-shadow;
   }
 
   &__body {
-    margin: 20px 0;
+    margin: 2rem 0;
   }
 }
 </style>

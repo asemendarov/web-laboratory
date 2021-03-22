@@ -52,12 +52,14 @@ export default {
 <style lang="scss">
 @import "~@/assets/scss/variables";
 
+// 1rem = 10px
+
 .input-text-with-cancel {
   &__label {
     display: flex;
     align-items: center;
 
-    border-bottom: 1px solid lighten($color-text, 65);
+    border-bottom: 0.1rem solid lighten($color-text, 65);
 
     &:focus-within {
       border-bottom-color: lighten($color-text, 20);

@@ -115,13 +115,19 @@ export default {
     $route: "routerControl",
   },
   methods: {
-    // Обрабатывает маршрут
+    /**
+     * Обрабатывает маршрут
+     * @returns void
+     */
     routerControl() {
       // Запускаем загрузку данных
       this.loadData();
     },
 
-    // Запускает цепочку действий для запуска загрузки данных с сервера
+    /**
+     * Запускает цепочку действий для запуска загрузки данных с сервера
+     * @returns void
+     */
     loadData() {
       // Включаем визуальное представление загрузки
       this.statusLoad++;
@@ -149,7 +155,11 @@ export default {
         });
     },
 
-    // Создает эмуляцию задержки взаимодействия с сервером
+    /**
+     * Создает эмуляцию задержки взаимодействия с сервером
+     * @param {Number} ms - задержка
+     * @returns {Promise} new Promise
+     */
     sleep(ms = 1000) {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -158,25 +168,41 @@ export default {
       });
     },
 
-    // Обрабатывает события Click на кнопке Create Contact
+    /**
+     * Обрабатывает события Click на кнопке Create Contact
+     * @param {String} contactData - контактная информация
+     * @returns void
+     */
     handlerClickCreateContact(contactData) {
       // Вызываем метод открытия страницы для создания нового контакта
       this.showCreateContact(contactData);
     },
 
-    // Обрабатывает события Click на кнопке Edit Contact
+    /**
+     * Обрабатывает события Click на кнопке Edit Contact
+     * @param {String} contactData - контактная информация
+     * @returns void
+     */
     handlerClickEditContact(contactData) {
       // Вызываем метод открытия страницы для изменения контакта
       this.showEditContact(contactData);
     },
 
-    // Обрабатывает события Click на кнопке Delete Contact
+    /**
+     * Обрабатывает события Click на кнопке Delete Contact
+     * @param {String} contactData - контактная информация
+     * @returns void
+     */
     handlerClickDeleteContact(contactData) {
       // Вызываем метод открытия страницы для удаления контакта
       this.showDeleteContact(contactData);
     },
 
-    // Открывает страницу для создания нового контакта в списке контактов
+    /**
+     * Открывает страницу для создания нового контакта в списке контактов
+     * @param {String} contactData - контактная информация
+     * @returns void
+     */
     showCreateContact(contactData) {
       // Выполняем базовую проверку на пустую строку.
       if (this.emptyStringValidator(contactData.name) || this.emptyStringValidator(contactData.phone)) {
@@ -199,18 +225,29 @@ export default {
       this.redirectToContactInfoPage("edit", contactData);
     },
 
-    // Открывает страницу для удаления контакта из списка контактов
+    /**
+     * Открывает страницу для удаления контакта из списка контактов
+     * @param {String} contactData - контактная информация
+     * @returns void
+     */
     showDeleteContact(contactData) {
       // Перебрасываем на страницу контактной информации в режиме delete
       this.redirectToContactInfoPage("delete", contactData);
     },
 
-    // Проверяет является ли строка пустой
+    /**
+     * Проверяет является ли строка пустой
+     * @param {String} str - строка
+     * @returns {Boolean} возвращает логическое значение, указывающее, существует входной параметр пустой строке.
+     */
     emptyStringValidator(str) {
       return /^[\s]*$/.test(str ?? "");
     },
 
-    // Сбрасывает поля нового контакта
+    /**
+     * Сбрасывает поля для добавления нового контакта
+     * @returns void
+     */
     resetNewContact() {
       this.newContact = {
         name: null,
@@ -218,12 +255,22 @@ export default {
       };
     },
 
-    // Открывает модальное окно
+    /**
+     * Открывает модальное окно
+     * @param {String} title - заголовок
+     * @param {String} message - тело сообщения
+     * @returns {Promise} new Promise
+     */
     showModalWindow(title, message) {
       return this.$refs.modal.show(title, message);
     },
 
-    // Перебрасывает на страницу контактной информации
+    /**
+     * Перебрасывает на страницу контактной информации
+     * @param {String} mode - режим запуска страницы развернутой контактной информации
+     * @param {Object} data - контактная информация
+     * @returns void
+     */
     redirectToContactInfoPage(mode, data) {
       this.$router.push({ name: "ContactInfo", params: { mode, data } });
     },
