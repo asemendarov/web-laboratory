@@ -20,7 +20,9 @@ export default {
     event: "change",
   },
   props: {
+    // Начальное значение поля
     value: { type: [String] },
+    // Состояние блокировки или массив значений, которые необходимо заблокировать
     disabled: { type: [Boolean, Array] },
   },
   data() {
@@ -29,17 +31,29 @@ export default {
     };
   },
   mounted() {
+    //
     this.backupValue = this.value;
   },
   computed: {
+    /**
+     * @returns возвращает вычаленное логическое значение, состояния блокировки поля воода
+     */
     isDisabled() {
       return Array.isArray(this.disabled) ? this.disabled.includes(this.value) : this.disabled;
     },
   },
   methods: {
+    /**
+     * Обрабатывает события Change на Input
+     * @returns void
+     */
     handlerChangeInput(event) {
       this.$emit("change", event.target.value);
     },
+    /**
+     * Обрабатывает события Click на кнопке Cancel
+     * @returns void
+     */
     handlerClickCancel() {
       if (this.value === this.backupValue) return;
 

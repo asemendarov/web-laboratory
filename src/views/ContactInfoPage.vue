@@ -145,13 +145,6 @@ export default {
   watch: {
     // При изменении маршрута вызываем его обработчик
     $route: "routerControl",
-
-    contactData: {
-      handler(newValue) {
-        console.log("watch contactData", newValue);
-      },
-      deep: true,
-    },
   },
 
   computed: {
@@ -160,34 +153,44 @@ export default {
       return this.$store.state.urlServer;
     },
 
-    // Вычисляет должна ли кнопка Back отображаться, основываясь на состоянии historyChanges
+    /**
+     * @returns возвращает вычаленное логическое значение, состояния блокировки кнопки Back, на основе состоянии historyChanges
+     */
     isEnabledBackButton() {
       return this.historyChanges && !this.historyChanges.isBegin;
     },
 
-    // Вычисляет должна ли кнопка Forward отображаться, основываясь на состоянии historyChanges
+    /**
+     * @returns возвращает вычаленное логическое значение, состояния блокировки кнопки Forward, на основе состоянии historyChanges
+     */
     isEnabledForwardButton() {
       return this.historyChanges && !this.historyChanges.isEnd;
     },
 
-    // Вычисляет должна ли кнопка Create отображаться, основываясь на входном параметре Mode
+    /**
+     * @returns возвращает вычаленное логическое значение, состояния блокировки кнопки Create, на основе входного параметра Mode
+     */
     isEnabledCreateButton() {
       return ["all", "create"].includes(this.mode);
     },
 
-    // Вычисляет должна ли кнопка Edit отображаться, основываясь на входном параметре Mode
+    /**
+     * @returns возвращает вычаленное логическое значение, состояния блокировки кнопки Edit, на основе входного параметра Mode
+     */
     isEnabledEditButton() {
       return ["all", "edit"].includes(this.mode);
     },
 
-    // Вычисляет должна ли кнопка Delete отображаться, основываясь на входном параметре Mode
+    /**
+     * @returns возвращает вычаленное логическое значение, состояния блокировки кнопки Delete, на основе входного параметра Mode
+     */
     isEnabledDeleteButton() {
       return ["all", "delete", "edit"].includes(this.mode);
     },
   },
   methods: {
     /**
-     * Метод findContact вызывает переданную функцию callback один раз для каждого элемента контактной информации, 
+     * Метод findContact вызывает переданную функцию callback один раз для каждого элемента контактной информации,
      * присутствующего в массиве, до тех пор, пока она не вернёт true.
      * @param {Function} callback - функция, вызывающаяся для каждого элемента информации
      * @returns {Number} dозвращает индекс первого вхождения контактной информации, которая удовлетворила условию. Если нет, то -1.
@@ -294,7 +297,7 @@ export default {
         this.historyChanges.pushState(this.contactData);
       }
     },
- 
+
     /**
      * Добавляет новое свойство в данные контакта
      * @param {object} property - элемент контактной информации
@@ -376,7 +379,7 @@ export default {
         }
       });
     },
- 
+
     /**
      * Запускает цепочку действий для создания контакта на сервере
      * @returns void
@@ -509,11 +512,11 @@ export default {
     validationMode(mode) {
       return ["all", "delete", "edit", "create"].includes(mode);
     },
- 
+
     /**
      * Выполняет валидацию структуры данных контактной информации на принадлежность вида [['...', '...'], ['...', 1]]
      * @param {Array} data - контактная информация
-     * @returns {Boolean} - возвращает логическое значение, указывающее, соответствует ли контактная информация заданной структуре 
+     * @returns {Boolean} - возвращает логическое значение, указывающее, соответствует ли контактная информация заданной структуре
      */
     validationStructureContactData(data) {
       return (

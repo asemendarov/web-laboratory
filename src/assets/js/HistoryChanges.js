@@ -1,6 +1,14 @@
 "use strict"
 
+/**
+ * Хранит историю состояний объекта в формате JSON
+ * @class 
+ */
 export default class HistoryChanges {
+  /**
+   * @param {Number} maxLength - максимальный размер хранилища
+   * @constructor
+   */
   constructor(maxLength) {
     // Validation
     if ((maxLength ^ 0) !== maxLength) {
@@ -11,71 +19,91 @@ export default class HistoryChanges {
       throw `(HistoryChanges) maxLength < 3`;
     } 
 
-    // Public
-    this.state = [];
+    /** @private */
+    this._state = [];
 
-    // Private
+    /** @private */
     this._index = null;
+
+    /** @private */
     this._maxLength = maxLength;
   }
 
-  set index(value) {
-    console.log('index', 'old', this.index, 'new', value);
-    this._index = value;
-  }
-
-  get index() {
-    return this._index;
-  }
-
+  /**
+   * @returns возвращает логическое значение, указывающее, является ли хранилище пустым
+   * @public
+   */
   get isEmpty() {
-    return !this.state.length
+    return !this._state.length
   }
 
+  /**
+   * @returns возвращает логическое значение, указывающее, является ли текущая позиция в хранилище её началом. Если пустой, то также вернет true.
+   * @public
+   */
   get isBegin() {
-    return this.isEmpty ? true : !this.index;
+    return this.isEmpty ? true : !this._index;
   }
 
+  /**
+   * @returns возвращает логическое значение, указывающее, является ли текущая позиция в хранилище её концом. Если пустой, то также вернет true.
+   * @public
+   */
   get isEnd() {
-    return this.isEmpty ? true : !(this.state.length - 1 - this.index);
+    return this.isEmpty ? true : !(this._state.length - 1 - this._index);
   }
 
-  // текущее состояние
+  /**
+   * @returns возвращает объект, хранящийся на текущей позиции хранилища 
+   * @public
+   */
   get current() {
-    return JSON.parse(this.state[this.index]);
+    return JSON.parse(this._state[this._index]);
   }
 
-  // переместиться назад по истории
+  /**
+   * Перемещает указатель назад по истории
+   * @returns возвращает текущий объект после смещения
+   * @throws выдает ошибку в случаи, когда хранилище пустое
+   * @public
+   */
   back() {
     if (this.isEmpty) {
       throw '(HistoryChanges) state is null';
     }
     
-    return JSON.parse(this.state[this.isBegin ? 0 : --this.index]);
+    return JSON.parse(this._state[this.isBegin ? 0 : --this._index]);
   }
 
-  // переместиться вперед по истории
+  /**
+   * Перемещает указатель вперед по истории
+   * @returns возвращает текущий объект после смещения
+   * @throws выдает ошибку в случаи, когда хранилище пустое
+   * @public
+   */
   forward() {
     if (this.isEmpty) {
       throw '(HistoryChanges) state is null';
     }
 
-    return JSON.parse(this.state[this.isEnd ? this.index : ++this.index]);
+    return JSON.parse(this._state[this.isEnd ? this._index : ++this._index]);
   }
 
-  // добавляет новое состояние затирая всю впереди стоящую историю
+  /**
+   * Добавляет новое состояние затирая всю впереди стоящую историю
+   * @param {Object} state - помещает полученные объект в хранилище
+   * @public
+   */
   pushState(state) {
-    if (this.state.length - 1 - this.index) {
-      this.state.splice(this.index + 1);
+    if (this._state.length - 1 - this._index) {
+      this._state.splice(this._index + 1);
     }
 
-    if (this.state.length == this._maxLength) {
-      this.state.shift();
-      this.index = this.index ? this.index - 1 : 0;
+    if (this._state.length == this._maxLength) {
+      this._state.shift();
+      this._index = this._index ? this._index - 1 : 0;
     }
     
-    this.index = this.state.push(JSON.stringify(state)) - 1
-
-    return this.state[this.index];
+    this._state.push(JSON.stringify(state)) - 1
   }
 }
